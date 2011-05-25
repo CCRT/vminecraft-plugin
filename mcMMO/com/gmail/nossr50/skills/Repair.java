@@ -14,10 +14,6 @@ import com.gmail.nossr50.datatypes.PlayerProfile;
 
 
 public class Repair {
-	private static mcMMO plugin;
-	public Repair(mcMMO instance) {
-    	plugin = instance;
-    }
 	private static volatile Repair instance;
         
        /*
@@ -40,8 +36,7 @@ public class Repair {
 		short durabilityBefore = player.getItemInHand().getDurability();
 		short durabilityAfter = 0;
 		short dif = 0;
-    	if(block != null
-    			&& mcPermissions.repair(player)){
+    	if(block != null && mcPermissions.getInstance().repair(player)){
         	if(player.getItemInHand().getDurability() > 0 && player.getItemInHand().getAmount() < 2){
         		/*
         		 * ARMOR
@@ -215,8 +210,8 @@ public class Repair {
     	if(is.getTypeId() == 256 || is.getTypeId() == 257 || is.getTypeId() == 258 || is.getTypeId() == 267 || is.getTypeId() == 292 || //IRON
     			is.getTypeId() == 276 || is.getTypeId() == 277 || is.getTypeId() == 278 || is.getTypeId() == 279 || is.getTypeId() == 293 || //DIAMOND
     			is.getTypeId() == 283 || is.getTypeId() == 285 || is.getTypeId() == 286 || is.getTypeId() == 284 || //GOLD
-    			is.getTypeId() == 268 || is.getTypeId() == 269 || is.getTypeId() == 270 || is.getTypeId() == 271 || //WOOD
-    			is.getTypeId() == 272 || is.getTypeId() == 273 || is.getTypeId() == 274 || is.getTypeId() == 275) //STONE
+    			is.getTypeId() == 268 || is.getTypeId() == 269 || is.getTypeId() == 270 || is.getTypeId() == 271 || is.getTypeId() == 290 ||//WOOD
+    			is.getTypeId() == 272 || is.getTypeId() == 273 || is.getTypeId() == 274 || is.getTypeId() == 275|| is.getTypeId() == 291)  //STONE
     	{
     		return true;
     	} else {
@@ -224,14 +219,14 @@ public class Repair {
     	}
     }
     public static boolean isStoneTools(ItemStack is){
-    	if(is.getTypeId() == 272 || is.getTypeId() == 273 || is.getTypeId() == 274 || is.getTypeId() == 275){
+    	if(is.getTypeId() == 272 || is.getTypeId() == 273 || is.getTypeId() == 274 || is.getTypeId() == 275 || is.getTypeId() == 291){
     		return true;
     	} else {
     		return false;
     	}
     }
     public static boolean isWoodTools(ItemStack is){
-    	if(is.getTypeId() == 268 || is.getTypeId() == 269 || is.getTypeId() == 270 || is.getTypeId() == 271){
+    	if(is.getTypeId() == 268 || is.getTypeId() == 269 || is.getTypeId() == 270 || is.getTypeId() == 271 || is.getTypeId() == 290){
     		return true;
     	} else {
     		return false;
@@ -326,9 +321,13 @@ public class Repair {
 		case 271:
     		ramt = 20;
     		break;
+    	//WOOD HOE
+		case 290:
+			ramt = 30;
+			break;
     	//STONE SWORD
 		case 272:
-    		ramt = 44;
+    		ramt = 66;
     		break;
     	//STONE SHOVEL
 		case 273:
@@ -342,6 +341,10 @@ public class Repair {
 		case 275:
     		ramt = 44;
     		break;
+		//STONE HOE
+		case 291:
+			ramt = 66;
+			break;
     	//GOLD SHOVEL
     	case 284:
     		ramt = 33;

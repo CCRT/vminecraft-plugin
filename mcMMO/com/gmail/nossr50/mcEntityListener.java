@@ -5,13 +5,11 @@ import net.minecraft.server.EntityLiving;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.entity.CraftEntity;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wolf;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageByProjectileEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -49,6 +47,9 @@ public class mcEntityListener extends EntityListener {
     }
     public void onEntityDamage(EntityDamageEvent event) {
     	if(event.isCancelled())
+    		return;
+    	//Check for world pvp flag
+    	if(!event.getEntity().getWorld().getPVP())
     		return;
     	/*
     	 * CHECK FOR mcMMO PVP FLAG

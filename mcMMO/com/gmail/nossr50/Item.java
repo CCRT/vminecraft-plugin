@@ -72,7 +72,7 @@ public class Item {
     			player.sendMessage("You were injured recently and must wait to use this."
     					+ChatColor.YELLOW+" ("+Skills.calculateTimeLeft(player, PP.getRecentlyHurt(), 60)+"s)");
     		} else if (is.getTypeId() == 288 && is.getAmount() <= 9){
-    			player.sendMessage("You need more of that to use it");
+    			player.sendMessage(ChatColor.GRAY+"You need more feathers..");
     		}
     	}
 	}

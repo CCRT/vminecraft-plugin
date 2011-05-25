@@ -19,10 +19,6 @@ import com.gmail.nossr50.datatypes.PlayerProfile;
 
 
 public class Herbalism {
-	private static mcMMO plugin;
-	public Herbalism(mcMMO instance) {
-    	plugin = instance;
-    }
 	
 	public static void greenTerraWheat(Player player, Block block, BlockBreakEvent event){
 		if(block.getType() == Material.WHEAT && block.getData() == (byte) 0x07){
@@ -107,7 +103,6 @@ public class Herbalism {
 	    			if(y != null && y != player && m.getDistance(player.getLocation(), y.getLocation()) < 10)
 	    				y.sendMessage(ChatColor.GREEN+player.getName()+ChatColor.DARK_GREEN+" has used "+ChatColor.RED+"Green Terra!");
 	    		}
-	    		PP.setGreenTerraTicks(ticks * 1000);
 	    		PP.setGreenTerraActivatedTimeStamp(System.currentTimeMillis());
 	    		PP.setGreenTerraDeactivatedTimeStamp(System.currentTimeMillis() + (ticks * 1000));
 	    		PP.setGreenTerraMode(true);

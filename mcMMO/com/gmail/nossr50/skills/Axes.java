@@ -9,6 +9,7 @@ import org.bukkit.entity.Wolf;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.plugin.Plugin;
 
+import com.gmail.nossr50.Combat;
 import com.gmail.nossr50.Users;
 import com.gmail.nossr50.m;
 import com.gmail.nossr50.mcPermissions;
@@ -39,7 +40,6 @@ public class Axes {
 	    			if(y != null && y != player && m.getDistance(player.getLocation(), y.getLocation()) < 10)
 	    				y.sendMessage(ChatColor.GREEN+player.getName()+ChatColor.DARK_GREEN+" has used "+ChatColor.RED+"Skull Splitter!");
 	    		}
-    			PP.setSkullSplitterTicks(ticks * 1000);
     			PP.setSkullSplitterActivatedTimeStamp(System.currentTimeMillis());
     			PP.setSkullSplitterDeactivatedTimeStamp(System.currentTimeMillis() + (ticks * 1000));
     			PP.setSkullSplitterMode(true);
@@ -95,7 +95,7 @@ public class Axes {
     	targets = m.getTier(attacker);
     	for(Entity derp : x.getWorld().getEntities()){
     		if(m.getDistance(x.getLocation(), derp.getLocation()) < 5){
-    			if(derp instanceof Player){
+    			if(derp instanceof Player && Combat.pvpAllowed(event, derp.getWorld())){
     				Player target = (Player)derp;
     				if(Party.getInstance().inSameParty(attacker, target))
     					continue;

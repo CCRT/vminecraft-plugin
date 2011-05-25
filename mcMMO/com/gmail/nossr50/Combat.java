@@ -2,23 +2,23 @@ package com.gmail.nossr50;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Animals;
-import org.bukkit.entity.Creature;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
+import org.bukkit.entity.Slime;
 import org.bukkit.entity.Spider;
-import org.bukkit.entity.Squid;
 import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageByProjectileEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import com.gmail.nossr50.config.Config;
@@ -33,10 +33,6 @@ import com.gmail.nossr50.skills.Taming;
 import com.gmail.nossr50.skills.Unarmed;
 
 public class Combat {
-	private static mcMMO plugin;
-	public Combat(mcMMO instance) {
-    	plugin = instance;
-    }
 	public static void combatChecks(EntityDamageEvent event, Plugin pluginx){
 		if(event.isCancelled() || event.getDamage() == 0)
 			return;
@@ -60,85 +56,93 @@ public class Combat {
 	    	combatAbilityChecks(attacker, PPa, pluginx);
 	    	
 	    	//Check for offensive procs
-	    	if(mcPermissions.getInstance().axes(attacker))
-	    		Axes.axeCriticalCheck(attacker, eventb, pluginx); //Axe Criticals
-	    	if(!Config.getInstance().isBleedTracked(event.getEntity())) //Swords Bleed
-    			Swords.bleedCheck(attacker, event.getEntity(), pluginx);
-	    	if(event.getEntity() instanceof Player && mcPermissions.getInstance().unarmed(attacker)){
-	    		Player defender = (Player)event.getEntity();
-	    		Unarmed.disarmProcCheck(attacker, defender);
-	    	}
-	    	
-	    	
-	    	//Modify the event damage if Attacker is Berserk
-	    	if(PPa.getBerserkMode())
-	    		event.setDamage(event.getDamage() + (event.getDamage() / 2));
-       	
-	   		//Handle Ability Interactions
-	   		if(PPa.getSkullSplitterMode() && m.isAxes(attacker.getItemInHand()))
-       			Axes.applyAoeDamage(attacker, eventb, pluginx);
-      		if(PPa.getSerratedStrikesMode() && m.isSwords(attacker.getItemInHand()))
-       			Swords.applySerratedStrikes(attacker, eventb, pluginx);
-      		
-      		//Experience
-      		if(event.getEntity() instanceof Player)
-      		{
-      			Player defender = (Player)event.getEntity();
-      			PlayerProfile PPd = Users.getProfile(defender);
-	    		if(attacker != null && defender != null && LoadProperties.pvpxp)
-	    		{
-	    			if(System.currentTimeMillis() >= PPd.getRespawnATS() + 5000 && defender.getHealth() >= 1)
-	    			{
-		    			if(m.isAxes(attacker.getItemInHand()) && mcPermissions.getInstance().axes(attacker))
-		    				PPa.addAxesXP((event.getDamage() * 3) * LoadProperties.pvpxprewardmodifier);
-		    			if(m.isSwords(attacker.getItemInHand()) && mcPermissions.getInstance().swords(attacker))
-		    				PPa.addSwordsXP((event.getDamage() * 3) * LoadProperties.pvpxprewardmodifier);
-		    			if(attacker.getItemInHand().getTypeId() == 0 && mcPermissions.getInstance().unarmed(attacker))
-		    				PPa.addUnarmedXP((event.getDamage() * 3) * LoadProperties.pvpxprewardmodifier);
-	    			}
-	    		}
-      		}
-      		
-      		if(event.getEntity() instanceof Monster)
-      		{
-      			int xp = 0;
-      			if(event.getEntity() instanceof Creeper)
-					xp = (event.getDamage() * 4) * LoadProperties.xpGainMultiplier;
-				if(event.getEntity() instanceof Spider)
-					xp = (event.getDamage() * 3) * LoadProperties.xpGainMultiplier;
-				if(event.getEntity() instanceof Skeleton)
-					xp = (event.getDamage() * 2) * LoadProperties.xpGainMultiplier;
-				if(event.getEntity() instanceof Zombie)
-					xp = (event.getDamage() * 2) * LoadProperties.xpGainMultiplier;
-				if(event.getEntity() instanceof PigZombie)
-					xp = (event.getDamage() * 3) * LoadProperties.xpGainMultiplier;
-				
-				if(m.isSwords(attacker.getItemInHand()) && mcPermissions.getInstance().swords(attacker))
-					PPa.addSwordsXP(xp);
-				if(m.isAxes(attacker.getItemInHand()) && mcPermissions.getInstance().axes(attacker))
-					PPa.addAxesXP(xp);
-				if(attacker.getItemInHand().getTypeId() == 0 && mcPermissions.getInstance().unarmed(attacker))
-					PPa.addUnarmedXP(xp);
-      		}
-      		Skills.XpCheck(attacker);
-      		
-      		//Taming Debug Stuff
-      		if(event.getEntity() instanceof Wolf)
-      		{
-      			if(Party.getInstance().inSameParty(attacker, Taming.getOwner(event.getEntity(), pluginx)))
-      				event.setCancelled(true);
-      			if(attacker.getItemInHand().getTypeId() == 352 && mcPermissions.getInstance().taming(attacker))
-      			{
-	      			attacker.sendMessage(ChatColor.GREEN+"**You examine the Wolf using Beast Lore**");
-	      			if(Taming.getOwnerName(event.getEntity()) != null)
-	      				attacker.sendMessage(ChatColor.DARK_GREEN+"The Beast's Master : "+Taming.getOwnerName(event.getEntity()));
-	      			else
-	      				attacker.sendMessage(ChatColor.GRAY+"This Beast has no Master...");
-	      			attacker.sendMessage(ChatColor.GREEN+"This beast has "+((Wolf)event.getEntity()).getHealth()+" Health");
-	      			event.setCancelled(true);
-      			}
-      		}
+	    	if(!(event instanceof EntityDamageByProjectileEvent)){
+		    	if(mcPermissions.getInstance().axes(attacker))
+		    		Axes.axeCriticalCheck(attacker, eventb, pluginx); //Axe Criticals
+		    	if(!Config.getInstance().isBleedTracked(event.getEntity())) //Swords Bleed
+		   			Swords.bleedCheck(attacker, event.getEntity(), pluginx);
+			   	if(event.getEntity() instanceof Player && mcPermissions.getInstance().unarmed(attacker)){
+			   		Player defender = (Player)event.getEntity();
+			   		Unarmed.disarmProcCheck(attacker, defender);
+			    }
+		    	
+		    	
+		    	
+		    	//Modify the event damage if Attacker is Berserk
+		    	if(PPa.getBerserkMode())
+		    		event.setDamage(event.getDamage() + (event.getDamage() / 2));
+	       	
+		   		//Handle Ability Interactions
+		   		if(PPa.getSkullSplitterMode() && m.isAxes(attacker.getItemInHand()))
+	       			Axes.applyAoeDamage(attacker, eventb, pluginx);
+	      		if(PPa.getSerratedStrikesMode() && m.isSwords(attacker.getItemInHand()))
+	       			Swords.applySerratedStrikes(attacker, eventb, pluginx);
+	      		
+	      		//Experience
+	      		if(event.getEntity() instanceof Player)
+	      		{
+	      			Player defender = (Player)event.getEntity();
+	      			PlayerProfile PPd = Users.getProfile(defender);
+		    		if(attacker != null && defender != null && LoadProperties.pvpxp)
+		    		{
+		    			if(System.currentTimeMillis() >= PPd.getRespawnATS() + 5000 && defender.getHealth() >= 1)
+		    			{
+			    			if(m.isAxes(attacker.getItemInHand()) && mcPermissions.getInstance().axes(attacker))
+			    				PPa.addAxesXP((event.getDamage() * 3) * LoadProperties.pvpxprewardmodifier);
+			    			if(m.isSwords(attacker.getItemInHand()) && mcPermissions.getInstance().swords(attacker))
+			    				PPa.addSwordsXP((event.getDamage() * 3) * LoadProperties.pvpxprewardmodifier);
+			    			if(attacker.getItemInHand().getTypeId() == 0 && mcPermissions.getInstance().unarmed(attacker))
+			    				PPa.addUnarmedXP((event.getDamage() * 3) * LoadProperties.pvpxprewardmodifier);
+		    			}
+		    		}
+	      		}
+	      		
+	      		if(event.getEntity() instanceof Monster)
+	      		{
+	      			int xp = 0;
+	      			if(event.getEntity() instanceof Creeper)
+						xp = (event.getDamage() * 4) * LoadProperties.xpGainMultiplier;
+					if(event.getEntity() instanceof Spider)
+						xp = (event.getDamage() * 3) * LoadProperties.xpGainMultiplier;
+					if(event.getEntity() instanceof Skeleton)
+						xp = (event.getDamage() * 2) * LoadProperties.xpGainMultiplier;
+					if(event.getEntity() instanceof Zombie)
+						xp = (event.getDamage() * 2) * LoadProperties.xpGainMultiplier;
+					if(event.getEntity() instanceof PigZombie)
+						xp = (event.getDamage() * 3) * LoadProperties.xpGainMultiplier;
+					if(event.getEntity() instanceof Slime)
+						xp = (event.getDamage() * 3) * LoadProperties.xpGainMultiplier;
+					if(event.getEntity() instanceof Ghast)
+						xp = (event.getDamage() * 3) * LoadProperties.xpGainMultiplier;
+					
+					if(m.isSwords(attacker.getItemInHand()) && mcPermissions.getInstance().swords(attacker))
+						PPa.addSwordsXP(xp);
+					if(m.isAxes(attacker.getItemInHand()) && mcPermissions.getInstance().axes(attacker))
+						PPa.addAxesXP(xp);
+					if(attacker.getItemInHand().getTypeId() == 0 && mcPermissions.getInstance().unarmed(attacker))
+						PPa.addUnarmedXP(xp);
+	      		}
+	      		Skills.XpCheck(attacker);
+	      		
+	      		//Taming Debug Stuff
+	      		if(event.getEntity() instanceof Wolf)
+	      		{
+	      			if(Party.getInstance().inSameParty(attacker, Taming.getOwner(event.getEntity(), pluginx)))
+	      				event.setCancelled(true);
+	      			if(attacker.getItemInHand().getTypeId() == 352 && mcPermissions.getInstance().taming(attacker))
+	      			{
+		      			attacker.sendMessage(ChatColor.GREEN+"**You examine the Wolf using Beast Lore**");
+		      			if(Taming.getOwnerName(event.getEntity()) != null)
+		      				attacker.sendMessage(ChatColor.DARK_GREEN+"The Beast's Master : "+Taming.getOwnerName(event.getEntity()));
+		      			else
+		      				attacker.sendMessage(ChatColor.GRAY+"This Beast has no Master...");
+		      			attacker.sendMessage(ChatColor.GREEN+"This beast has "+((Wolf)event.getEntity()).getHealth()+" Health");
+		      			event.setCancelled(true);
+	      			}
+	      		}
+			}
 		}
+		
 		/*
 		 * OFFENSIVE CHECKS FOR WOLVES VERSUS ENTITIES
 		 */
@@ -335,6 +339,10 @@ public class Combat {
 						PPa.addArcheryXP((event.getDamage() * 2) * LoadProperties.xpGainMultiplier);
 					if(x instanceof PigZombie)
 						PPa.addArcheryXP((event.getDamage() * 3) * LoadProperties.xpGainMultiplier);
+					if(x instanceof Slime)
+						PPa.addArcheryXP((event.getDamage() * 3) * LoadProperties.xpGainMultiplier);
+					if(x instanceof Ghast)
+						PPa.addArcheryXP((event.getDamage() * 3) * LoadProperties.xpGainMultiplier);
     			}
     		}
     		/*
@@ -397,5 +405,14 @@ public class Combat {
     	if(target instanceof Monster){
     		((Monster) target).damage(dmg);
     	}
+    }
+    public static boolean pvpAllowed(EntityDamageByEntityEvent event, World world)
+    {
+    	if(!LoadProperties.pvp || !event.getEntity().getWorld().getPVP())
+    		return false;
+    	if(world.getPVP())
+    		return false;
+    	//If it made it this far, pvp is enabled
+    	return true;
     }
 }

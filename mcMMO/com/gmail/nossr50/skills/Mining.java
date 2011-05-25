@@ -18,10 +18,6 @@ import com.gmail.nossr50.datatypes.PlayerProfile;
 
 
 public class Mining {
-	private static mcMMO plugin;
-	public Mining(mcMMO instance) {
-    	plugin = instance;
-    }
 	
 	public static void superBreakerCheck(Player player, Block block, Plugin pluginx)
 	{
@@ -47,7 +43,6 @@ public class Mining {
 	    			if(y != null && y != player && m.getDistance(player.getLocation(), y.getLocation()) < 10)
 	    				y.sendMessage(ChatColor.GREEN+player.getName()+ChatColor.DARK_GREEN+" has used "+ChatColor.RED+"Super Breaker!");
 	    		}
-	    		PP.setSuperBreakerTicks(ticks * 1000);
 	    		PP.setSuperBreakerActivatedTimeStamp(System.currentTimeMillis());
 	    		PP.setSuperBreakerDeactivatedTimeStamp(System.currentTimeMillis() + (ticks * 1000));
 	    		PP.setSuperBreakerMode(true);

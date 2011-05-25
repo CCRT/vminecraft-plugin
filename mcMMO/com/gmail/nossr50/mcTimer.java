@@ -1,10 +1,9 @@
 package com.gmail.nossr50;
-import java.awt.Color;
 import java.util.TimerTask;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.*;
 
+import com.gmail.nossr50.config.LoadProperties;
 import com.gmail.nossr50.datatypes.PlayerProfile;
 import com.gmail.nossr50.skills.Skills;
 import com.gmail.nossr50.skills.Swords;
@@ -44,7 +43,7 @@ public class mcTimer extends TimerTask{
         		PP.decreaseBleedTicks();
         	}
 			
-			if(mcPermissions.getInstance().regeneration(player) && PP != null && System.currentTimeMillis() >= PP.getRecentlyHurt() + 60000)
+			if(LoadProperties.enableRegen && mcPermissions.getInstance().regeneration(player) && PP != null && System.currentTimeMillis() >= PP.getRecentlyHurt() + 60000)
 			{
 				if(thecount == 10 || thecount == 20 || thecount == 30 || thecount == 40){
 				    if(player != null &&

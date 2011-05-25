@@ -12,15 +12,11 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import com.gmail.nossr50.config.*;
-import com.gmail.nossr50.datatypes.*;
-import com.gmail.nossr50.skills.*;
-import com.gmail.nossr50.party.*;
 import com.gmail.nossr50.datatypes.PlayerProfile;
 import com.gmail.nossr50.datatypes.FakeBlockBreakEvent;
 public class m {
@@ -28,10 +24,7 @@ public class m {
 	/*
 	 * I'm storing my misc functions/methods in here in an unorganized manner. Spheal with it.
 	 */
-	private static mcMMO plugin;
-	public m(mcMMO instance) {
-    	plugin = instance;
-    }
+	
 	//The lazy way to default to 0
 	public static int getInt(String string)
 	{
@@ -345,9 +338,9 @@ public class m {
         	FileReader file = new FileReader(location);
         	BufferedReader in = new BufferedReader(file);
         	String line = "";
-        	String x = null, y = null, z = null, playerName = null, mining = null, myspawn = null, party = null, miningXP = null, woodcutting = null, woodCuttingXP = null, repair = null, unarmed = null, herbalism = null,
+        	String playerName = null, mining = null, party = null, miningXP = null, woodcutting = null, woodCuttingXP = null, repair = null, unarmed = null, herbalism = null,
         	excavation = null, archery = null, swords = null, axes = null, acrobatics = null, repairXP = null, unarmedXP = null, herbalismXP = null, excavationXP = null, archeryXP = null, swordsXP = null, axesXP = null,
-        	acrobaticsXP = null, myspawnworld = null, taming = null, tamingXP = null;
+        	acrobaticsXP = null, taming = null, tamingXP = null;
         	int id = 0, theCount = 0;
         	while((line = in.readLine()) != null)
         	{
@@ -361,9 +354,6 @@ public class m {
     			//Get Mining
     			if(character.length > 1)
     				mining = character[1];
-    			//Myspawn
-    			if(character.length > 2)
-    				myspawn = character[2];
     			//Party
     			if(character.length > 3)
     				party = character[3];
@@ -406,8 +396,6 @@ public class m {
     				axesXP = character[21];
     			if(character.length > 22)
     				acrobaticsXP = character[22];
-    			if(character.length > 23)
-    				myspawnworld = character[23];
     			if(character.length > 24)
     				taming = character[24];
     			if(character.length > 25)

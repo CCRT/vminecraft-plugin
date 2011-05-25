@@ -2,9 +2,7 @@ package com.gmail.nossr50;
 
 import com.gmail.nossr50.datatypes.PlayerProfile;
 import com.gmail.nossr50.config.*;
-import com.gmail.nossr50.datatypes.*;
 import com.gmail.nossr50.skills.*;
-import com.gmail.nossr50.party.*;
 import com.nijikokun.bukkit.Permissions.Permissions;
 import com.nijiko.Messaging;
 import com.nijiko.permissions.PermissionHandler;
@@ -13,19 +11,7 @@ import org.bukkit.plugin.Plugin;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import java.sql.PreparedStatement;
-import java.sql.DatabaseMetaData;
-import java.sql.SQLException;
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.ResultSet;
-
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -127,9 +113,17 @@ public class mcMMO extends JavaPlugin {
     		return false;
     	}
     }
+    public void getXpToLevel(Player player, String skillname){
+    	Users.getProfile(player).getXpToLevel(skillname.toLowerCase());
+    }
+    public void removeXp(Player player, String skillname, Integer newvalue){
+    	PlayerProfile PP = Users.getProfile(player);
+    	PP.removeXP(skillname, newvalue);
+    	Skills.XpCheck(player);
+    }
     public void addXp(Player player, String skillname, Integer newvalue){
     	PlayerProfile PP = Users.getProfile(player);
-    	PP.addXpToSkill(newvalue, skillname, player);
+    	PP.addXP(skillname, newvalue);
     	Skills.XpCheck(player);
     }
     public void modifySkill(Player player, String skillname, Integer newvalue){

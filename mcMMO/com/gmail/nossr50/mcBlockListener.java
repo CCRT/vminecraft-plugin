@@ -6,7 +6,6 @@ import com.gmail.nossr50.config.LoadProperties;
 import com.gmail.nossr50.datatypes.PlayerProfile;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -17,10 +16,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.gmail.nossr50.config.*;
-import com.gmail.nossr50.datatypes.*;
 import com.gmail.nossr50.skills.*;
-import com.gmail.nossr50.party.*;
-
 import com.gmail.nossr50.datatypes.FakeBlockBreakEvent;
 
 

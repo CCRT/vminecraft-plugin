@@ -16,10 +16,6 @@ import com.gmail.nossr50.datatypes.PlayerProfile;
 
 
 public class Excavation {
-	private static mcMMO plugin;
-	public Excavation(mcMMO instance) {
-    	plugin = instance;
-    }
 	public static void gigaDrillBreakerActivationCheck(Player player, Block block, Plugin pluginx){
 		PlayerProfile PP = Users.getProfile(player);
 		if(m.isShovel(player.getItemInHand())){
@@ -37,13 +33,12 @@ public class Excavation {
     			ticks++;
     		}
     		
-	    	if(!PP.getGigaDrillBreakerMode() && PP.getGigaDrillBreakerCooldown() == 0){
+	    	if(!PP.getGigaDrillBreakerMode() && PP.getGigaDrillBreakerDeactivatedTimeStamp() < System.currentTimeMillis()){
 	    		player.sendMessage(ChatColor.GREEN+"**GIGA DRILL BREAKER ACTIVATED**");
 	    		for(Player y : pluginx.getServer().getOnlinePlayers()){
 	    			if(y != null && y != player && m.getDistance(player.getLocation(), y.getLocation()) < 10)
 	    				y.sendMessage(ChatColor.GREEN+player.getName()+ChatColor.DARK_GREEN+" has used "+ChatColor.RED+"Giga Drill Breaker!");
 	    		}
-	    		PP.setGigaDrillBreakerTicks(ticks * 1000);
 	    		PP.setGigaDrillBreakerActivatedTimeStamp(System.currentTimeMillis());
 	    		PP.setGigaDrillBreakerDeactivatedTimeStamp(System.currentTimeMillis() + (ticks * 1000));
 	    		PP.setGigaDrillBreakerMode(true);

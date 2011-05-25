@@ -62,7 +62,6 @@ public class WoodCutting {
 	    			if(y != null && y != player && m.getDistance(player.getLocation(), y.getLocation()) < 10)
 	    				y.sendMessage(ChatColor.GREEN+player.getName()+ChatColor.DARK_GREEN+" has used "+ChatColor.RED+"Tree Feller!");
 	    		}
-    			PP.setTreeFellerTicks(ticks * 1000);
     			PP.setTreeFellerActivatedTimeStamp(System.currentTimeMillis());
     			PP.setTreeFellerDeactivatedTimeStamp(System.currentTimeMillis() + (ticks * 1000));
     			PP.setTreeFellerMode(true);

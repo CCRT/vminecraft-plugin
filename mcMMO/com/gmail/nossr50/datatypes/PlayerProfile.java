@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,7 +14,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import com.gmail.nossr50.Database;
 import com.gmail.nossr50.config.LoadProperties;
 import com.gmail.nossr50.mcMMO;
 import com.gmail.nossr50.skills.*;
@@ -25,16 +23,18 @@ import com.gmail.nossr50.skills.*;
 public class PlayerProfile
 {
     protected final Logger log = Logger.getLogger("Minecraft");
-	private String taming="0", tamingXP="0", miningXP="0", woodCuttingXP="0", woodcutting="0", repair="0", mining="0", party, myspawn, myspawnworld, unarmed="0", herbalism="0", excavation="0",
-	archery="0", swords="0", axes="0", invite, acrobatics="0", repairXP="0", unarmedXP="0", herbalismXP="0", excavationXP="0", archeryXP="0", swordsXP="0", axesXP="0", acrobaticsXP="0";
+    //skills
+    //private String tamingstr, miningstr, woodcuttingstr, repairstr, unarmedstr, herbalismstr, excavationstr, archerystr, swordsstr, axesstr, acrobaticsstr;
+	private int unarmed=0,unarmedXP=0,taming=0, tamingXP=0, mining=0, miningXP=0,woodcutting=0,woodcuttingXP=0, repair=0,repairXP=0, herbalism=0,herbalismXP=0, excavation=0,excavationXP=0, archery=0,archeryXP=0, swords=0,swordsXP=0, axes=0,axesXP=0, acrobatics=0,acrobaticsXP=0;
+    //other
+	private String party, myspawn, myspawnworld, invite;
 	private boolean online = true, greenTerraMode, partyChatOnly = false, greenTerraInformed = true, berserkInformed = true, skullSplitterInformed = true, gigaDrillBreakerInformed = true, 
 	superBreakerInformed = true, serratedStrikesInformed = true, treeFellerInformed = true, dead, abilityuse = true, treeFellerMode, superBreakerMode, gigaDrillBreakerMode, 
 	serratedStrikesMode, hoePreparationMode, shovelPreparationMode, swordsPreparationMode, fistsPreparationMode, pickaxePreparationMode, axePreparationMode, skullSplitterMode, berserkMode;
-	private long gigaDrillBreakerCooldown = 0, berserkCooldown = 0, superBreakerCooldown = 0, skullSplitterCooldown = 0, serratedStrikesCooldown = 0,
-	greenTerraCooldown = 0, treeFellerCooldown = 0, recentlyHurt = 0, archeryShotATS = 0, berserkATS = 0, berserkDATS = 0, gigaDrillBreakerATS = 0, gigaDrillBreakerDATS = 0,
+	private long recentlyHurt = 0, archeryShotATS = 0, berserkATS = 0, berserkDATS = 0, gigaDrillBreakerATS = 0, gigaDrillBreakerDATS = 0,
 	respawnATS = 0, mySpawnATS = 0, greenTerraATS = 0, greenTerraDATS = 0, superBreakerATS = 0, superBreakerDATS = 0, serratedStrikesATS = 0, serratedStrikesDATS = 0, treeFellerATS = 0, treeFellerDATS = 0, 
 	skullSplitterATS = 0, skullSplitterDATS = 0, hoePreparationATS = 0, axePreparationATS = 0, pickaxePreparationATS = 0, fistsPreparationATS = 0, shovelPreparationATS = 0, swordsPreparationATS = 0;
-	private int lastlogin=0, userid = 0, berserkTicks = 0, bleedticks = 0, greenTerraTicks = 0, gigaDrillBreakerTicks = 0, superBreakerTicks = 0, serratedStrikesTicks = 0, skullSplitterTicks = 0, treeFellerTicks = 0;
+	private int lastlogin=0, userid = 0, bleedticks = 0;
 	//ATS = (Time of) Activation Time Stamp
 	//DATS = (Time of) Deactivation Time Stamp
 	Player thisplayer;
@@ -103,29 +103,29 @@ public class PlayerProfile
 				skullSplitterDATS = Long.valueOf(cooldowns.get(1).get(6)) * 1000;
 			}
 			HashMap<Integer, ArrayList<String>> skills = mcMMO.database.Read("SELECT taming, mining, repair, woodcutting, unarmed, herbalism, excavation, archery, swords, axes, acrobatics FROM "+LoadProperties.MySQLtablePrefix+"skills WHERE user_id = " + id);
-				taming = skills.get(1).get(0);
-				mining = skills.get(1).get(1);
-				repair = skills.get(1).get(2);
-				woodcutting = skills.get(1).get(3);
-				unarmed = skills.get(1).get(4);
-				herbalism = skills.get(1).get(5);
-				excavation = skills.get(1).get(6);
-				archery = skills.get(1).get(7);
-				swords = skills.get(1).get(8);
-				axes = skills.get(1).get(9);
-				acrobatics = skills.get(1).get(10);
+				taming = Integer.valueOf(skills.get(1).get(0));
+				mining = Integer.valueOf(skills.get(1).get(1));
+				repair = Integer.valueOf(skills.get(1).get(2));
+				woodcutting = Integer.valueOf(skills.get(1).get(3));
+				unarmed = Integer.valueOf(skills.get(1).get(4));
+				herbalism = Integer.valueOf(skills.get(1).get(5));
+				excavation = Integer.valueOf(skills.get(1).get(6));
+				archery = Integer.valueOf(skills.get(1).get(7));
+				swords = Integer.valueOf(skills.get(1).get(8));
+				axes = Integer.valueOf(skills.get(1).get(9));
+				acrobatics = Integer.valueOf(skills.get(1).get(10));
 			HashMap<Integer, ArrayList<String>> experience = mcMMO.database.Read("SELECT taming, mining, repair, woodcutting, unarmed, herbalism, excavation, archery, swords, axes, acrobatics FROM "+LoadProperties.MySQLtablePrefix+"experience WHERE user_id = " + id);
-				tamingXP = experience.get(1).get(0);
-				miningXP = experience.get(1).get(1);
-				repairXP = experience.get(1).get(2);
-				woodCuttingXP = experience.get(1).get(3);
-				unarmedXP = experience.get(1).get(4);
-				herbalismXP = experience.get(1).get(5);
-				excavationXP = experience.get(1).get(6);
-				archeryXP = experience.get(1).get(7);
-				swordsXP = experience.get(1).get(8);
-				axesXP = experience.get(1).get(9);
-				acrobaticsXP = experience.get(1).get(10);
+				tamingXP = Integer.valueOf(experience.get(1).get(0));
+				miningXP = Integer.valueOf(experience.get(1).get(1));
+				repairXP = Integer.valueOf(experience.get(1).get(2));
+				woodcuttingXP = Integer.valueOf(experience.get(1).get(3));
+				unarmedXP = Integer.valueOf(experience.get(1).get(4));
+				herbalismXP = Integer.valueOf(experience.get(1).get(5));
+				excavationXP = Integer.valueOf(experience.get(1).get(6));
+				archeryXP = Integer.valueOf(experience.get(1).get(7));
+				swordsXP = Integer.valueOf(experience.get(1).get(8));
+				axesXP = Integer.valueOf(experience.get(1).get(9));
+				acrobaticsXP = Integer.valueOf(experience.get(1).get(10));
 			return true;
 		}
 		else {
@@ -158,8 +158,8 @@ public class PlayerProfile
         		if(!character[0].equals(thisplayer.getName())){continue;}
         		
     			//Get Mining
-    			if(character.length > 1)
-    				mining = character[1];
+    			if(character.length > 1 && isInt(character[1]))
+    				mining = Integer.valueOf(character[1]);
     			//Myspawn
     			if(character.length > 2)
     				myspawn = character[2];
@@ -167,50 +167,50 @@ public class PlayerProfile
     			if(character.length > 3)
     				party = character[3];
     			//Mining XP
-    			if(character.length > 4)
-    				miningXP = character[4];
-    			if(character.length > 5)
-    				woodcutting = character[5];
-    			if(character.length > 6)
-    				woodCuttingXP = character[6];
-    			if(character.length > 7)
-    				repair = character[7];
-    			if(character.length > 8)
-    				unarmed = character[8];
-    			if(character.length > 9)
-    				herbalism = character[9];
-    			if(character.length > 10)
-    				excavation = character[10];
-    			if(character.length > 11)
-    				archery = character[11];
-    			if(character.length > 12)
-    				swords = character[12];
-    			if(character.length > 13)
-    				axes = character[13];
-    			if(character.length > 14)
-    				acrobatics = character[14];
+    			if(character.length > 4 && isInt(character[4]))
+    				miningXP = Integer.valueOf(character[4]);
+    			if(character.length > 5 && isInt(character[5]))
+    				woodcutting = Integer.valueOf(character[5]);
+    			if(character.length > 6 && isInt(character[6]))
+    				woodcuttingXP = Integer.valueOf(character[6]);
+    			if(character.length > 7 && isInt(character[7]))
+    				repair = Integer.valueOf(character[7]);
+    			if(character.length > 8 && isInt(character[8]))
+    				unarmed = Integer.valueOf(character[8]);
+    			if(character.length > 9 && isInt(character[9]))
+    				herbalism = Integer.valueOf(character[9]);
+    			if(character.length > 10 && isInt(character[10]))
+    				excavation = Integer.valueOf(character[10]);
+    			if(character.length > 11 && isInt(character[11]))
+    				archery = Integer.valueOf(character[11]);
+    			if(character.length > 12 && isInt(character[12]))
+    				swords = Integer.valueOf(character[12]);
+    			if(character.length > 13 && isInt(character[13]))
+    				axes = Integer.valueOf(character[13]);
+    			if(character.length > 14 && isInt(character[14]))
+    				acrobatics = Integer.valueOf(character[14]);
     			if(character.length > 15)
-    				repairXP = character[15];
+    				repairXP = Integer.valueOf(character[15]);
     			if(character.length > 16)
-    				unarmedXP = character[16];
+    				unarmedXP = Integer.valueOf(character[16]);
     			if(character.length > 17)
-    				herbalismXP = character[17];
+    				herbalismXP = Integer.valueOf(character[17]);
     			if(character.length > 18)
-    				excavationXP = character[18];
+    				excavationXP = Integer.valueOf(character[18]);
     			if(character.length > 19)
-    				archeryXP = character[19];
+    				archeryXP = Integer.valueOf(character[19]);
     			if(character.length > 20)
-    				swordsXP = character[20];
+    				swordsXP = Integer.valueOf(character[20]);
     			if(character.length > 21)
-    				axesXP = character[21];
+    				axesXP = Integer.valueOf(character[21]);
     			if(character.length > 22)
-    				acrobaticsXP = character[22];
+    				acrobaticsXP = Integer.valueOf(character[22]);
     			if(character.length > 23)
     				myspawnworld = character[23];
     			if(character.length > 24)
-    				taming = character[24];
+    				taming = Integer.valueOf(character[24]);
     			if(character.length > 25)
-    				tamingXP = character[25];
+    				tamingXP = Integer.valueOf(character[25]);
     			//Need to store the DATS of abilities nao
     			//Berserk, Gigadrillbreaker, Tree Feller, Green Terra, Serrated Strikes, Skull Splitter, Super Breaker
     			if(character.length > 26)
@@ -272,7 +272,7 @@ public class PlayerProfile
     				+"  taming = "+tamingXP
     				+", mining = "+miningXP
     				+", repair = "+repairXP
-    				+", woodcutting = "+woodCuttingXP
+    				+", woodcutting = "+woodcuttingXP
     				+", unarmed = "+unarmedXP
     				+", herbalism = "+herbalismXP
     				+", excavation = "+excavationXP
@@ -308,7 +308,7 @@ public class PlayerProfile
 	        			writer.append(party+":");
 	        			writer.append(miningXP+":");
 	        			writer.append(woodcutting+":");
-	        			writer.append(woodCuttingXP+":");
+	        			writer.append(woodcuttingXP+":");
 	        			writer.append(repair+":");
 	        			writer.append(unarmed+":");
 	        			writer.append(herbalism+":");
@@ -438,13 +438,6 @@ public class PlayerProfile
 	public void addBleedTicks(Integer newvalue){
 		bleedticks+=newvalue;
 	}
-	public Boolean hasCooldowns(){
-		if((treeFellerCooldown + superBreakerCooldown) >= 1){
-			return true;
-		} else {
-			return false;
-		}
-	}
 	/*
 	 * EXPLOIT PREVENTION
 	 */
@@ -570,14 +563,6 @@ public class PlayerProfile
 		greenTerraDATS = newvalue;
 		save();
 	}
-	public void setGreenTerraCooldown(Long newvalue){
-		greenTerraCooldown = newvalue;
-	}
-	public long getGreenTerraCooldown(){
-		return greenTerraCooldown;
-	}
-	public void setGreenTerraTicks(Integer newvalue){greenTerraTicks = newvalue;}
-	public int getGreenTerraTicks(){return greenTerraTicks;}
 	/*
 	 * BERSERK MODE
 	 */
@@ -600,14 +585,6 @@ public class PlayerProfile
 		berserkDATS = newvalue;
 		save();
 	}
-	public void setBerserkCooldown(Long newvalue){
-		berserkCooldown = newvalue;
-	}
-	public long getBerserkCooldown(){
-		return berserkCooldown;
-	}
-	public void setBerserkTicks(Integer newvalue){berserkTicks = newvalue;}
-	public int getBerserkTicks(){return berserkTicks;}
 	/*
 	 * SKULL SPLITTER
 	 */
@@ -630,14 +607,6 @@ public class PlayerProfile
 		skullSplitterDATS = newvalue;
 		save();
 	}
-	public void setSkullSplitterCooldown(Long newvalue){
-		skullSplitterCooldown = newvalue;
-	}
-	public long getSkullSplitterCooldown(){
-		return skullSplitterCooldown;
-	}
-	public void setSkullSplitterTicks(Integer newvalue){skullSplitterTicks = newvalue;}
-	public int getSkullSplitterTicks(){return skullSplitterTicks;}
 	/*
 	 * SERRATED STRIKES
 	 */
@@ -660,14 +629,6 @@ public class PlayerProfile
 		serratedStrikesDATS = newvalue;
 		save();
 	}
-	public void setSerratedStrikesCooldown(Long newvalue){
-		serratedStrikesCooldown = newvalue;
-	}
-	public long getSerratedStrikesCooldown(){
-		return serratedStrikesCooldown;
-	}
-	public void setSerratedStrikesTicks(Integer newvalue){serratedStrikesTicks = newvalue;}
-	public int getSerratedStrikesTicks(){return serratedStrikesTicks;}
 	/*
 	 * GIGA DRILL BREAKER
 	 */
@@ -690,14 +651,6 @@ public class PlayerProfile
 		gigaDrillBreakerDATS = newvalue;
 		save();
 	}
-	public void setGigaDrillBreakerCooldown(Long newvalue){
-		gigaDrillBreakerCooldown = newvalue;
-	}
-	public long getGigaDrillBreakerCooldown(){
-		return gigaDrillBreakerCooldown;
-	}
-	public void setGigaDrillBreakerTicks(Integer newvalue){gigaDrillBreakerTicks = newvalue;}
-	public int getGigaDrillBreakerTicks(){return gigaDrillBreakerTicks;}
 	/*
 	 * TREE FELLER STUFF
 	 */
@@ -720,14 +673,6 @@ public class PlayerProfile
 		treeFellerDATS = newvalue;
 		save();
 	}
-	public void setTreeFellerCooldown(Long newvalue){
-		treeFellerCooldown = newvalue;
-	}
-	public long getTreeFellerCooldown(){
-		return treeFellerCooldown;
-	}
-	public void setTreeFellerTicks(Integer newvalue){treeFellerTicks = newvalue;}
-	public int getTreeFellerTicks(){return treeFellerTicks;}
 	/*
 	 * MINING
 	 */
@@ -750,579 +695,309 @@ public class PlayerProfile
 		superBreakerDATS = newvalue;
 		save();
 	}
-	public void setSuperBreakerCooldown(Long newvalue){
-		superBreakerCooldown = newvalue;
-	}
-	public long getSuperBreakerCooldown(){
-		return superBreakerCooldown;
-	}
-	public void setSuperBreakerTicks(Integer newvalue){superBreakerTicks = newvalue;}
-	public int getSuperBreakerTicks(){return superBreakerTicks;}
-	
 	public long getRecentlyHurt(){
 		return recentlyHurt;
 	}
 	public void setRecentlyHurt(long newvalue){
 		recentlyHurt = newvalue;
 	}
-	public void skillUpTaming(int newskill){
-		int x = 0;
-		if(taming != null){
-			if(isInt(taming)){
-				x = Integer.parseInt(taming);
-			}else {
-				taming = "0";
-				x = Integer.parseInt(taming);
-			}
-		}
-		x += newskill;
-		taming = Integer.toString(x);
+	public void skillUp(String skillname, int newvalue)
+	{
+		if(skillname.toLowerCase().equals("taming"))
+			taming += newvalue;
+		if(skillname.toLowerCase().equals("axes"))
+			axes += newvalue;
+		if(skillname.toLowerCase().equals("acrobatics"))
+			acrobatics += newvalue;
+		if(skillname.toLowerCase().equals("swords"))
+			swords += newvalue;
+		if(skillname.toLowerCase().equals("archery"))
+			archery += newvalue;
+		if(skillname.toLowerCase().equals("repair"))
+			repair += newvalue;
+		if(skillname.toLowerCase().equals("mining"))
+			mining += newvalue;
+		if(skillname.toLowerCase().equals("unarmed"))
+			unarmed += newvalue;
+		if(skillname.toLowerCase().equals("herbalism"))
+			herbalism += newvalue;
+		if(skillname.toLowerCase().equals("excavation"))
+			excavation += newvalue;
+		if(skillname.toLowerCase().equals("woodcutting"))
+			woodcutting += newvalue;
 		save();
+	}
+	public void skillUpTaming(int newskill){
+		skillUp("taming", newskill);
 	}
 	public void skillUpAxes(int newskill){
-		int x = 0;
-		if(axes != null){
-		if(isInt(axes)){
-		x = Integer.parseInt(axes);
-		}else {
-			axes = "0";
-			x = Integer.parseInt(axes);
-		}
-		}
-		x += newskill;
-		axes = Integer.toString(x);
-		save();
+		skillUp("axes", newskill);
 	}
 	public void skillUpAcrobatics(int newskill){
-		int x = 0;
-		if(acrobatics != null){
-		if(isInt(acrobatics)){
-		x = Integer.parseInt(acrobatics);
-		}else {
-			acrobatics = "0";
-			x = Integer.parseInt(acrobatics);
-		}
-		}
-		x += newskill;
-		acrobatics = Integer.toString(x);
-		save();
+		skillUp("acrobatics", newskill);
 	}
 	public void skillUpSwords(int newskill){
-		int x = 0;
-		if(swords != null){
-		if(isInt(swords)){
-		x = Integer.parseInt(swords);
-		}else {
-			swords = "0";
-			x = Integer.parseInt(swords);
-		}
-		}
-		x += newskill;
-		swords = Integer.toString(x);
-		save();
+		skillUp("swords", newskill);
 	}
 	public void skillUpArchery(int newskill){
-		int x = 0;
-		if(archery != null){
-		if(isInt(archery)){
-		x = Integer.parseInt(archery);
-		}else {
-			archery = "0";
-			x = Integer.parseInt(archery);
-		}
-		}
-		x += newskill;
-		archery = Integer.toString(x);
-		save();
+		skillUp("archery", newskill);
 	}
 	public void skillUpRepair(int newskill){
-		int x = 0;
-		if(repair != null){
-		if(isInt(repair)){
-		x = Integer.parseInt(repair);
-		}else {
-			repair = "0";
-			x = Integer.parseInt(repair);
-		}
-		}
-		x += newskill;
-		repair = Integer.toString(x);
-		save();
+		skillUp("repair", newskill);
 	}
-	public void skillUpMining(int newmining){
-		int x = 0;
-		if(mining != null){
-		if(isInt(mining)){
-		x = Integer.parseInt(mining);
-		}else {
-			mining = "0";
-			x = Integer.parseInt(mining);
-		}
-		}
-		x += newmining;
-		mining = Integer.toString(x);
-		save();
+	public void skillUpMining(int newskill){
+		skillUp("mining", newskill);
 	}
 	public void skillUpUnarmed(int newskill){
-		int x = 0;
-		if(unarmed != null){
-		if(isInt(unarmed)){
-		x = Integer.parseInt(unarmed);
-		}else {
-			unarmed = "0";
-			x = Integer.parseInt(unarmed);
-		}
-		}
-		x += newskill;
-		unarmed = Integer.toString(x);
-		save();
+		skillUp("unarmed", newskill);
 	}
 	public void skillUpHerbalism(int newskill){
-		int x = 0;
-		if(herbalism != null){
-		if(isInt(herbalism)){
-		x = Integer.parseInt(herbalism);
-		}else {
-			herbalism = "0";
-			x = Integer.parseInt(herbalism);
-		}
-		}
-		x += newskill;
-		herbalism = Integer.toString(x);
-		save();
+		skillUp("herbalism", newskill);
 	}
 	public void skillUpExcavation(int newskill){
-		int x = 0;
-		if(excavation != null){
-		if(isInt(excavation)){
-		x = Integer.parseInt(excavation);
-		}else {
-			excavation = "0";
-			x = Integer.parseInt(excavation);
-		}
-		}
-		x += newskill;
-		excavation = Integer.toString(x);
-		save();
+		skillUp("excavation", newskill);
 	}
 	public void skillUpWoodCutting(int newskill){
-		int x = 0;
-		if(woodcutting != null){
-		if(isInt(woodcutting)){
-		x = Integer.parseInt(woodcutting);
-		}else {
-			woodcutting = "0";
-			x = Integer.parseInt(woodcutting);
-		}
-		}
-		x += newskill;
-		woodcutting = Integer.toString(x);
-		save();
+		skillUp("woodcutting", newskill);
 	}
 	public String getTaming(){
-		if(taming != null && !taming.equals("") && !taming.equals("null")){
-		return taming;
-		} else {
-			return "0";
-		}
+		return String.valueOf(taming);
 	}
 	public String getRepair(){
-		if(repair != null && !repair.equals("") && !repair.equals("null")){
-		return repair;
-		} else {
-			return "0";
-		}
+		return String.valueOf(repair);
 	}
 	public String getMining(){
-		if(mining != null && !mining.equals("") && !mining.equals("null")){
-			return mining;
-			} else {
-				return "0";
-			}
+		return String.valueOf(mining);
 	}
 	public String getUnarmed(){
-		if(unarmed != null && !unarmed.equals("") && !unarmed.equals("null")){
-			return unarmed;
-			} else {
-				return "0";
-			}
+		return String.valueOf(unarmed);
 	}
 	public String getHerbalism(){
-		if(herbalism != null && !herbalism.equals("") && !herbalism.equals("null")){
-			return herbalism;
-			} else {
-				return "0";
-			}
+		return String.valueOf(herbalism);
 	}
 	public String getExcavation(){
-		if(excavation != null && !excavation.equals("") && !excavation.equals("null")){
-			return excavation;
-			} else {
-				return "0";
-			}
+		return String.valueOf(excavation);
 	}
 	public String getArchery(){
-		if(archery != null && !archery.equals("") && !archery.equals("null")){
-			return archery;
-			} else {
-				return "0";
-			}
+		return String.valueOf(archery);
 	}
 	public String getSwords(){
-		if(swords != null && !swords.equals("") && !swords.equals("null")){
-			return swords;
-			} else {
-				return "0";
-			}
+		return String.valueOf(swords);
 	}
 	public String getAxes(){
-		if(axes != null && !axes.equals("") && !axes.equals("null")){
-			return axes;
-			} else {
-				return "0";
-			}
+		return String.valueOf(axes);
 	}
 	public String getAcrobatics(){
-		if(acrobatics != null && !acrobatics.equals("") && !acrobatics.equals("null")){
-			return acrobatics;
-			} else {
-				return "0";
-			}
+		return String.valueOf(acrobatics);
 	}
 	public int getTamingInt(){
-		if(isInt(taming)){
-			return Integer.parseInt(taming);
-		} else{
-			return 0;
-		}
+		return taming;
 	}
 	public int getMiningInt(){
-		if(isInt(mining)){
-			int x = Integer.parseInt(mining);
-			return x;
-		} else{
-			return 0;
-		}
+		return mining;
 	}
 	public int getUnarmedInt(){
-		if(isInt(unarmed)){
-			int x = Integer.parseInt(unarmed);
-			return x;
-		} else{
-			return 0;
-		}
+		return unarmed;
 	}
 	public int getArcheryInt(){
-		if(isInt(archery)){
-			int x = Integer.parseInt(archery);
-			return x;
-		} else{
-			return 0;
-		}
+		return archery;
 	}
 	public int getSwordsInt(){
-		if(isInt(swords)){
-			int x = Integer.parseInt(swords);
-			return x;
-		} else{
-			return 0;
-		}
+		return swords;
 	}
 	public int getAxesInt(){
-		if(isInt(axes)){
-			int x = Integer.parseInt(axes);
-			return x;
-		} else{
-			return 0;
-		}
+		return axes;
 	}
 	public int getAcrobaticsInt(){
-		if(isInt(acrobatics)){
-			int x = Integer.parseInt(acrobatics);
-			return x;
-		} else{
-			return 0;
-		}
+		return acrobatics;
 	}
 	public int getHerbalismInt(){
-		if(isInt(herbalism)){
-			int x = Integer.parseInt(herbalism);
-			return x;
-		} else{
-			return 0;
-		}
+		return herbalism;
 	}
 	public int getExcavationInt(){
-		if(isInt(excavation)){
-			int x = Integer.parseInt(excavation);
-			return x;
-		} else{
-			return 0;
-		}
+		return excavation;
 	}
 	public int getRepairInt(){
-		if(isInt(repair)){
-			int x = Integer.parseInt(repair);
-			return x;
-		} else{
-			return 0;
-		}
+		return repair;
 	}
 	public int getWoodCuttingInt(){
-		if(isInt(woodcutting)){
-			int x = Integer.parseInt(woodcutting);
-			return x;
-		} else{
-			return 0;
-		}
+		return woodcutting;
 	}
 	public String getWoodCutting(){
-		if(woodcutting != null && !woodcutting.equals("") && !woodcutting.equals("null")){
-			return woodcutting;
-			} else {
-				return "0";
-			}
+		return String.valueOf(woodcutting);
 	}
 	/*
 	 * EXPERIENCE STUFF
 	 */
 	public void clearTamingXP(){
-		tamingXP = "0";
+		tamingXP = 0;
 	}
 	public void clearRepairXP(){
-		repairXP = "0";
+		repairXP = 0;
 	}
 	public void clearUnarmedXP(){
-		unarmedXP = "0";
+		unarmedXP = 0;
 	}
 	public void clearHerbalismXP(){
-		herbalismXP = "0";
+		herbalismXP = 0;
 	}
 	public void clearExcavationXP(){
-		excavationXP = "0";
+		excavationXP = 0;
 	}
 	public void clearArcheryXP(){
-		archeryXP = "0";
+		archeryXP = 0;
 	}
 	public void clearSwordsXP(){
-		swordsXP = "0";
+		swordsXP = 0;
 	}
 	public void clearAxesXP(){
-		axesXP = "0";
+		axesXP = 0;
 	}
 	public void clearAcrobaticsXP(){
-		acrobaticsXP = "0";
+		acrobaticsXP = 0;
+	}
+	public void addXP(String skillname, int newvalue)
+	{
+		if(skillname.toLowerCase().equals("taming"))
+			tamingXP += newvalue;
+		if(skillname.toLowerCase().equals("axes"))
+			axesXP += newvalue;
+		if(skillname.toLowerCase().equals("acrobatics"))
+			acrobaticsXP += newvalue;
+		if(skillname.toLowerCase().equals("swords"))
+			swordsXP += newvalue;
+		if(skillname.toLowerCase().equals("archery"))
+			archeryXP += newvalue;
+		if(skillname.toLowerCase().equals("repair"))
+			repairXP += newvalue;
+		if(skillname.toLowerCase().equals("mining"))
+			miningXP += newvalue;
+		if(skillname.toLowerCase().equals("unarmed"))
+			unarmedXP += newvalue;
+		if(skillname.toLowerCase().equals("herbalism"))
+			herbalismXP += newvalue;
+		if(skillname.toLowerCase().equals("excavation"))
+			excavationXP += newvalue;
+		if(skillname.toLowerCase().equals("woodcutting"))
+			woodcuttingXP += newvalue;
+		if(skillname.toLowerCase().equals("all")){
+			tamingXP += newvalue;
+			miningXP += newvalue;
+			woodcuttingXP += newvalue;
+			repairXP += newvalue;
+			herbalismXP += newvalue;
+			acrobaticsXP += newvalue;
+			swordsXP += newvalue;
+			archeryXP += newvalue;
+			unarmedXP += newvalue;
+			excavationXP += newvalue;
+			axesXP += newvalue;
+		}
+		save();
 	}
 	public void addTamingXP(int newXP)
 	{
-		int x = 0;
-		if(isInt(tamingXP)){
-		x = Integer.parseInt(tamingXP);
-		}
-		x += newXP;
-		tamingXP = String.valueOf(x);
-		save();
+		addXP("taming", newXP);
 	}
 	public void addAcrobaticsXP(int newXP)
 	{
-		int x = 0;
-		if(isInt(acrobaticsXP)){
-		x = Integer.parseInt(acrobaticsXP);
-		}
-		x += newXP;
-		acrobaticsXP = String.valueOf(x);
-		save();
+		addXP("acrobatics", newXP);
 	}
 	public void addAxesXP(int newXP)
 	{
-		int x = 0;
-		if(isInt(axesXP)){
-		x = Integer.parseInt(axesXP);
-		}
-		x += newXP;
-		axesXP = String.valueOf(x);
-		save();
+		addXP("axes", newXP);
 	}
 	public void addSwordsXP(int newXP)
 	{
-		int x = 0;
-		if(isInt(swordsXP)){
-		x = Integer.parseInt(swordsXP);
-		}
-		x += newXP;
-		swordsXP = String.valueOf(x);
-		save();
+		addXP("swords", newXP);
 	}
 	public void addArcheryXP(int newXP)
 	{
-		int x = 0;
-		if(isInt(archeryXP)){
-		x = Integer.parseInt(archeryXP);
-		}
-		x += newXP;
-		archeryXP = String.valueOf(x);
-		save();
+		addXP("archery", newXP);
 	}
 	public void addExcavationXP(int newXP)
 	{
-		int x = 0;
-		if(isInt(excavationXP)){
-		x = Integer.parseInt(excavationXP);
-		}
-		x += newXP;
-		excavationXP = String.valueOf(x);
-		save();
+		addXP("excavation", newXP);
 	}
 	public void addHerbalismXP(int newXP)
 	{
-		int x = 0;
-		if(isInt(herbalismXP)){
-		x = Integer.parseInt(herbalismXP);
-		}
-		x += newXP;
-		herbalismXP = String.valueOf(x);
-		save();
+		addXP("herbalism", newXP);
 	}
 	public void addRepairXP(int newXP)
 	{
-		int x = 0;
-		if(isInt(repairXP)){
-		x = Integer.parseInt(repairXP);
-		}
-		x += newXP;
-		repairXP = String.valueOf(x);
-		save();
+		addXP("repair", newXP);
 	}
 	public void addUnarmedXP(int newXP)
 	{
-		int x = 0;
-		if(isInt(unarmedXP)){
-		x = Integer.parseInt(unarmedXP);
-		}
-		x += newXP;
-		unarmedXP = String.valueOf(x);
-		save();
+		addXP("unarmed", newXP);
 	}
 	public void addWoodcuttingXP(int newXP)
 	{
-		int x = 0;
-		if(isInt(woodCuttingXP)){
-		x = Integer.parseInt(woodCuttingXP);
-		}
-		x += newXP;
-		woodCuttingXP = String.valueOf(x);
-		save();
-	}
-	public void removeTamingXP(int newXP){
-		int x = 0;
-		if(isInt(tamingXP)){
-		x = Integer.parseInt(tamingXP);
-		}
-		x -= newXP;
-		tamingXP = String.valueOf(x);
-		save();
-	}
-	public void removeWoodCuttingXP(int newXP){
-		int x = 0;
-		if(isInt(woodCuttingXP)){
-		x = Integer.parseInt(woodCuttingXP);
-		}
-		x -= newXP;
-		woodCuttingXP = String.valueOf(x);
-		save();
+		addXP("woodcutting", newXP);
 	}
 	public void addMiningXP(int newXP)
 	{
-		int x = 0;
-		if(isInt(miningXP)){
-		x = Integer.parseInt(miningXP);
-		} else {
-			x = 0;
-		}
-		x += newXP;
-		miningXP = String.valueOf(x);
+		addXP("mining", newXP);
+	}
+	public void removeXP(String skillname, int newvalue)
+	{
+		if(skillname.toLowerCase().equals("taming"))
+			tamingXP -= newvalue;
+		if(skillname.toLowerCase().equals("axes"))
+			axesXP -= newvalue;
+		if(skillname.toLowerCase().equals("acrobatics"))
+			acrobaticsXP -= newvalue;
+		if(skillname.toLowerCase().equals("swords"))
+			swordsXP -= newvalue;
+		if(skillname.toLowerCase().equals("archery"))
+			archeryXP -= newvalue;
+		if(skillname.toLowerCase().equals("repair"))
+			repairXP -= newvalue;
+		if(skillname.toLowerCase().equals("mining"))
+			miningXP -= newvalue;
+		if(skillname.toLowerCase().equals("unarmed"))
+			unarmedXP -= newvalue;
+		if(skillname.toLowerCase().equals("herbalism"))
+			herbalismXP -= newvalue;
+		if(skillname.toLowerCase().equals("excavation"))
+			excavationXP -= newvalue;
+		if(skillname.toLowerCase().equals("woodcutting"))
+			woodcuttingXP -= newvalue;
 		save();
 	}
+	public void removeTamingXP(int newXP){
+		removeXP("taming", newXP);
+	}
+	public void removeWoodCuttingXP(int newXP){
+		removeXP("woodcutting", newXP);
+	}
+	
 	public void removeMiningXP(int newXP){
-		int x = 0;
-		if(isInt(miningXP)){
-		x = Integer.parseInt(miningXP);
-		}
-		x -= newXP;
-		miningXP = String.valueOf(x);
-		save();
+		removeXP("mining", newXP);
 	}
 	public void removeRepairXP(int newXP){
-		int x = 0;
-		if(isInt(repairXP)){
-		x = Integer.parseInt(repairXP);
-		}
-		x -= newXP;
-		repairXP = String.valueOf(x);
-		save();
+		removeXP("repair", newXP);
 	}
 	public void removeUnarmedXP(int newXP){
-		int x = 0;
-		if(isInt(unarmedXP)){
-		x = Integer.parseInt(unarmedXP);
-		}
-		x -= newXP;
-		unarmedXP = String.valueOf(x);
-		save();
+		removeXP("unarmed", newXP);
 	}
 	public void removeHerbalismXP(int newXP){
-		int x = 0;
-		if(isInt(herbalismXP)){
-		x = Integer.parseInt(herbalismXP);
-		}
-		x -= newXP;
-		herbalismXP = String.valueOf(x);
-		save();
+		removeXP("herbalism", newXP);
 	}
 	public void removeExcavationXP(int newXP){
-		int x = 0;
-		if(isInt(excavationXP)){
-		x = Integer.parseInt(excavationXP);
-		}
-		x -= newXP;
-		excavationXP = String.valueOf(x);
-		save();
+		removeXP("excavation", newXP);
 	}
 	public void removeArcheryXP(int newXP){
-		int x = 0;
-		if(isInt(archeryXP)){
-		x = Integer.parseInt(archeryXP);
-		}
-		x -= newXP;
-		archeryXP = String.valueOf(x);
-		save();
+		removeXP("archery", newXP);
 	}
 	public void removeSwordsXP(int newXP){
-		int x = 0;
-		if(isInt(swordsXP)){
-		x = Integer.parseInt(swordsXP);
-		}
-		x -= newXP;
-		swordsXP = String.valueOf(x);
-		save();
+		removeXP("swords", newXP);
 	}
 	public void removeAxesXP(int newXP){
-		int x = 0;
-		if(isInt(axesXP)){
-		x = Integer.parseInt(axesXP);
-		}
-		x -= newXP;
-		axesXP = String.valueOf(x);
-		save();
+		removeXP("axes", newXP);
 	}
 	public void removeAcrobaticsXP(int newXP){
-		int x = 0;
-		if(isInt(acrobaticsXP)){
-		x = Integer.parseInt(acrobaticsXP);
-		}
-		x -= newXP;
-		acrobaticsXP = String.valueOf(x);
-		save();
+		removeXP("acrobatics", newXP);
 	}
 
 	public boolean isInt(String string){
@@ -1351,294 +1026,143 @@ public class PlayerProfile
 	public void modifyInvite(String invitename){
 		invite = invitename;
 	}
-	//Returns player XP
+	public String getInvite() { return invite; }
+	
 	public String getTamingXP(){
-		if(tamingXP != null && !tamingXP.equals("") && !tamingXP.equals("null")){
-			return tamingXP;
-			} else {
-				return "0";
-			}
+		return String.valueOf(tamingXP);
 	}
 	public String getMiningXP(){
-		if(miningXP != null && !miningXP.equals("") && !miningXP.equals("null")){
-			return miningXP;
-			} else {
-				return "0";
-			}
+		return String.valueOf(miningXP);
 	}
-	public String getInvite() { return invite; }
+	
 	public String getWoodCuttingXP(){
-		if(woodCuttingXP != null && !woodCuttingXP.equals("") && !woodCuttingXP.equals("null")){
-			return woodCuttingXP;
-			} else {
-				return "0";
-			}
+		return String.valueOf(woodcuttingXP);
 	}
 	public String getRepairXP(){
-		if(repairXP != null && !repairXP.equals("") && !repairXP.equals("null")){
-			return repairXP;
-			} else {
-				return "0";
-			}
+		return String.valueOf(repairXP);
 	}
 	public String getHerbalismXP(){
-		if(herbalismXP != null && !herbalismXP.equals("") && !herbalismXP.equals("null")){
-			return herbalismXP;
-			} else {
-				return "0";
-			}
+		return String.valueOf(herbalismXP);
 	}
 	public String getExcavationXP(){
-		if(excavationXP != null && !excavationXP.equals("") && !excavationXP.equals("null")){
-			return excavationXP;
-			} else {
-				return "0";
-			}
+		return String.valueOf(excavationXP);
 	}
 	public String getArcheryXP(){
-		if(archeryXP != null && !archeryXP.equals("") && !archeryXP.equals("null")){
-			return archeryXP;
-			} else {
-				return "0";
-			}
+		return String.valueOf(archeryXP);
 	}
 	public String getSwordsXP(){
-		if(swordsXP != null && !swordsXP.equals("") && !swordsXP.equals("null")){
-			return swordsXP;
-			} else {
-				return "0";
-			}
+		return String.valueOf(swordsXP);
 	}
 	public String getAxesXP(){
-		if(axesXP != null && !axesXP.equals("") && !axesXP.equals("null")){
-			return axesXP;
-			} else {
-				return "0";
-			}
+		return String.valueOf(axesXP);
 	}
 	public String getAcrobaticsXP(){
-		if(acrobaticsXP != null && !acrobaticsXP.equals("") && !acrobaticsXP.equals("null")){
-			return acrobaticsXP;
-			} else {
-				return "0";
-			}
+		return String.valueOf(acrobaticsXP);
 	}
 	public String getUnarmedXP(){
-		if(unarmedXP != null && !unarmedXP.equals("") && !unarmedXP.equals("null")){
-			return unarmedXP;
-			} else {
-				return "0";
-			}
+		return String.valueOf(unarmedXP);
 	}
 	public int getTamingXPInt() {
-		if(isInt(tamingXP)){
-		return Integer.parseInt(tamingXP);
-		} else {
-			tamingXP = "0";
-			save();
-			return 0;
-		}
+		return tamingXP;
 	}
 	public int getWoodCuttingXPInt() {
-		if(isInt(woodCuttingXP)){
-		return Integer.parseInt(woodCuttingXP);
-		} else {
-			woodCuttingXP = "0";
-			save();
-			return 0;
-		}
+		return woodcuttingXP;
 	}
 	public int getRepairXPInt() {
-		if(isInt(repairXP)){
-		return Integer.parseInt(repairXP);
-		} else {
-			repairXP = "0";
-			save();
-			return 0;
-		}
+		return repairXP;
 	}
 	public int getUnarmedXPInt() {
-		if(isInt(unarmedXP)){
-		return Integer.parseInt(unarmedXP);
-		} else {
-			unarmedXP = "0";
-			save();
-			return 0;
-		}
+		return unarmedXP;
 	}
 	public int getHerbalismXPInt() {
-		if(isInt(herbalismXP)){
-		return Integer.parseInt(herbalismXP);
-		} else {
-			herbalismXP = "0";
-			save();
-			return 0;
-		}
+		return herbalismXP;
 	}
 	public int getExcavationXPInt() {
-		if(isInt(excavationXP)){
-		return Integer.parseInt(excavationXP);
-		} else {
-			excavationXP = "0";
-			save();
-			return 0;
-		}
+		return excavationXP;
 	}
 	public int getArcheryXPInt() {
-		if(isInt(archeryXP)){
-		return Integer.parseInt(archeryXP);
-		} else {
-			archeryXP = "0";
-			save();
-			return 0;
-		}
+		return archeryXP;
 	}
 	public int getSwordsXPInt() {
-		if(isInt(swordsXP)){
-		return Integer.parseInt(swordsXP);
-		} else {
-			swordsXP = "0";
-			save();
-			return 0;
-		}
+		return swordsXP;
 	}
 	public int getAxesXPInt() {
-		if(isInt(axesXP)){
-		return Integer.parseInt(axesXP);
-		} else {
-			axesXP = "0";
-			save();
-			return 0;
-		}
+		return axesXP;
 	}
 	public int getAcrobaticsXPInt() {
-		if(isInt(acrobaticsXP)){
-		return Integer.parseInt(acrobaticsXP);
-		} else {
-			acrobaticsXP = "0";
-			save();
-			return 0;
-		}
+		return acrobaticsXP;
 	}
-	public void addXpToSkill(int newvalue, String skillname, Player targetPlayer){
-		if(!isInt(tamingXP))
-			tamingXP = String.valueOf(0);
-		if(!isInt(miningXP))
-			miningXP = String.valueOf(0);
-		if(!isInt(woodCuttingXP))
-			woodCuttingXP = String.valueOf(0);
-		if(!isInt(repairXP))
-			repairXP = String.valueOf(0);
-		if(!isInt(herbalismXP))
-			herbalismXP = String.valueOf(0);
-		if(!isInt(acrobaticsXP))
-			acrobaticsXP = String.valueOf(0);
-		if(!isInt(swordsXP))
-			swordsXP = String.valueOf(0);
-		if(!isInt(archeryXP))
-			archeryXP = String.valueOf(0);
-		if(!isInt(unarmedXP))
-			unarmedXP = String.valueOf(0);
-		if(!isInt(excavationXP))
-			excavationXP = String.valueOf(0);
-		if(!isInt(axesXP))
-			axesXP = String.valueOf(0);
-		
-		if(skillname.toLowerCase().equals("taming")){
-			tamingXP = String.valueOf(Integer.valueOf(tamingXP)+newvalue);
-		}
-		if(skillname.toLowerCase().equals("mining")){
-			miningXP = String.valueOf(Integer.valueOf(miningXP)+newvalue);
-		}
-		if(skillname.toLowerCase().equals("woodcutting")){
-			woodCuttingXP = String.valueOf(Integer.valueOf(woodCuttingXP)+newvalue);
-		}
-		if(skillname.toLowerCase().equals("repair")){
-			repairXP = String.valueOf(Integer.valueOf(repairXP)+newvalue);
-		}
-		if(skillname.toLowerCase().equals("herbalism")){
-			herbalismXP = String.valueOf(Integer.valueOf(herbalismXP)+newvalue);
-		}
-		if(skillname.toLowerCase().equals("acrobatics")){
-			acrobaticsXP = String.valueOf(Integer.valueOf(acrobaticsXP)+newvalue);
-		}
-		if(skillname.toLowerCase().equals("swords")){
-			swordsXP = String.valueOf(Integer.valueOf(swordsXP)+newvalue);
-		}
-		if(skillname.toLowerCase().equals("archery")){
-			archeryXP = String.valueOf(Integer.valueOf(archeryXP)+newvalue);
-		}
-		if(skillname.toLowerCase().equals("unarmed")){
-			unarmedXP = String.valueOf(Integer.valueOf(unarmedXP)+newvalue);
-		}
-		if(skillname.toLowerCase().equals("excavation")){
-			excavationXP = String.valueOf(Integer.valueOf(excavationXP)+newvalue);
-		}
-		if(skillname.toLowerCase().equals("axes")){
-			axesXP = String.valueOf(Integer.valueOf(axesXP)+newvalue);
-		}
-		if(skillname.toLowerCase().equals("all")){
-			tamingXP = String.valueOf(getTamingXPInt()+newvalue);
-			miningXP = String.valueOf(getMiningXPInt()+newvalue);
-			woodCuttingXP = String.valueOf(getWoodCuttingXPInt()+newvalue);
-			repairXP = String.valueOf(getRepairXPInt()+newvalue);
-			herbalismXP = String.valueOf(getHerbalismXPInt()+newvalue);
-			acrobaticsXP = String.valueOf(getAcrobaticsXPInt()+newvalue);
-			swordsXP = String.valueOf(getSwordsXPInt()+newvalue);
-			archeryXP = String.valueOf(getArcheryXPInt()+newvalue);
-			unarmedXP = String.valueOf(getUnarmedXPInt()+newvalue);
-			excavationXP = String.valueOf(getExcavationXPInt()+newvalue);
-			axesXP = String.valueOf(getAxesXPInt()+newvalue);
-		}
-		save();
-		Skills.XpCheck(targetPlayer);
+	public int getMiningXPInt() {
+		return miningXP;
 	}
 	public void modifyskill(int newvalue, String skillname){
 		if(skillname.toLowerCase().equals("taming")){
-			 taming = String.valueOf(newvalue);
+			 taming = newvalue;
+			 tamingXP = 0;
 		}
 		if(skillname.toLowerCase().equals("mining")){
-			 mining = String.valueOf(newvalue);
+			 mining = newvalue;
+			 miningXP = 0;
 		}
 		if(skillname.toLowerCase().equals("woodcutting")){
-			 woodcutting = String.valueOf(newvalue);
+			 woodcutting = newvalue;
+			 woodcuttingXP = 0;
 		}
 		if(skillname.toLowerCase().equals("repair")){
-			 repair = String.valueOf(newvalue);
+			 repair = newvalue;
+			 repairXP = 0;
 		}
 		if(skillname.toLowerCase().equals("herbalism")){
-			 herbalism = String.valueOf(newvalue);
+			 herbalism = newvalue;
+			 herbalismXP = 0;
 		}
 		if(skillname.toLowerCase().equals("acrobatics")){
-			 acrobatics = String.valueOf(newvalue);
+			 acrobatics = newvalue;
+			 acrobaticsXP = 0;
 		}
 		if(skillname.toLowerCase().equals("swords")){
-			 swords = String.valueOf(newvalue);
+			 swords = newvalue;
+			 swordsXP = 0;
 		}
 		if(skillname.toLowerCase().equals("archery")){
-			 archery = String.valueOf(newvalue);
+			 archery = newvalue;
+			 archeryXP = 0;
 		}
 		if(skillname.toLowerCase().equals("unarmed")){
-			 unarmed = String.valueOf(newvalue);
+			 unarmed = newvalue;
+			 unarmedXP = 0;
 		}
 		if(skillname.toLowerCase().equals("excavation")){
-			 excavation = String.valueOf(newvalue);
+			 excavation = newvalue;
+			 excavationXP = 0;
 		}
 		if(skillname.toLowerCase().equals("axes")){
-			axes = String.valueOf(newvalue);
+			axes = newvalue;
+			axesXP = 0;
 		}
 		if(skillname.toLowerCase().equals("all")){
-			taming = String.valueOf(newvalue);
-			mining = String.valueOf(newvalue);
-			woodcutting = String.valueOf(newvalue);
-			repair = String.valueOf(newvalue);
-			herbalism = String.valueOf(newvalue);
-			acrobatics = String.valueOf(newvalue);
-			swords = String.valueOf(newvalue);
-			archery = String.valueOf(newvalue);
-			unarmed = String.valueOf(newvalue);
-			excavation = String.valueOf(newvalue);
-			axes = String.valueOf(newvalue);
+			taming = newvalue;
+			tamingXP = 0;
+			mining = newvalue;
+			miningXP = 0;
+			woodcutting = newvalue;
+			woodcuttingXP = 0;
+			repair = newvalue;
+			repairXP = 0;
+			herbalism = newvalue;
+			herbalismXP = 0;
+			acrobatics = newvalue;
+			acrobaticsXP = 0;
+			swords = newvalue;
+			swordsXP = 0;
+			archery = newvalue;
+			archeryXP = 0;
+			unarmed = newvalue;
+			unarmedXP = 0;
+			excavation = newvalue;
+			excavationXP = 0;
+			axes = newvalue;
+			axesXP = 0;
 		}
 		save();
 	}
@@ -1679,15 +1203,7 @@ public class PlayerProfile
 			return 0;
 		}
 	}
-	public int getMiningXPInt() {
-		if(isInt(miningXP)){
-		return Integer.parseInt(miningXP);
-		} else {
-			miningXP = "0";
-			save();
-			return 0;
-		}
-	}
+	
             
            //Store the player's party
     public void setParty(String newParty)

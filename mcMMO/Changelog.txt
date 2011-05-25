@@ -1,11 +1,30 @@
 Changelog:
 #Versions without changelogs probably had very small misc fixes, like tweaks to the source code
+Version 1.0.09
+Fixed the NPE that occurs when players gain experience (Sorry!)
+Fixed bug where /myspawn & /clearmyspawn would work if MySpawn was disabled in the properties file
+Changed strings containing "MMO" to read "mcMMO"
+Removed a lot of unused or unnecessary variables from the PlayerProfiles in mcMMO, this should lower the memory footprint
+Added getXpToLevel() for modders
+
+Version 1.0.08
+Added removeXP() for modders
+Fixed bug where stone swords only repaired by 33% instead of 50%
+Fixed bug where stone/wooden hoes wouldn't repair
+Big overhaul to how skill values and xp values were handled in the code
+Modifying the players skill levels now sets the corresponding skill xp to zero
+Using Serrated Strikes/Skull Splitter on mobs should no longer harm nearby players when PVP is disabled
+Switching to another weapon after firing your bow should no longer trigger procs for that weapon when the arrow hits
+Slimes/Ghasts now give XP for combat skills
+Added "EnableHpRegeneration" property setting
+Added "EnableMySpawn" property setting
+
 Version 1.0.07
+Added more repair customization by solarcloud7
 Leaderboards ignore players with the respective stat at 0
 Reconnecting to MySQL will reload player data
 Fixed a NPE with MySQL's Leaderboards
 Removed "Loop iteration" debug message from mcMMO
-Added more repair customization by solarcloud7
 
 Version 1.0.06
 MySQL will attempt to reconnect if the connection is closed

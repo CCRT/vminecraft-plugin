@@ -211,7 +211,7 @@ public class mcPermissions {
             return true;
         }
     }
-    public static boolean repair(Player player) {
+    public boolean repair(Player player) {
         if (permissionsEnabled) {
             return permission(player, "mcmmo.skills.repair");
         } else {

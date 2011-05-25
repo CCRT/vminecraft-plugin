@@ -1,16 +1,12 @@
 package com.gmail.nossr50;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.HashMap;
 
-import org.bukkit.Location;
 import org.bukkit.entity.*;
-import org.bukkit.plugin.Plugin;
-
 import com.gmail.nossr50.datatypes.PlayerProfile;
 
 
@@ -96,8 +92,5 @@ public class Users {
 		}
 		return instance;
 	}
-    public static void getRow(){
-
-    }
 
 }

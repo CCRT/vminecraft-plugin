@@ -32,7 +32,6 @@ public class Unarmed {
 	    			if(y != null && y != player && m.getDistance(player.getLocation(), y.getLocation()) < 10)
 	    				y.sendMessage(ChatColor.GREEN+player.getName()+ChatColor.DARK_GREEN+" has used "+ChatColor.RED+"Berserk!");
 	    		}
-	    		PP.setBerserkTicks(ticks * 1000);
 	    		PP.setBerserkActivatedTimeStamp(System.currentTimeMillis());
 	    		PP.setBerserkDeactivatedTimeStamp(System.currentTimeMillis() + (ticks * 1000));
 	    		PP.setBerserkMode(true);

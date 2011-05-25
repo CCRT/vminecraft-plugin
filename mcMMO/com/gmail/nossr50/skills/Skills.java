@@ -6,12 +6,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
-
 import com.gmail.nossr50.Leaderboard;
 import com.gmail.nossr50.Users;
 import com.gmail.nossr50.m;
-import com.gmail.nossr50.mcMMO;
 import com.gmail.nossr50.mcPermissions;
 import com.gmail.nossr50.config.Config;
 import com.gmail.nossr50.config.LoadProperties;
@@ -21,7 +18,6 @@ import com.gmail.nossr50.datatypes.PlayerStat;
 
 public class Skills {
 	
-	private static volatile Skills instance;
 	protected static final Logger log = Logger.getLogger("Minecraft");
 	
 	public void updateSQLfromFile(Player player){
@@ -152,7 +148,7 @@ public class Skills {
 		 * HERBALISM ABILITY
 		 */
 		if(mcPermissions.getInstance().herbalismAbility(player)){
-			if(PP.getGreenTerraMode() && PP.getGreenTerraActivatedTimeStamp() + PP.getGreenTerraTicks() <= System.currentTimeMillis()){
+			if(PP.getGreenTerraMode() && PP.getGreenTerraDeactivatedTimeStamp() <= System.currentTimeMillis()){
 					PP.setGreenTerraMode(false);
 					PP.setGreenTerraInformed(false);
 					player.sendMessage(ChatColor.RED+"**Green Terra has worn off**");
@@ -162,7 +158,7 @@ public class Skills {
 		 * AXES ABILITY
 		 */
 		if(mcPermissions.getInstance().axesAbility(player)){
-			if(PP.getSkullSplitterMode() && PP.getSkullSplitterActivatedTimeStamp() + PP.getSkullSplitterTicks() <= System.currentTimeMillis()){
+			if(PP.getSkullSplitterMode() && PP.getSkullSplitterDeactivatedTimeStamp() <= System.currentTimeMillis()){
 					PP.setSkullSplitterMode(false);
 					PP.setSkullSplitterInformed(false);
 					player.sendMessage(ChatColor.RED+"**Skull Splitter has worn off**");
@@ -172,7 +168,7 @@ public class Skills {
 		 * WOODCUTTING ABILITY
 		 */
 		if(mcPermissions.getInstance().woodCuttingAbility(player)){
-			if(PP.getTreeFellerMode() && PP.getTreeFellerActivatedTimeStamp() + PP.getTreeFellerTicks() <= System.currentTimeMillis()){
+			if(PP.getTreeFellerMode() && PP.getTreeFellerDeactivatedTimeStamp() <= System.currentTimeMillis()){
 					PP.setTreeFellerMode(false);
 					PP.setTreeFellerInformed(false);
 					player.sendMessage(ChatColor.RED+"**Tree Feller has worn off**");
@@ -182,7 +178,7 @@ public class Skills {
 		 * MINING ABILITY
 		 */
 		if(mcPermissions.getInstance().miningAbility(player)){
-			if(PP.getSuperBreakerMode() && PP.getSuperBreakerActivatedTimeStamp() + PP.getSuperBreakerTicks() <= System.currentTimeMillis()){
+			if(PP.getSuperBreakerMode() && PP.getSuperBreakerDeactivatedTimeStamp() <= System.currentTimeMillis()){
 					PP.setSuperBreakerMode(false);
 					PP.setSuperBreakerInformed(false);
 					player.sendMessage(ChatColor.RED+"**Super Breaker has worn off**");
@@ -192,7 +188,7 @@ public class Skills {
 		 * EXCAVATION ABILITY
 		 */
 		if(mcPermissions.getInstance().excavationAbility(player)){
-			if(PP.getGigaDrillBreakerMode() && PP.getGigaDrillBreakerActivatedTimeStamp() + PP.getGigaDrillBreakerTicks() <= System.currentTimeMillis()){
+			if(PP.getGigaDrillBreakerMode() && PP.getGigaDrillBreakerDeactivatedTimeStamp() <= System.currentTimeMillis()){
 					PP.setGigaDrillBreakerMode(false);
 					PP.setGigaDrillBreakerInformed(false);
 					player.sendMessage(ChatColor.RED+"**Giga Drill Breaker has worn off**");
@@ -202,7 +198,7 @@ public class Skills {
 		 * SWORDS ABILITY
 		 */
 		if(mcPermissions.getInstance().swordsAbility(player)){
-			if(PP.getSerratedStrikesMode() && PP.getSerratedStrikesActivatedTimeStamp() + PP.getSerratedStrikesTicks() <= System.currentTimeMillis()){
+			if(PP.getSerratedStrikesMode() && PP.getSerratedStrikesDeactivatedTimeStamp() <= System.currentTimeMillis()){
 					PP.setSerratedStrikesMode(false);
 					PP.setSerratedStrikesInformed(false);
 					player.sendMessage(ChatColor.RED+"**Serrated Strikes has worn off**");
@@ -212,7 +208,7 @@ public class Skills {
 		 * UNARMED ABILITY
 		 */
 		if(mcPermissions.getInstance().unarmedAbility(player)){
-			if(PP.getBerserkMode() && PP.getBerserkActivatedTimeStamp() + PP.getBerserkTicks() <= System.currentTimeMillis()){
+			if(PP.getBerserkMode() && PP.getBerserkDeactivatedTimeStamp() <= System.currentTimeMillis()){
 					PP.setBerserkMode(false);
 					PP.setBerserkInformed(false);
 					player.sendMessage(ChatColor.RED+"**Berserk has worn off**");

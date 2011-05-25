@@ -16,7 +16,6 @@ import com.gmail.nossr50.Users;
 import com.gmail.nossr50.m;
 import com.gmail.nossr50.mcPermissions;
 import com.gmail.nossr50.config.Config;
-import com.gmail.nossr50.config.LoadProperties;
 import com.gmail.nossr50.datatypes.PlayerProfile;
 import com.gmail.nossr50.party.Party;
 
@@ -35,13 +34,12 @@ public class Swords {
     			ticks++;
     		}
     		
-	    	if(!PP.getSerratedStrikesMode() && PP.getSerratedStrikesCooldown() == 0){
+	    	if(!PP.getSerratedStrikesMode() && PP.getSerratedStrikesDeactivatedTimeStamp() < System.currentTimeMillis()){
 	    		player.sendMessage(ChatColor.GREEN+"**SERRATED STRIKES ACTIVATED**");
 	    		for(Player y : pluginx.getServer().getOnlinePlayers()){
 	    			if(y != null && y != player && m.getDistance(player.getLocation(), y.getLocation()) < 10)
 	    				y.sendMessage(ChatColor.GREEN+player.getName()+ChatColor.DARK_GREEN+" has used "+ChatColor.RED+"Serrated Strikes!");
 	    		}
-	    		PP.setSerratedStrikesTicks((ticks * 2) * 1000);
 	    		PP.setSerratedStrikesActivatedTimeStamp(System.currentTimeMillis());
 	    		PP.setSerratedStrikesDeactivatedTimeStamp(System.currentTimeMillis() + (ticks * 1000));
 	    		PP.setSerratedStrikesMode(true);
@@ -88,7 +86,7 @@ public class Swords {
     	for(Entity derp : x.getWorld().getEntities())
     	{
     		if(m.getDistance(x.getLocation(), derp.getLocation()) < 5){
-    			if(derp instanceof Player){
+    			if(derp instanceof Player && Combat.pvpAllowed(event, derp.getWorld())){
     				Player target = (Player)derp;
     				if(Party.getInstance().inSameParty(attacker, target))
     					continue;
