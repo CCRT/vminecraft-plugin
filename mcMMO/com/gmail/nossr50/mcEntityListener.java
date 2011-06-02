@@ -2,7 +2,6 @@ package com.gmail.nossr50;
 
 import net.minecraft.server.EntityLiving;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
@@ -95,7 +94,7 @@ public class mcEntityListener extends EntityListener {
 							if(event.getDamage() < ((Wolf) event.getEntity()).getHealth())
 							{
 								event.getEntity().teleport(Taming.getOwner(event.getEntity(), plugin).getLocation());
-								master.sendMessage(ChatColor.DARK_GRAY+"Your wolf scurries back to you...");
+								master.sendMessage(Messages.getString("mcEntityListener.WolfComesBack")); //$NON-NLS-1$
 								event.getEntity().setFireTicks(0);
 							}
 						}

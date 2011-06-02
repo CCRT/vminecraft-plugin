@@ -1,6 +1,5 @@
 package com.gmail.nossr50;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Animals;
@@ -131,12 +130,12 @@ public class Combat {
 	      				event.setCancelled(true);
 	      			if(attacker.getItemInHand().getTypeId() == 352 && mcPermissions.getInstance().taming(attacker))
 	      			{
-		      			attacker.sendMessage(ChatColor.GREEN+"**You examine the Wolf using Beast Lore**");
+		      			attacker.sendMessage(Messages.getString("Combat.WolfExamine")); //$NON-NLS-1$
 		      			if(Taming.getOwnerName(event.getEntity()) != null)
-		      				attacker.sendMessage(ChatColor.DARK_GREEN+"The Beast's Master : "+Taming.getOwnerName(event.getEntity()));
+		      				attacker.sendMessage(Messages.getString("Combat.WolfShowMaster", new Object[] {Taming.getOwnerName(event.getEntity())})); //$NON-NLS-1$
 		      			else
-		      				attacker.sendMessage(ChatColor.GRAY+"This Beast has no Master...");
-		      			attacker.sendMessage(ChatColor.GREEN+"This beast has "+((Wolf)event.getEntity()).getHealth()+" Health");
+		      				attacker.sendMessage(Messages.getString("Combat.WolfNoMaster")); //$NON-NLS-1$
+		      			attacker.sendMessage(Messages.getString("Combat.WolfHealth", new Object[] {((Wolf)event.getEntity()).getHealth()})); //$NON-NLS-1$ //$NON-NLS-2$
 		      			event.setCancelled(true);
 	      			}
 	      		}
@@ -168,13 +167,13 @@ public class Combat {
 						if(event.getEntity() instanceof Player)
 						{
 							Player target = (Player)event.getEntity();
-							target.sendMessage(ChatColor.RED+"**STRUCK BY GORE**");
+							target.sendMessage(Messages.getString("Combat.StruckByGore")); //$NON-NLS-1$
 							Users.getProfile(target).setBleedTicks(2);
 						}
 						else
 							Config.getInstance().addToBleedQue(event.getEntity());
 						
-						master.sendMessage(ChatColor.GREEN+"**GORE**");
+						master.sendMessage(Messages.getString("Combat.Gore")); //$NON-NLS-1$
 					}
 				}
 			}
@@ -238,7 +237,7 @@ public class Combat {
 	public static void archeryCheck(EntityDamageByProjectileEvent event){
     	Entity y = event.getDamager();
     	Entity x = event.getEntity();
-    	if(event.getProjectile().toString().equals("CraftArrow") && x instanceof Player){
+    	if(event.getProjectile().toString().equals("CraftArrow") && x instanceof Player){ //$NON-NLS-1$
     		Player defender = (Player)x;
     		PlayerProfile PPd = Users.getProfile(defender);
     		if(PPd == null)
@@ -247,12 +246,12 @@ public class Combat {
 	    		if(defender != null && PPd.getUnarmedInt() >= 1000){
 	    			if(Math.random() * 1000 <= 500){
 	    				event.setCancelled(true);
-	    				defender.sendMessage(ChatColor.WHITE+"**ARROW DEFLECT**");
+	    				defender.sendMessage(Messages.getString("Combat.ArrowDeflect")); //$NON-NLS-1$
 	    				return;
 	    			}
 	    		} else if(defender != null && Math.random() * 1000 <= (PPd.getUnarmedInt() / 2)){
 	    			event.setCancelled(true);
-	    			defender.sendMessage(ChatColor.WHITE+"**ARROW DEFLECT**");
+	    			defender.sendMessage(Messages.getString("Combat.ArrowDeflect")); //$NON-NLS-1$
 	    			return;
 	    		}
     		}
@@ -263,7 +262,7 @@ public class Combat {
     	if(y instanceof Player){
     		Player attacker = (Player)y;
     		PlayerProfile PPa = Users.getProfile(attacker);
-    		if(event.getProjectile().toString().equals("CraftArrow") && mcPermissions.getInstance().archery(attacker)){
+    		if(event.getProjectile().toString().equals("CraftArrow") && mcPermissions.getInstance().archery(attacker)){ //$NON-NLS-1$
     			if(!Config.getInstance().isTracked(x) && event.getDamage() > 0){
     				Config.getInstance().addArrowTrack(x, 0);
     				if(attacker != null){
@@ -315,12 +314,12 @@ public class Combat {
         				Player Defender = (Player)x;
         				if(!Party.getInstance().inSameParty(attacker, Defender)){
         					event.getEntity().setFireTicks(ignition);
-        					attacker.sendMessage(ChatColor.RED+"**IGNITION**");
-        					Defender.sendMessage(ChatColor.DARK_RED+"You were struck by a burning arrow!");
+        					attacker.sendMessage(Messages.getString("Combat.Ignition")); //$NON-NLS-1$
+        					Defender.sendMessage(Messages.getString("Combat.BurningArrowHit")); //$NON-NLS-1$
         				}
         			} else {
         			event.getEntity().setFireTicks(ignition);
-        			attacker.sendMessage(ChatColor.RED+"**IGNITION**");
+        			attacker.sendMessage(Messages.getString("Combat.Ignition")); //$NON-NLS-1$
         			}
         		}
     		/*
@@ -382,13 +381,13 @@ public class Combat {
     				if(PPa.getArcheryInt() >= 1000){
     	    			if(Math.random() * 1000 <= 500){
     	    				defender.teleport(loc);
-    	    				defender.sendMessage(ChatColor.DARK_RED+"Touched Fuzzy. Felt Dizzy.");
-    	    				attacker.sendMessage("Target was "+ChatColor.DARK_RED+"Dazed");
+    	    				defender.sendMessage(Messages.getString("Combat.TouchedFuzzy")); //$NON-NLS-1$
+    	    				attacker.sendMessage(Messages.getString("Combat.TargetDazed")); //$NON-NLS-1$ //$NON-NLS-2$
     	    			}
     	    		} else if(Math.random() * 2000 <= PPa.getArcheryInt()){
     	    			defender.teleport(loc);
-	    				defender.sendMessage(ChatColor.DARK_RED+"Touched Fuzzy. Felt Dizzy.");
-	    				attacker.sendMessage("Target was "+ChatColor.DARK_RED+"Dazed");
+	    				defender.sendMessage(Messages.getString("Combat.TouchedFuzzy")); //$NON-NLS-1$
+	    				attacker.sendMessage(Messages.getString("Combat.TargetDazed")); //$NON-NLS-1$ //$NON-NLS-2$
     	    		}
     			}
     		}
