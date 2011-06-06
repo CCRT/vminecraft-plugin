@@ -1,7 +1,5 @@
 package com.gmail.nossr50;
 
-import org.bukkit.ChatColor;
-
 import com.gmail.nossr50.config.LoadProperties;
 import com.gmail.nossr50.datatypes.PlayerProfile;
 import org.bukkit.Material;
@@ -43,7 +41,7 @@ public class mcBlockListener extends BlockListener {
     			Config.getInstance().addBlockWatch(block);
     	}
     	if(block.getTypeId() == 42 && LoadProperties.anvilmessages)
-    		event.getPlayer().sendMessage(ChatColor.DARK_RED+"You have placed an anvil, anvils can repair tools and armor.");
+    		event.getPlayer().sendMessage(Messages.getString("mcBlockListener.PlacedAnvil")); //$NON-NLS-1$
     }
     
     public void onBlockBreak(BlockBreakEvent event) {

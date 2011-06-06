@@ -24,13 +24,13 @@ import org.bukkit.entity.Player;
 
 
 public class mcMMO extends JavaPlugin {
-	public static String maindirectory = "plugins/mcMMO/";
-	static File Properties = new File(maindirectory + "mcmmo.properties");
-    public static final Logger log = Logger.getLogger("Minecraft");
+	public static String maindirectory = "plugins/mcMMO/"; //$NON-NLS-1$
+	static File Properties = new File(maindirectory + "mcmmo.properties"); //$NON-NLS-1$
+    public static final Logger log = Logger.getLogger("Minecraft"); //$NON-NLS-1$
     private final mcPlayerListener playerListener = new mcPlayerListener(this);
     private final mcBlockListener blockListener = new mcBlockListener(this);
     private final mcEntityListener entityListener = new mcEntityListener(this);
-    private final String name = "mcMMO";
+    private final String name = "mcMMO"; //$NON-NLS-1$
     public static PermissionHandler PermissionsHandler = null;
     private Permissions permissions;
     private Timer mcMMO_Timer = new Timer(true);
@@ -72,7 +72,7 @@ public class mcMMO extends JavaPlugin {
         if(!LoadProperties.useMySQL)
         	Leaderboard.makeLeaderboards(); //Make the leaderboards
         for(Player player : getServer().getOnlinePlayers()){Users.addUser(player);} //In case of reload add all users back into PlayerProfile
-        System.out.println(pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!" );
+        System.out.println(pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!" ); //$NON-NLS-1$ //$NON-NLS-2$
         mcMMO_Timer.schedule(new mcTimer(this), (long)0, (long)(1000));
     }
     
@@ -85,12 +85,12 @@ public class mcMMO extends JavaPlugin {
     }
     
     public void setupPermissions() {
-    	Plugin test = this.getServer().getPluginManager().getPlugin("Permissions");
+    	Plugin test = this.getServer().getPluginManager().getPlugin("Permissions"); //$NON-NLS-1$
     	if(this.PermissionsHandler == null) {
     	    if(test != null) {
     		this.PermissionsHandler = ((Permissions)test).getHandler();
     	    } else {
-    		log.info(Messaging.bracketize(name) + " Permission system not enabled. Disabling plugin.");
+    		log.info(Messaging.bracketize(name) + " Permission system not enabled. Disabling plugin."); //$NON-NLS-1$
     		this.getServer().getPluginManager().disablePlugin(this);
     	    }
     	}
@@ -131,16 +131,16 @@ public class mcMMO extends JavaPlugin {
     	PP.modifyskill(newvalue, skillname);
     }
     public ArrayList<String> getParties(){
-    	String location = "plugins/mcMMO/mcmmo.users";
+    	String location = "plugins/mcMMO/mcmmo.users"; //$NON-NLS-1$
 		ArrayList<String> parties = new ArrayList<String>();
 		try {
         	//Open the users file
         	FileReader file = new FileReader(location);
         	BufferedReader in = new BufferedReader(file);
-        	String line = "";
+        	String line = ""; //$NON-NLS-1$
         	while((line = in.readLine()) != null)
         	{
-        		String[] character = line.split(":");
+        		String[] character = line.split(":"); //$NON-NLS-1$
         		String theparty = null;
     			//Party
     			if(character.length > 3)
@@ -150,8 +150,8 @@ public class mcMMO extends JavaPlugin {
         	}
         	in.close();
         } catch (Exception e) {
-            log.log(Level.SEVERE, "Exception while reading "
-            		+ location + " (Are you sure you formatted it correctly?)", e);
+            log.log(Level.SEVERE, "Exception while reading " //$NON-NLS-1$
+            		+ location + " (Are you sure you formatted it correctly?)", e); //$NON-NLS-1$
         }
         return parties;
 	}
@@ -174,6 +174,6 @@ public class mcMMO extends JavaPlugin {
     	return permissions;
     	}
     public void onDisable() {
-        System.out.println("mcMMO was disabled.");
+        System.out.println("mcMMO was disabled."); //$NON-NLS-1$
     }
 }
