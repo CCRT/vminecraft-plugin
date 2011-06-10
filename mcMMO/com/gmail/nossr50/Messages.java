@@ -24,13 +24,13 @@ public class Messages {
 	public static String getString(String key, Object[] messageArguments) {
 		try {
 			if (RESOURCE_BUNDLE == null) {
+				String myLocale = LoadProperties.locale.toLowerCase();
 				try {
-					// attempt to get the locale denoted
-					String[] myLocale = LoadProperties.locale.split("_");
-					RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME, new Locale(myLocale[0], myLocale[1]));
+					//attempt to get the locale denoted
+					RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME, new Locale(myLocale));
 				} catch (MissingResourceException e) {
-					// otherwise use EN_US
-					RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME, new Locale("en_US"));
+					System.out.println("Failed to load locale specified by mcmmo.properties '"+myLocale+"', defaulting to en_us");
+					RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME, new Locale("en_us"));
 				}
 			}
 			

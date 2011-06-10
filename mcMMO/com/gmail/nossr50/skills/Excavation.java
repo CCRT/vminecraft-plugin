@@ -8,9 +8,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import com.gmail.nossr50.Messages;
 import com.gmail.nossr50.Users;
 import com.gmail.nossr50.m;
-import com.gmail.nossr50.mcMMO;
 import com.gmail.nossr50.config.LoadProperties;
 import com.gmail.nossr50.datatypes.PlayerProfile;
 
@@ -34,10 +34,10 @@ public class Excavation {
     		}
     		
 	    	if(!PP.getGigaDrillBreakerMode() && PP.getGigaDrillBreakerDeactivatedTimeStamp() < System.currentTimeMillis()){
-	    		player.sendMessage(ChatColor.GREEN+"**GIGA DRILL BREAKER ACTIVATED**");
+	    		player.sendMessage(Messages.getString("Skills.GigaDrillBreakerOn"));
 	    		for(Player y : pluginx.getServer().getOnlinePlayers()){
 	    			if(y != null && y != player && m.getDistance(player.getLocation(), y.getLocation()) < 10)
-	    				y.sendMessage(ChatColor.GREEN+player.getName()+ChatColor.DARK_GREEN+" has used "+ChatColor.RED+"Giga Drill Breaker!");
+	    				y.sendMessage(Messages.getString("Skills.GigaDrillBreakerPlayer", new Object[] {player.getName()}));
 	    		}
 	    		PP.setGigaDrillBreakerActivatedTimeStamp(System.currentTimeMillis());
 	    		PP.setGigaDrillBreakerDeactivatedTimeStamp(System.currentTimeMillis() + (ticks * 1000));

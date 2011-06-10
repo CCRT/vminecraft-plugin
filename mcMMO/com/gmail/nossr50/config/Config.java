@@ -19,7 +19,6 @@ public class Config {
     HashMap<Entity, Integer> arrowTracker = new HashMap<Entity, Integer>();
     static ArrayList<Entity> bleedTracker = new ArrayList<Entity>();
     static ArrayList<Entity> mobSpawnTracker = new ArrayList<Entity>();
-    
     /*
      * The Bleed Que Stuff
      */

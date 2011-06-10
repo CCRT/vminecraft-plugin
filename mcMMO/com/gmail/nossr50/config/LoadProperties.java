@@ -3,7 +3,7 @@ package com.gmail.nossr50.config;
 import com.gmail.nossr50.mcMMO;
 
 public class LoadProperties {
-	public static Boolean enableMySpawn, enableRegen, enableCobbleToMossy, useMySQL, cocoabeans, archeryFireRateLimit, mushrooms, toolsLoseDurabilityFromAbilities, pvpxp, miningrequirespickaxe, woodcuttingrequiresaxe, pvp, eggs, apples, cake, music, diamond, glowstone, slowsand, sulphur, netherrack, bones, coal, clay, anvilmessages;
+	public static Boolean enableMotd, enableMySpawn, enableRegen, enableCobbleToMossy, useMySQL, cocoabeans, archeryFireRateLimit, mushrooms, toolsLoseDurabilityFromAbilities, pvpxp, miningrequirespickaxe, woodcuttingrequiresaxe, eggs, apples, cake, music, diamond, glowstone, slowsand, sulphur, netherrack, bones, coal, clay, anvilmessages;
 	public static String MySQLtablePrefix, MySQLuserName, MySQLserverName, MySQLdbName, MySQLdbPass, mctop, addxp, mcability, mcmmo, mcc, mcrefresh, mcitem, mcgod, stats, mmoedit, ptp, party, myspawn, setmyspawn, whois, invite, accept, clearmyspawn, nWood, nStone, nIron, nGold, nDiamond, locale;
 	public static int MySQLport, xpGainMultiplier, superBreakerCooldown, greenTerraCooldown, gigaDrillBreakerCooldown, treeFellerCooldown, berserkCooldown, serratedStrikeCooldown, skullSplitterCooldown, abilityDurabilityLoss, feathersConsumedByChimaeraWing, pvpxprewardmodifier, repairdiamondlevel, globalxpmodifier, tamingxpmodifier, miningxpmodifier, repairxpmodifier, woodcuttingxpmodifier, unarmedxpmodifier, herbalismxpmodifier, excavationxpmodifier, archeryxpmodifier, swordsxpmodifier, axesxpmodifier, acrobaticsxpmodifier, rWood, rStone, rIron, rGold, rDiamond;;
 	
@@ -39,6 +39,7 @@ public class LoadProperties {
     	 * OTHER
     	 */
     	
+    	enableMotd = properties.getBoolean("enableMOTD", true);
     	enableMySpawn = properties.getBoolean("enableMySpawn", true);
     	enableRegen = properties.getBoolean("enableHpRegeneration", true);
     	enableCobbleToMossy = properties.getBoolean("enableGreenThumbCobbleToMossy", true);
@@ -52,7 +53,7 @@ public class LoadProperties {
     	miningrequirespickaxe = properties.getBoolean("miningRequiresPickaxe", true);
     	woodcuttingrequiresaxe = properties.getBoolean("woodcuttingRequiresAxe", true);
     	repairdiamondlevel = properties.getInteger("repairDiamondLevel", 50);
-    	locale = properties.getString("locale", "en_US");
+    	locale = properties.getString("locale", "en_us");
     	/*
     	 * EXPERIENCE RATE MODIFIER
     	 */
@@ -96,7 +97,6 @@ public class LoadProperties {
     	cocoabeans = properties.getBoolean("canExcavateCocoaBeans", true);
     	mushrooms = properties.getBoolean("canExcavateMushrooms", true);
     	glowstone = properties.getBoolean("canExcavateGlowstone", true);
-    	pvp = properties.getBoolean("pvp", true);
     	eggs = properties.getBoolean("canExcavateEggs", true);
     	apples = properties.getBoolean("canExcavateApples", true);
     	cake = properties.getBoolean("canExcavateCake", true);

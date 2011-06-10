@@ -885,38 +885,38 @@ public class m {
     		event.setCancelled(true);
     		player.sendMessage(ChatColor.RED+"---[]"+ChatColor.YELLOW+"mcMMO Commands"+ChatColor.RED+"[]---");   
     		if(mcPermissions.getInstance().party(player)){
-    			player.sendMessage(ChatColor.GREEN+"--PARTY COMMANDS--"); 
-    			player.sendMessage("/"+LoadProperties.party+" [party name] "+ChatColor.RED+"- Create/Join designated party");   
-    			player.sendMessage("/"+LoadProperties.party+" q "+ChatColor.RED+"- Leave your current party");   
+    			player.sendMessage(Messages.getString("m.mccPartyCommands")); 
+    			player.sendMessage("/"+LoadProperties.party+" "+Messages.getString("m.mccParty"));   
+    			player.sendMessage("/"+LoadProperties.party+" q "+Messages.getString("m.mccPartyQ"));
     			if(mcPermissions.getInstance().partyChat(player))
-    				player.sendMessage("/p "+ChatColor.RED+" - Toggle Party Chat");  
-    			player.sendMessage("/"+LoadProperties.invite+" [player name] "+ChatColor.RED+"- Send party invite");   
-    			player.sendMessage("/"+LoadProperties.accept+" "+ChatColor.RED+"- Accept party invite");   
+    				player.sendMessage("/p "+Messages.getString("m.mccPartyToggle"));  
+    			player.sendMessage("/"+LoadProperties.invite+" "+Messages.getString("m.mccPartyInvite"));   
+    			player.sendMessage("/"+LoadProperties.accept+" "+Messages.getString("m.mccPartyAccept"));   
     			if(mcPermissions.getInstance().partyTeleport(player))
-    				player.sendMessage("/"+LoadProperties.ptp+" [party member name] "+ChatColor.RED+"- Teleport to party member");   
+    				player.sendMessage("/"+LoadProperties.ptp+" "+Messages.getString("m.mccPartyTeleport"));   
     		}
-    		player.sendMessage(ChatColor.GREEN+"--OTHER COMMANDS--"); 
-    		player.sendMessage("/"+LoadProperties.stats+ChatColor.RED+" - View your mcMMO stats");  
-    		player.sendMessage("/mctop <skillname> <page> "+ChatColor.RED+"- Leaderboards");  
+    		player.sendMessage(Messages.getString("m.mccOtherCommands")); 
+    		player.sendMessage("/"+LoadProperties.stats+ChatColor.RED+" "+Messages.getString("m.mccStats"));  
+    		player.sendMessage("/mctop <skillname> <page> "+ChatColor.RED+Messages.getString("m.mccLeaderboards"));  
     		if(mcPermissions.getInstance().mySpawn(player)){
-	    		player.sendMessage("/"+LoadProperties.myspawn+" "+ChatColor.RED+"- Clears inventory & teleports to myspawn");   
-	    		player.sendMessage("/"+LoadProperties.clearmyspawn+" "+ChatColor.RED+"- Clears your MySpawn");   
+	    		player.sendMessage("/"+LoadProperties.myspawn+" "+ChatColor.RED+Messages.getString("m.mccMySpawn"));   
+	    		player.sendMessage("/"+LoadProperties.clearmyspawn+" "+ChatColor.RED+Messages.getString("m.mccClearMySpawn"));   
     		}
     		if(mcPermissions.getInstance().mcAbility(player))
-    			player.sendMessage("/"+LoadProperties.mcability+ChatColor.RED+" - Toggle ability activation with right click");  
+    			player.sendMessage("/"+LoadProperties.mcability+ChatColor.RED+" "+Messages.getString("m.mccToggleAbility"));  
     		if(mcPermissions.getInstance().adminChat(player)){
-    			player.sendMessage("/a "+ChatColor.RED+"- Toggle admin chat");  
+    			player.sendMessage("/a "+ChatColor.RED+Messages.getString("m.mccAdminToggle"));  
     		}
     		if(mcPermissions.getInstance().whois(player))
-    			player.sendMessage("/"+LoadProperties.whois+" [playername] "+ChatColor.RED+"- View detailed player info");   
+    			player.sendMessage("/"+LoadProperties.whois+" "+Messages.getString("m.mccWhois"));   
     		if(mcPermissions.getInstance().mmoedit(player)){
     			//player.sendMessage("/"+LoadProperties.mmoedit+" [skill] [newvalue] "+ChatColor.RED+"Modify the designated skill value");
-    			player.sendMessage("/"+LoadProperties.mmoedit+" [playername] [skill] [newvalue] "+ChatColor.RED+"- Modify target");   
+    			player.sendMessage("/"+LoadProperties.mmoedit+Messages.getString("m.mccMmoedit"));   
     		}
     		if(mcPermissions.getInstance().mcgod(player))
-    			player.sendMessage("/"+LoadProperties.mcgod+ChatColor.RED+" - God Mode");  
-    		player.sendMessage("/[skillname] "+ChatColor.RED+" View detailed information about a skill");  
-    		player.sendMessage("/"+LoadProperties.mcmmo+" "+ChatColor.RED+"- Read brief mod description");   
+    			player.sendMessage("/"+LoadProperties.mcgod+ChatColor.RED+" "+Messages.getString("m.mccMcGod"));  
+    		player.sendMessage("/"+Messages.getString("m.mccSkillInfo"));  
+    		player.sendMessage("/"+LoadProperties.mcmmo+" "+Messages.getString("m.mccModDescription"));   
     	}
     }
 }

@@ -16,17 +16,13 @@ import org.bukkit.plugin.Plugin;
 
 import com.gmail.nossr50.config.LoadProperties;
 import com.gmail.nossr50.mcMMO;
-import com.gmail.nossr50.skills.*;
 
 
 
 public class PlayerProfile
 {
     protected final Logger log = Logger.getLogger("Minecraft");
-    //skills
-    //private String tamingstr, miningstr, woodcuttingstr, repairstr, unarmedstr, herbalismstr, excavationstr, archerystr, swordsstr, axesstr, acrobaticsstr;
-	private int unarmed=0,unarmedXP=0,taming=0, tamingXP=0, mining=0, miningXP=0,woodcutting=0,woodcuttingXP=0, repair=0,repairXP=0, herbalism=0,herbalismXP=0, excavation=0,excavationXP=0, archery=0,archeryXP=0, swords=0,swordsXP=0, axes=0,axesXP=0, acrobatics=0,acrobaticsXP=0;
-    //other
+    private int unarmed=0,unarmedXP=0,taming=0, tamingXP=0, mining=0, miningXP=0,woodcutting=0,woodcuttingXP=0, repair=0,repairXP=0, herbalism=0,herbalismXP=0, excavation=0,excavationXP=0, archery=0,archeryXP=0, swords=0,swordsXP=0, axes=0,axesXP=0, acrobatics=0,acrobaticsXP=0;
 	private String party, myspawn, myspawnworld, invite;
 	private boolean online = true, greenTerraMode, partyChatOnly = false, greenTerraInformed = true, berserkInformed = true, skullSplitterInformed = true, gigaDrillBreakerInformed = true, 
 	superBreakerInformed = true, serratedStrikesInformed = true, treeFellerInformed = true, dead, abilityuse = true, treeFellerMode, superBreakerMode, gigaDrillBreakerMode, 
@@ -37,16 +33,14 @@ public class PlayerProfile
 	private int lastlogin=0, userid = 0, bleedticks = 0;
 	//ATS = (Time of) Activation Time Stamp
 	//DATS = (Time of) Deactivation Time Stamp
-	Player thisplayer;
+	private String playername;
 	char defaultColor;
-	
 
     String location = "plugins/mcMMO/mcmmo.users";
-    
         
 	public PlayerProfile(Player player)
 	{
-		thisplayer = player;
+		playername = player.getName();
 		if (LoadProperties.useMySQL) 
 		{
 			if(!loadMySQL(player)) {
@@ -56,20 +50,29 @@ public class PlayerProfile
 		} else {
 			if(!load()) { addPlayer(); }			
 		}
+		Long thetime = System.currentTimeMillis()/1000;
+		lastlogin = thetime.intValue();
 	}
-	
-	public boolean getOnline(){
+	public int getLastLogin()
+	{
+		return lastlogin;
+	}
+	public boolean getOnline()
+	{
 		return online;
 	}
-	public void setOnline(Boolean bool){
+	public void setOnline(Boolean bool)
+	{
 		online = bool;
 	}
-	public int getMySQLuserId(){
+	public int getMySQLuserId()
+	{
 		return userid;
 	}
 	
 	
-	public boolean loadMySQL(Player p) {
+	public boolean loadMySQL(Player p) 
+	{
 		Integer id = 0;
 		id = mcMMO.database.GetInt("SELECT id FROM "+LoadProperties.MySQLtablePrefix+"users WHERE user = '" + p.getName() + "'");
 		if(id == 0)
@@ -77,13 +80,12 @@ public class PlayerProfile
 		this.userid = id;
 		if (id > 0) {
 			HashMap<Integer, ArrayList<String>> users = mcMMO.database.Read("SELECT lastlogin, party FROM "+LoadProperties.MySQLtablePrefix+"users WHERE id = " + id);
-				lastlogin = Integer.parseInt(users.get(1).get(0));
+				//lastlogin = Integer.parseInt(users.get(1).get(0));
 				party = users.get(1).get(1);
 			HashMap<Integer, ArrayList<String>> spawn = mcMMO.database.Read("SELECT world, x, y, z FROM "+LoadProperties.MySQLtablePrefix+"spawn WHERE user_id = " + id);
 				myspawnworld = spawn.get(1).get(0);
 				myspawn = spawn.get(1).get(1) + "," + spawn.get(1).get(2) + "," + spawn.get(1).get(3);				
 			HashMap<Integer, ArrayList<String>> cooldowns = mcMMO.database.Read("SELECT mining, woodcutting, unarmed, herbalism, excavation, swords, axes FROM "+LoadProperties.MySQLtablePrefix+"cooldowns WHERE user_id = " + id);
-			
 			/*
 			 * I'm still learning MySQL, this is a fix for adding a new table
 			 * its not pretty but it works
@@ -155,7 +157,7 @@ public class PlayerProfile
         		//Find if the line contains the player we want.
         		String[] character = line.split(":");
 
-        		if(!character[0].equals(thisplayer.getName())){continue;}
+        		if(!character[0].equals(playername)){continue;}
         		
     			//Get Mining
     			if(character.length > 1 && isInt(character[1]))
@@ -189,30 +191,28 @@ public class PlayerProfile
     				axes = Integer.valueOf(character[13]);
     			if(character.length > 14 && isInt(character[14]))
     				acrobatics = Integer.valueOf(character[14]);
-    			if(character.length > 15)
+    			if(character.length > 15 && isInt(character[15]))
     				repairXP = Integer.valueOf(character[15]);
-    			if(character.length > 16)
+    			if(character.length > 16 && isInt(character[16]))
     				unarmedXP = Integer.valueOf(character[16]);
-    			if(character.length > 17)
+    			if(character.length > 17 && isInt(character[17]))
     				herbalismXP = Integer.valueOf(character[17]);
-    			if(character.length > 18)
+    			if(character.length > 18 && isInt(character[18]))
     				excavationXP = Integer.valueOf(character[18]);
-    			if(character.length > 19)
+    			if(character.length > 19 && isInt(character[19]))
     				archeryXP = Integer.valueOf(character[19]);
-    			if(character.length > 20)
+    			if(character.length > 20 && isInt(character[20]))
     				swordsXP = Integer.valueOf(character[20]);
-    			if(character.length > 21)
+    			if(character.length > 21 && isInt(character[21]))
     				axesXP = Integer.valueOf(character[21]);
-    			if(character.length > 22)
+    			if(character.length > 22 && isInt(character[22]))
     				acrobaticsXP = Integer.valueOf(character[22]);
-    			if(character.length > 23)
+    			if(character.length > 23 && isInt(character[23]))
     				myspawnworld = character[23];
-    			if(character.length > 24)
+    			if(character.length > 24 && isInt(character[24]))
     				taming = Integer.valueOf(character[24]);
-    			if(character.length > 25)
+    			if(character.length > 25 && isInt(character[25]))
     				tamingXP = Integer.valueOf(character[25]);
-    			//Need to store the DATS of abilities nao
-    			//Berserk, Gigadrillbreaker, Tree Feller, Green Terra, Serrated Strikes, Skull Splitter, Super Breaker
     			if(character.length > 26)
     				berserkDATS = Long.valueOf(character[26]) * 1000;
     			if(character.length > 27)
@@ -296,13 +296,13 @@ public class PlayerProfile
 	        	{
 	        		//Read the line in and copy it to the output it's not the player
 	        		//we want to edit
-	        		if(!line.split(":")[0].equalsIgnoreCase(thisplayer.getName()))
+	        		if(!line.split(":")[0].equalsIgnoreCase(playername))
 	        		{
 	                    writer.append(line).append("\r\n");
 	                    
 	                //Otherwise write the new player information
 	        		} else {
-	        			writer.append(thisplayer.getName() + ":");
+	        			writer.append(playername + ":");
 	        			writer.append(mining + ":");
 	        			writer.append(myspawn + ":");
 	        			writer.append(party+":");
@@ -358,7 +358,7 @@ public class PlayerProfile
             BufferedWriter out = new BufferedWriter(file);
             
             //Add the player to the end
-            out.append(thisplayer.getName() + ":");
+            out.append(playername + ":");
             out.append(0 + ":"); //mining
             out.append(myspawn+":");
             out.append(party+":");
@@ -404,7 +404,7 @@ public class PlayerProfile
     
 	public boolean isPlayer(String player)
 	{
-		return player.equals(thisplayer.getName());
+		return player.equals(playername);
 	}
 	public boolean getPartyChatOnlyToggle(){return partyChatOnly;}
 	public void togglePartyChatOnly(){partyChatOnly = !partyChatOnly;}

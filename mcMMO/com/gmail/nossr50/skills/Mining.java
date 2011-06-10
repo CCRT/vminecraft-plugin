@@ -9,9 +9,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import com.gmail.nossr50.Messages;
 import com.gmail.nossr50.Users;
 import com.gmail.nossr50.m;
-import com.gmail.nossr50.mcMMO;
 import com.gmail.nossr50.config.Config;
 import com.gmail.nossr50.config.LoadProperties;
 import com.gmail.nossr50.datatypes.PlayerProfile;
@@ -38,10 +38,10 @@ public class Mining {
     		}
     		
 	    	if(!PP.getSuperBreakerMode() && Skills.cooldownOver(player, PP.getSuperBreakerDeactivatedTimeStamp(), LoadProperties.superBreakerCooldown)){
-	    		player.sendMessage(ChatColor.GREEN+"**SUPER BREAKER ACTIVATED**");
+	    		player.sendMessage(Messages.getString("Skills.SuperBreakerOn"));
 	    		for(Player y : pluginx.getServer().getOnlinePlayers()){
 	    			if(y != null && y != player && m.getDistance(player.getLocation(), y.getLocation()) < 10)
-	    				y.sendMessage(ChatColor.GREEN+player.getName()+ChatColor.DARK_GREEN+" has used "+ChatColor.RED+"Super Breaker!");
+	    				y.sendMessage(Messages.getString("Skills.SuperBreakerPlayer", new Object[] {player.getName()}));
 	    		}
 	    		PP.setSuperBreakerActivatedTimeStamp(System.currentTimeMillis());
 	    		PP.setSuperBreakerDeactivatedTimeStamp(System.currentTimeMillis() + (ticks * 1000));

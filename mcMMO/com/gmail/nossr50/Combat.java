@@ -2,18 +2,7 @@ package com.gmail.nossr50;
 
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.Animals;
-import org.bukkit.entity.Creeper;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Ghast;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.PigZombie;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Skeleton;
-import org.bukkit.entity.Slime;
-import org.bukkit.entity.Spider;
-import org.bukkit.entity.Wolf;
-import org.bukkit.entity.Zombie;
+import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageByProjectileEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -84,14 +73,16 @@ public class Combat {
 	      			PlayerProfile PPd = Users.getProfile(defender);
 		    		if(attacker != null && defender != null && LoadProperties.pvpxp)
 		    		{
-		    			if(System.currentTimeMillis() >= PPd.getRespawnATS() + 5000 && defender.getHealth() >= 1)
+		    			if(System.currentTimeMillis() >= PPd.getRespawnATS() + 5000 
+		    					&& ((PPd.getLastLogin()+5)*1000) < System.currentTimeMillis()
+		    					&& defender.getHealth() >= 1)
 		    			{
 			    			if(m.isAxes(attacker.getItemInHand()) && mcPermissions.getInstance().axes(attacker))
-			    				PPa.addAxesXP((event.getDamage() * 3) * LoadProperties.pvpxprewardmodifier);
+			    				PPa.addAxesXP((event.getDamage() * 2) * LoadProperties.pvpxprewardmodifier);
 			    			if(m.isSwords(attacker.getItemInHand()) && mcPermissions.getInstance().swords(attacker))
-			    				PPa.addSwordsXP((event.getDamage() * 3) * LoadProperties.pvpxprewardmodifier);
+			    				PPa.addSwordsXP((event.getDamage() * 2) * LoadProperties.pvpxprewardmodifier);
 			    			if(attacker.getItemInHand().getTypeId() == 0 && mcPermissions.getInstance().unarmed(attacker))
-			    				PPa.addUnarmedXP((event.getDamage() * 3) * LoadProperties.pvpxprewardmodifier);
+			    				PPa.addUnarmedXP((event.getDamage() * 2) * LoadProperties.pvpxprewardmodifier);
 		    			}
 		    		}
 	      		}
@@ -348,10 +339,6 @@ public class Combat {
     		 * Attacker is Player
     		 */
     		if(x instanceof Player){
-    			if(LoadProperties.pvp == false){
-    				event.setCancelled(true);
-    				return;
-    			}
     			Player defender = (Player)x;
     			PlayerProfile PPd = Users.getProfile(defender);
     			/*
@@ -366,7 +353,8 @@ public class Combat {
     	    		/*
     	    		 * PVP XP
     	    		 */
-    	    		if(LoadProperties.pvpxp && !Party.getInstance().inSameParty(attacker, defender)){
+    	    		if(LoadProperties.pvpxp && !Party.getInstance().inSameParty(attacker, defender) 
+    	    				&& ((PPd.getLastLogin()+5)*1000) < System.currentTimeMillis()){
     	    			PPa.addArcheryXP((event.getDamage() * 3) * LoadProperties.pvpxprewardmodifier);
     	    		}
     				/*
@@ -407,7 +395,7 @@ public class Combat {
     }
     public static boolean pvpAllowed(EntityDamageByEntityEvent event, World world)
     {
-    	if(!LoadProperties.pvp || !event.getEntity().getWorld().getPVP())
+    	if(!event.getEntity().getWorld().getPVP())
     		return false;
     	if(world.getPVP())
     		return false;

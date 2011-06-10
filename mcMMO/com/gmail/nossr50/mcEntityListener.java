@@ -16,7 +16,6 @@ import org.bukkit.event.entity.EntityListener;
 import org.bukkit.inventory.ItemStack;
 
 import com.gmail.nossr50.config.Config;
-import com.gmail.nossr50.config.LoadProperties;
 import com.gmail.nossr50.datatypes.PlayerProfile;
 import com.gmail.nossr50.party.Party;
 import com.gmail.nossr50.skills.Acrobatics;
@@ -48,15 +47,10 @@ public class mcEntityListener extends EntityListener {
     	if(event.isCancelled())
     		return;
     	//Check for world pvp flag
-    	if(!event.getEntity().getWorld().getPVP())
-    		return;
-    	/*
-    	 * CHECK FOR mcMMO PVP FLAG
-    	 */
     	if(event instanceof EntityDamageByEntityEvent)
     	{
     		EntityDamageByEntityEvent eventb = (EntityDamageByEntityEvent)event;
-    		if(eventb.getEntity() instanceof Player && eventb.getDamager() instanceof Player && !LoadProperties.pvp)
+    		if(eventb.getEntity() instanceof Player && eventb.getDamager() instanceof Player && !event.getEntity().getWorld().getPVP())
     			return;
     	}
     	/*

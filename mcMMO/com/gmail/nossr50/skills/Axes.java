@@ -10,6 +10,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.gmail.nossr50.Combat;
+import com.gmail.nossr50.Messages;
 import com.gmail.nossr50.Users;
 import com.gmail.nossr50.m;
 import com.gmail.nossr50.mcPermissions;
@@ -35,10 +36,10 @@ public class Axes {
     		}
 
     		if(!PP.getSkullSplitterMode() && Skills.cooldownOver(player, PP.getSkullSplitterDeactivatedTimeStamp(), LoadProperties.skullSplitterCooldown)){
-    			player.sendMessage(ChatColor.GREEN+"**SKULL SPLITTER ACTIVATED**");
+    			player.sendMessage(Messages.getString("Skills.SkullSplitterOn"));
     			for(Player y : pluginx.getServer().getOnlinePlayers()){
 	    			if(y != null && y != player && m.getDistance(player.getLocation(), y.getLocation()) < 10)
-	    				y.sendMessage(ChatColor.GREEN+player.getName()+ChatColor.DARK_GREEN+" has used "+ChatColor.RED+"Skull Splitter!");
+	    				y.sendMessage(Messages.getString("Skills.SkullSplitterPlayer", new Object[] {player.getName()}));
 	    		}
     			PP.setSkullSplitterActivatedTimeStamp(System.currentTimeMillis());
     			PP.setSkullSplitterDeactivatedTimeStamp(System.currentTimeMillis() + (ticks * 1000));

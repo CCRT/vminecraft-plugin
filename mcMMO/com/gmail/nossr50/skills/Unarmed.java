@@ -7,6 +7,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import com.gmail.nossr50.Messages;
 import com.gmail.nossr50.Users;
 import com.gmail.nossr50.m;
 import com.gmail.nossr50.config.LoadProperties;
@@ -27,10 +28,10 @@ public class Unarmed {
     		}
     		
 	    	if(!PP.getBerserkMode() && Skills.cooldownOver(player, PP.getBerserkDeactivatedTimeStamp(), LoadProperties.berserkCooldown)){
-	    		player.sendMessage(ChatColor.GREEN+"**BERSERK ACTIVATED**");
+	    		player.sendMessage(Messages.getString("Skills.BerserkOn"));
 	    		for(Player y : pluginx.getServer().getOnlinePlayers()){
 	    			if(y != null && y != player && m.getDistance(player.getLocation(), y.getLocation()) < 10)
-	    				y.sendMessage(ChatColor.GREEN+player.getName()+ChatColor.DARK_GREEN+" has used "+ChatColor.RED+"Berserk!");
+	    				y.sendMessage(Messages.getString("Skills.BerserkPlayer", new Object[] {player.getName()}));
 	    		}
 	    		PP.setBerserkActivatedTimeStamp(System.currentTimeMillis());
 	    		PP.setBerserkDeactivatedTimeStamp(System.currentTimeMillis() + (ticks * 1000));

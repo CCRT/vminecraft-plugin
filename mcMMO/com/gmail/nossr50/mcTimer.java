@@ -3,6 +3,7 @@ import java.util.TimerTask;
 
 import org.bukkit.entity.*;
 
+import com.gmail.nossr50.config.Config;
 import com.gmail.nossr50.config.LoadProperties;
 import com.gmail.nossr50.datatypes.PlayerProfile;
 import com.gmail.nossr50.skills.Skills;
@@ -11,6 +12,7 @@ import com.gmail.nossr50.skills.Swords;
 
 public class mcTimer extends TimerTask{
 	private final mcMMO plugin;
+	Player[] playerlist = null;
 	int thecount = 1;
 
     public mcTimer(final mcMMO plugin) {
@@ -18,12 +20,12 @@ public class mcTimer extends TimerTask{
     }
     
 	public void run() {
-		Player[] playerlist = plugin.getServer().getOnlinePlayers();
+		playerlist = plugin.getServer().getOnlinePlayers();
 		for(Player player : playerlist)
 		{
-			PlayerProfile PP = Users.getProfile(player);
 			if(player == null)
 				continue;
+			PlayerProfile PP = Users.getProfile(player);
 			if(PP == null)
 	    		Users.addUser(player);
 			/*
@@ -69,6 +71,7 @@ public class mcTimer extends TimerTask{
 				}
 			}
 		}
+		
 		
 		/*
 		 * NON-PLAYER BLEED MONITORING

@@ -12,6 +12,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.gmail.nossr50.Combat;
+import com.gmail.nossr50.Messages;
 import com.gmail.nossr50.Users;
 import com.gmail.nossr50.m;
 import com.gmail.nossr50.mcPermissions;
@@ -35,10 +36,10 @@ public class Swords {
     		}
     		
 	    	if(!PP.getSerratedStrikesMode() && PP.getSerratedStrikesDeactivatedTimeStamp() < System.currentTimeMillis()){
-	    		player.sendMessage(ChatColor.GREEN+"**SERRATED STRIKES ACTIVATED**");
+	    		player.sendMessage(Messages.getString("Skills.SerratedStrikesOn"));
 	    		for(Player y : pluginx.getServer().getOnlinePlayers()){
 	    			if(y != null && y != player && m.getDistance(player.getLocation(), y.getLocation()) < 10)
-	    				y.sendMessage(ChatColor.GREEN+player.getName()+ChatColor.DARK_GREEN+" has used "+ChatColor.RED+"Serrated Strikes!");
+	    				y.sendMessage(Messages.getString("Skills.SerratedStrikesPlayer", new Object[] {player.getName()}));
 	    		}
 	    		PP.setSerratedStrikesActivatedTimeStamp(System.currentTimeMillis());
 	    		PP.setSerratedStrikesDeactivatedTimeStamp(System.currentTimeMillis() + (ticks * 1000));

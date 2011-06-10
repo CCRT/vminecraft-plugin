@@ -10,9 +10,9 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import com.gmail.nossr50.Messages;
 import com.gmail.nossr50.Users;
 import com.gmail.nossr50.m;
-import com.gmail.nossr50.mcMMO;
 import com.gmail.nossr50.config.Config;
 import com.gmail.nossr50.config.LoadProperties;
 import com.gmail.nossr50.datatypes.PlayerProfile;
@@ -98,10 +98,10 @@ public class Herbalism {
     		}
     		
 	    	if(!PP.getGreenTerraMode() && Skills.cooldownOver(player, PP.getGreenTerraDeactivatedTimeStamp(), LoadProperties.greenTerraCooldown)){
-	    		player.sendMessage(ChatColor.GREEN+"**GREEN TERRA ACTIVATED**");
+	    		player.sendMessage(Messages.getString("Skills.GreenTerraOn"));
 	    		for(Player y : pluginx.getServer().getOnlinePlayers()){
 	    			if(y != null && y != player && m.getDistance(player.getLocation(), y.getLocation()) < 10)
-	    				y.sendMessage(ChatColor.GREEN+player.getName()+ChatColor.DARK_GREEN+" has used "+ChatColor.RED+"Green Terra!");
+	    				y.sendMessage(Messages.getString("Skills.GreenTerraPlayer", new Object[] {player.getName()}));
 	    		}
 	    		PP.setGreenTerraActivatedTimeStamp(System.currentTimeMillis());
 	    		PP.setGreenTerraDeactivatedTimeStamp(System.currentTimeMillis() + (ticks * 1000));
@@ -254,7 +254,7 @@ public class Herbalism {
 		    			loc.getWorld().dropItemNaturally(loc, is);
 		    		}
 	    		}
-	    		PP.addHerbalismXP(40 * LoadProperties.xpGainMultiplier);
+	    		PP.addHerbalismXP(15 * LoadProperties.xpGainMultiplier);
 	    	}
 	    	//Flower
 	    	if(type == 37 || type == 38){

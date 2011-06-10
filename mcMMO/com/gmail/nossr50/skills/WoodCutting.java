@@ -10,9 +10,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import com.gmail.nossr50.Messages;
 import com.gmail.nossr50.Users;
 import com.gmail.nossr50.m;
-import com.gmail.nossr50.mcMMO;
 import com.gmail.nossr50.datatypes.PlayerProfile;
 import com.gmail.nossr50.config.*;
 
@@ -20,10 +20,6 @@ import com.gmail.nossr50.config.*;
 public class WoodCutting {
 	static int w = 0;
 	private static boolean isdone = false;
-	private static mcMMO plugin;
-	public WoodCutting(mcMMO instance) {
-    	plugin = instance;
-    }
 	
     public static void woodCuttingProcCheck(Player player, Block block){
     	PlayerProfile PP = Users.getProfile(player);
@@ -57,10 +53,10 @@ public class WoodCutting {
     		}
 
     		if(!PP.getTreeFellerMode() && Skills.cooldownOver(player, PP.getTreeFellerDeactivatedTimeStamp(), LoadProperties.treeFellerCooldown)){
-    			player.sendMessage(ChatColor.GREEN+"**TREE FELLING ACTIVATED**");
+    			player.sendMessage(Messages.getString("Skills.TreeFellerOn"));
     			for(Player y : pluginx.getServer().getOnlinePlayers()){
 	    			if(y != null && y != player && m.getDistance(player.getLocation(), y.getLocation()) < 10)
-	    				y.sendMessage(ChatColor.GREEN+player.getName()+ChatColor.DARK_GREEN+" has used "+ChatColor.RED+"Tree Feller!");
+	    				y.sendMessage(Messages.getString("Skills.TreeFellerPlayer", new Object[] {player.getName()}));
 	    		}
     			PP.setTreeFellerActivatedTimeStamp(System.currentTimeMillis());
     			PP.setTreeFellerDeactivatedTimeStamp(System.currentTimeMillis() + (ticks * 1000));
