@@ -1,6 +1,5 @@
 package com.gmail.nossr50.skills;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -21,7 +20,7 @@ public class Unarmed {
     			PP.setFistsPreparationMode(false);
     		}
 	    	int ticks = 2;
-	    	int x = PP.getUnarmedInt();
+	    	int x = PP.getSkill("unarmed");
     		while(x >= 50){
     			x-=50;
     			ticks++;
@@ -43,22 +42,21 @@ public class Unarmed {
 	{
 		PlayerProfile PPa = Users.getProfile(attacker);
 		int bonus = 0;
-		if (PPa.getUnarmedInt() >= 250)
+		if (PPa.getSkill("unarmed") >= 250)
 			bonus+=2;
-		if (PPa.getUnarmedInt() >= 500)
+		if (PPa.getSkill("unarmed") >= 500)
 			bonus+=2;
 		event.setDamage(event.getDamage()+bonus);
 	}
 	public static void disarmProcCheck(Player attacker, Player defender)
 	{
 		PlayerProfile PP = Users.getProfile(attacker);
-		if(PP.getUnarmedInt() >= 1000){
+		if(PP.getSkill("unarmed") >= 1000){
     		if(Math.random() * 4000 <= 1000){
     			Location loc = defender.getLocation();
     			if(defender.getItemInHand() != null && defender.getItemInHand().getTypeId() != 0)
     			{
-    				attacker.sendMessage(ChatColor.DARK_RED+"You have hit with great force.");
-    				defender.sendMessage(ChatColor.DARK_RED+"You have been disarmed!");
+    				defender.sendMessage(Messages.getString("Skills.Disarmed"));
     				ItemStack item = defender.getItemInHand();
 	    			if(item != null)
 	    			{
@@ -69,12 +67,11 @@ public class Unarmed {
     			}
     		}
     	} else {
-    		if(Math.random() * 4000 <= PP.getUnarmedInt()){
+    		if(Math.random() * 4000 <= PP.getSkill("unarmed")){
     			Location loc = defender.getLocation();
     			if(defender.getItemInHand() != null && defender.getItemInHand().getTypeId() != 0)
     			{
-    				attacker.sendMessage(ChatColor.DARK_RED+"You have hit with great force.");
-    				defender.sendMessage(ChatColor.DARK_RED+"You have been disarmed!");
+    				defender.sendMessage(Messages.getString("Skills.Disarmed"));
     				ItemStack item = defender.getItemInHand();
 	    			if(item != null)
 	    			{

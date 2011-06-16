@@ -93,13 +93,13 @@ public class mcBlockListener extends BlockListener {
 	    				WoodCutting.woodCuttingProcCheck(player, block);
 	    				//Default
 	    				if(block.getData() == (byte)0)
-	    					PP.addWoodcuttingXP(7 * LoadProperties.xpGainMultiplier);
+	    					PP.addWoodcuttingXP(LoadProperties.mpine * LoadProperties.xpGainMultiplier);
 	    				//Spruce
 	    				if(block.getData() == (byte)1)
-	    					PP.addWoodcuttingXP(8 * LoadProperties.xpGainMultiplier);
+	    					PP.addWoodcuttingXP(LoadProperties.mspruce * LoadProperties.xpGainMultiplier);
 	    				//Birch
 	    				if(block.getData() == (byte)2)
-	    					PP.addWoodcuttingXP(9 * LoadProperties.xpGainMultiplier);
+	    					PP.addWoodcuttingXP(LoadProperties.mbirch * LoadProperties.xpGainMultiplier);
 					}
     			}
     		} else {
@@ -107,13 +107,13 @@ public class mcBlockListener extends BlockListener {
 	    			WoodCutting.woodCuttingProcCheck(player, block);
 	    			//Default
     				if(block.getData() == (byte)0)
-    					PP.addWoodcuttingXP(7 * LoadProperties.xpGainMultiplier);
+    					PP.addWoodcuttingXP(LoadProperties.mpine * LoadProperties.xpGainMultiplier);
     				//Spruce
     				if(block.getData() == (byte)1)
-    					PP.addWoodcuttingXP(8 * LoadProperties.xpGainMultiplier);
+    					PP.addWoodcuttingXP(LoadProperties.mspruce * LoadProperties.xpGainMultiplier);
     				//Birch
     				if(block.getData() == (byte)2)
-    					PP.addWoodcuttingXP(9 * LoadProperties.xpGainMultiplier);
+    					PP.addWoodcuttingXP(LoadProperties.mbirch * LoadProperties.xpGainMultiplier);
     			}
    			}
     		Skills.XpCheck(player);
@@ -139,7 +139,7 @@ public class mcBlockListener extends BlockListener {
     						//XP WOODCUTTING
     						if(!Config.getInstance().isBlockWatched(block)){
 	    						WoodCutting.woodCuttingProcCheck(player, blockx);
-	    						PP.addWoodcuttingXP(7);
+	    						PP.addWoodcuttingXP(LoadProperties.mpine);
     						}
     					}
     					if(blockx.getTypeId() == 18){
@@ -213,10 +213,7 @@ public class mcBlockListener extends BlockListener {
     	/*
     	 * GIGA DRILL BREAKER CHECKS
     	 */
-    	if(PP.getGigaDrillBreakerMode() 
-    			&& m.blockBreakSimulate(block, player, plugin) 
-    			&& Excavation.canBeGigaDrillBroken(block) 
-    			&& m.isShovel(inhand)){
+    	if(PP.getGigaDrillBreakerMode() && m.blockBreakSimulate(block, player, plugin) && Excavation.canBeGigaDrillBroken(block) && m.isShovel(inhand)){
     		
     		if(m.getTier(player) >= 2)
     			Excavation.excavationProcCheck(block, player);
@@ -272,7 +269,7 @@ public class mcBlockListener extends BlockListener {
     	/*
     	 * LEAF BLOWER
     	 */
-    	if(block.getTypeId() == 18 && mcPermissions.getInstance().woodcutting(player) && PP.getWoodCuttingInt() >= 100 && m.isAxes(player.getItemInHand()) && m.blockBreakSimulate(block, player, plugin))
+    	if(block.getTypeId() == 18 && mcPermissions.getInstance().woodcutting(player) && PP.getSkill("woodcutting") >= 100 && m.isAxes(player.getItemInHand()) && m.blockBreakSimulate(block, player, plugin))
     	{
     		m.damageTool(player, (short)1);
     		if(Math.random() * 10 > 9)

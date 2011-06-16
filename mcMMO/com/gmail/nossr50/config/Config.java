@@ -18,7 +18,7 @@ public class Config {
     static ArrayList<String> godModeList = new ArrayList<String>();
     HashMap<Entity, Integer> arrowTracker = new HashMap<Entity, Integer>();
     static ArrayList<Entity> bleedTracker = new ArrayList<Entity>();
-    static ArrayList<Entity> mobSpawnTracker = new ArrayList<Entity>();
+    //static ArrayList<Entity> mobSpawnTracker = new ArrayList<Entity>();
     /*
      * The Bleed Que Stuff
      */
@@ -91,8 +91,8 @@ public class Config {
     public void removeTreeFeller(Block block) {treeFeller.remove(treeFeller.indexOf(block));}
     public void addTreeFeller(Block block) {treeFeller.add(block);}
     public void addBleedTrack(Entity entity) {bleedTracker.add(entity);}
-    public void addMobSpawnTrack(Entity entity) {mobSpawnTracker.add(entity);}
-    public void removeMobSpawnTrack(Entity entity) {mobSpawnTracker.remove(entity);}
+    //public void addMobSpawnTrack(Entity entity) {mobSpawnTracker.add(entity);}
+    //public void removeMobSpawnTrack(Entity entity) {mobSpawnTracker.remove(entity);}
     public ArrayList<Entity> getBleedTracked() {return bleedTracker;}
     public void addArrowTrack(Entity entity, Integer arrowcount) {arrowTracker.put(entity, arrowcount);}
     public Integer getArrowCount(Entity entity) {return arrowTracker.get(entity);}
@@ -120,6 +120,7 @@ public class Config {
     		return false;
     	}
     }
+    /*
     public boolean isMobSpawnTracked(Entity entity) {
     	if(mobSpawnTracker.contains(entity)){
     		return true;
@@ -127,6 +128,7 @@ public class Config {
     		return false;
     	}
     }
+    */
     public boolean isBleedTracked(Entity entity) {
     	if(bleedTracker.contains(entity)){
     		return true;

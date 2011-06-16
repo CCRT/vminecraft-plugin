@@ -25,7 +25,7 @@ import org.bukkit.entity.Player;
 
 public class mcMMO extends JavaPlugin {
 	public static String maindirectory = "plugins/mcMMO/"; //$NON-NLS-1$
-	static File Properties = new File(maindirectory + "mcmmo.properties"); //$NON-NLS-1$
+	File file = new File(maindirectory + File.separator + "config.yml");
     public static final Logger log = Logger.getLogger("Minecraft"); //$NON-NLS-1$
     private final mcPlayerListener playerListener = new mcPlayerListener(this);
     private final mcBlockListener blockListener = new mcBlockListener(this);
@@ -36,12 +36,18 @@ public class mcMMO extends JavaPlugin {
     private Timer mcMMO_Timer = new Timer(true);
     public static Database database = null;
     
+    //Config file stuff
+    LoadProperties config = new LoadProperties();
+    
     public void onEnable() 
     {
 
     	new File(maindirectory).mkdir();
-    	mcProperties.makeProperties(Properties, log); //Make Props file
-    	LoadProperties.loadMain(); //Load Props file
+    	config.configCheck();
+    	
+    	//mcProperties.makeProperties(Properties, log); //Make Props file
+    	//LoadProperties.loadMain(); //Load Props file
+    	
     	Users.getInstance().loadUsers(); //Load Users file
     	
         /*
@@ -49,20 +55,23 @@ public class mcMMO extends JavaPlugin {
          */
     	
     	PluginManager pm = getServer().getPluginManager();
+    	//Player Stuff
+    	pm.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Priority.Normal, this);
         pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Normal, this);
         pm.registerEvent(Event.Type.PLAYER_LOGIN, playerListener, Priority.Normal, this);
-        pm.registerEvent(Event.Type.BLOCK_DAMAGE, blockListener, Priority.Highest, this);
         pm.registerEvent(Event.Type.PLAYER_CHAT, playerListener, Priority.Lowest, this);
-        pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, playerListener, Priority.Normal, this);
-        pm.registerEvent(Event.Type.ENTITY_DEATH, entityListener, Priority.Normal, this);
-        pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Priority.Highest, this);
-        pm.registerEvent(Event.Type.BLOCK_FROMTO, blockListener, Priority.Normal, this);
-        pm.registerEvent(Event.Type.BLOCK_PLACE, blockListener, Priority.Normal, this);
         pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Priority.Monitor, this);
         pm.registerEvent(Event.Type.PLAYER_RESPAWN, playerListener, Priority.Normal, this);
         pm.registerEvent(Event.Type.PLAYER_ITEM_HELD, playerListener, Priority.Normal, this);
+        pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, playerListener, Priority.Normal, this);
+        //Block Stuff
+        pm.registerEvent(Event.Type.BLOCK_DAMAGE, blockListener, Priority.Highest, this);
+        pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Priority.Highest, this);
+        pm.registerEvent(Event.Type.BLOCK_FROMTO, blockListener, Priority.Normal, this);
+        pm.registerEvent(Event.Type.BLOCK_PLACE, blockListener, Priority.Normal, this);
+        //Entity Stuff
+        pm.registerEvent(Event.Type.ENTITY_DEATH, entityListener, Priority.Normal, this);
         pm.registerEvent(Event.Type.ENTITY_DAMAGE, entityListener, Priority.Highest, this);
-        pm.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Priority.Normal, this);
         
         PluginDescriptionFile pdfFile = this.getDescription();
         mcPermissions.initialize(getServer());

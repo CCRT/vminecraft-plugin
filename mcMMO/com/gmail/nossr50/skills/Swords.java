@@ -29,7 +29,7 @@ public class Swords {
     			PP.setSwordsPreparationMode(false);
     		}
 	    	int ticks = 2;
-	    	int x = PP.getSwordsInt();
+	    	int x = PP.getSkill("swords");
     		while(x >= 50){
     			x-=50;
     			ticks++;
@@ -59,7 +59,7 @@ public class Swords {
     			return;
     	}
     	if(mcPermissions.getInstance().swords(attacker) && m.isSwords(attacker.getItemInHand())){
-			if(PPa.getSwordsInt() >= 750){
+			if(PPa.getSkill("swords") >= 750){
 				if(Math.random() * 1000 >= 750){
 					if(!(x instanceof Player))
 						Config.getInstance().addToBleedQue(x);
@@ -69,7 +69,7 @@ public class Swords {
 					}
 					attacker.sendMessage(ChatColor.GREEN+"**ENEMY BLEEDING**");
 				}
-			} else if (Math.random() * 1000 <= PPa.getSwordsInt()){
+			} else if (Math.random() * 1000 <= PPa.getSkill("swords")){
 				if(!(x instanceof Player))
 					Config.getInstance().addToBleedQue(x);
 				if(x instanceof Player){
@@ -127,7 +127,7 @@ public class Swords {
     	PlayerProfile PPd = Users.getProfile(defender);
     	if(defender != null && m.isSwords(defender.getItemInHand()) 
     			&& mcPermissions.getInstance().swords(defender)){
-			if(PPd.getSwordsInt() >= 900){
+			if(PPd.getSkill("swords") >= 900){
 				if(Math.random() * 3000 <= 900){
 					event.setCancelled(true);
 					defender.sendMessage(ChatColor.GREEN+"**PARRIED**");
@@ -138,7 +138,7 @@ public class Swords {
 					}
 				}
 			} else {
-				if(Math.random() * 3000 <= PPd.getSwordsInt()){
+				if(Math.random() * 3000 <= PPd.getSkill("swords")){
 					event.setCancelled(true);
 					defender.sendMessage(ChatColor.YELLOW+"*CLANG* SUCCESSFUL PARRY *CLANG*");
 					defender.getItemInHand().setDurability((short) (defender.getItemInHand().getDurability() + 1));
@@ -163,7 +163,7 @@ public class Swords {
 		   		PlayerProfile PPd = Users.getProfile(defender);
 		   		if(m.isSwords(defender.getItemInHand()) && mcPermissions.getInstance().swords(defender))
 		   		{
-		    		if(PPd.getSwordsInt() >= 600)
+		    		if(PPd.getSkill("swords") >= 600)
 		    		{
 		    			if(Math.random() * 2000 <= 600)
 		    			{
@@ -173,7 +173,7 @@ public class Swords {
 		    				((Player) f).sendMessage(ChatColor.DARK_RED+"Hit with counterattack!");
 		    			}
 		    		}
-		    		else if (Math.random() * 2000 <= PPd.getSwordsInt())
+		    		else if (Math.random() * 2000 <= PPd.getSkill("swords"))
 		    		{
 			    		Combat.dealDamage(f, event.getDamage() / 2);
 			    		defender.sendMessage(ChatColor.GREEN+"**COUNTER-ATTACKED**");
@@ -203,7 +203,8 @@ public class Swords {
     	
     	//Bleed monsters/animals
         for(Entity x : Config.getInstance().getBleedTracked()){
-        	if(x == null){
+        	if(x == null || x.isDead() || x.isEmpty()){
+        		Config.getInstance().addToBleedRemovalQue(x);
         		continue;
         	}
         	

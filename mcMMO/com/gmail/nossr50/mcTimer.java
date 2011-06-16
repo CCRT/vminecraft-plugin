@@ -3,7 +3,6 @@ import java.util.TimerTask;
 
 import org.bukkit.entity.*;
 
-import com.gmail.nossr50.config.Config;
 import com.gmail.nossr50.config.LoadProperties;
 import com.gmail.nossr50.datatypes.PlayerProfile;
 import com.gmail.nossr50.skills.Skills;

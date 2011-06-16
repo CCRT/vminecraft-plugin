@@ -2,12 +2,10 @@ package com.gmail.nossr50;
 
 import net.minecraft.server.EntityLiving;
 
-import org.bukkit.Location;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wolf;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
@@ -36,6 +34,7 @@ public class mcEntityListener extends EntityListener {
     		return false;
     	}
     }
+    /*
     public void onCreatureSpawn(CreatureSpawnEvent event) {
     	Location loc = event.getLocation();
     	Entity spawnee = event.getEntity();
@@ -43,6 +42,7 @@ public class mcEntityListener extends EntityListener {
     		Config.getInstance().addMobSpawnTrack(spawnee);
     	}
     }
+    */
     public void onEntityDamage(EntityDamageEvent event) {
     	if(event.isCancelled())
     		return;
@@ -83,7 +83,7 @@ public class mcEntityListener extends EntityListener {
 				    	if(master == null || PPo == null)
 				    		return;
 			    		//Environmentally Aware
-						if((event.getCause() == DamageCause.CONTACT || event.getCause() == DamageCause.LAVA || event.getCause() == DamageCause.FIRE) && PPo.getTamingInt() >= 100)
+						if((event.getCause() == DamageCause.CONTACT || event.getCause() == DamageCause.LAVA || event.getCause() == DamageCause.FIRE) && PPo.getSkill("taming") >= 100)
 						{
 							if(event.getDamage() < ((Wolf) event.getEntity()).getHealth())
 							{
@@ -92,7 +92,7 @@ public class mcEntityListener extends EntityListener {
 								event.getEntity().setFireTicks(0);
 							}
 						}
-						if(event.getCause() == DamageCause.FALL && PPo.getTamingInt() >= 100)
+						if(event.getCause() == DamageCause.FALL && PPo.getSkill("taming") >= 100)
 						{
 							event.setCancelled(true);
 						}
@@ -156,9 +156,11 @@ public class mcEntityListener extends EntityListener {
     		Config.getInstance().addToBleedRemovalQue(x);
     	
 		Skills.arrowRetrievalCheck(x);
+		/*
 		if(Config.getInstance().isMobSpawnTracked(x)){
 			Config.getInstance().removeMobSpawnTrack(x);
 		}
+		*/
     	if(x instanceof Player){
     		Player player = (Player)x;
     		Users.getProfile(player).setBleedTicks(0);

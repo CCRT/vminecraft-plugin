@@ -15,7 +15,7 @@ public class Acrobatics {
 	public static void acrobaticsCheck(Player player, EntityDamageEvent event){
     	if(player != null && mcPermissions.getInstance().acrobatics(player)){
     		PlayerProfile PP = Users.getProfile(player);
-    		int acrovar = PP.getAcrobaticsInt();
+    		int acrovar = PP.getSkill("acrobatics");
     		if(player.isSneaking())
     			acrovar = acrovar * 2;
 			if(Math.random() * 1000 <= acrovar && !event.isCancelled()){
@@ -54,8 +54,8 @@ public class Acrobatics {
 		PlayerProfile PPd = Users.getProfile(defender);
 		
 		if(mcPermissions.getInstance().acrobatics(defender)){
-			if(PPd.getAcrobaticsInt() <= 800){
-	    		if(Math.random() * 4000 <= PPd.getAcrobaticsInt()){
+			if(PPd.getSkill("acrobatics") <= 800){
+	    		if(Math.random() * 4000 <= PPd.getSkill("acrobatics")){
 	    			defender.sendMessage(ChatColor.GREEN+"**DODGE**");
 	    			if(System.currentTimeMillis() >= 5000 + PPd.getRespawnATS() && defender.getHealth() >= 1){
 	    				PPd.addAcrobaticsXP(event.getDamage() * 12);

@@ -37,7 +37,7 @@ public class Combat {
 			//Damage modifiers
 			if(mcPermissions.getInstance().unarmed(attacker) && attacker.getItemInHand().getTypeId() == 0) //Unarmed
 				Unarmed.unarmedBonus(attacker, eventb);
-			if(m.isAxes(attacker.getItemInHand()) && mcPermissions.getInstance().axes(attacker) && PPa.getAxesInt() >= 500)
+			if(m.isAxes(attacker.getItemInHand()) && mcPermissions.getInstance().axes(attacker) && PPa.getSkill("axes") >= 500)
 					event.setDamage(event.getDamage()+4);
 			
 			//If there are any abilities to activate
@@ -145,13 +145,13 @@ public class Combat {
 				PlayerProfile PPo = Users.getProfile(master);
 				if(mcPermissions.getInstance().taming(master)){
 					//Sharpened Claws
-					if(PPo.getTamingInt() >= 750)
+					if(PPo.getSkill("taming") >= 750)
 					{
 						event.setDamage(event.getDamage() + 2);
 					}
 					
 					//Gore
-					if(Math.random() * 1000 <= PPo.getTamingInt())
+					if(Math.random() * 1000 <= PPo.getSkill("taming"))
 					{
 						event.setDamage(event.getDamage() * 2);
 						
@@ -202,13 +202,13 @@ public class Combat {
 					}
 					
 					//Shock-Proof
-					if((event.getCause() == DamageCause.ENTITY_EXPLOSION || event.getCause() == DamageCause.BLOCK_EXPLOSION) && PPo.getTamingInt() >= 500)
+					if((event.getCause() == DamageCause.ENTITY_EXPLOSION || event.getCause() == DamageCause.BLOCK_EXPLOSION) && PPo.getSkill("taming") >= 500)
 					{
 						event.setDamage(2);
 					}
 					
 					//Thick Fur
-					if(PPo.getTamingInt() >= 250)
+					if(PPo.getSkill("taming") >= 250)
 						event.setDamage(event.getDamage() / 2);
 				}
 			}
@@ -234,13 +234,13 @@ public class Combat {
     		if(PPd == null)
     			Users.addUser(defender);
     		if(mcPermissions.getInstance().unarmed(defender) && defender.getItemInHand().getTypeId() == 0){
-	    		if(defender != null && PPd.getUnarmedInt() >= 1000){
+	    		if(defender != null && PPd.getSkill("unarmed") >= 1000){
 	    			if(Math.random() * 1000 <= 500){
 	    				event.setCancelled(true);
 	    				defender.sendMessage(Messages.getString("Combat.ArrowDeflect")); //$NON-NLS-1$
 	    				return;
 	    			}
-	    		} else if(defender != null && Math.random() * 1000 <= (PPd.getUnarmedInt() / 2)){
+	    		} else if(defender != null && Math.random() * 1000 <= (PPd.getSkill("unarmed") / 2)){
 	    			event.setCancelled(true);
 	    			defender.sendMessage(Messages.getString("Combat.ArrowDeflect")); //$NON-NLS-1$
 	    			return;
@@ -257,14 +257,14 @@ public class Combat {
     			if(!Config.getInstance().isTracked(x) && event.getDamage() > 0){
     				Config.getInstance().addArrowTrack(x, 0);
     				if(attacker != null){
-    					if(Math.random() * 1000 <= PPa.getArcheryInt()){
+    					if(Math.random() * 1000 <= PPa.getSkill("archery")){
     						Config.getInstance().addArrowCount(x, 1);
     					}
     				}
     			} else {
     				if(event.getDamage() > 0){
     					if(attacker != null){
-        					if(Math.random() * 1000 <= PPa.getArcheryInt()){
+        					if(Math.random() * 1000 <= PPa.getSkill("archery")){
         						Config.getInstance().addArrowCount(x, 1);
         					}
         				}
@@ -273,15 +273,15 @@ public class Combat {
     			/*
     			 * DAMAGE MODIFIER
     			 */
-    			if(PPa.getArcheryInt() >= 50 && PPa.getArcheryInt() < 250)
+    			if(PPa.getSkill("archery") >= 50 && PPa.getSkill("archery") < 250)
     				event.setDamage(event.getDamage()+1);
-    			if(PPa.getArcheryInt() >= 250 && PPa.getArcheryInt() < 575)
+    			if(PPa.getSkill("archery") >= 250 && PPa.getSkill("archery") < 575)
     				event.setDamage(event.getDamage()+2);
-    			if(PPa.getArcheryInt() >= 575 && PPa.getArcheryInt() < 725)
+    			if(PPa.getSkill("archery") >= 575 && PPa.getSkill("archery") < 725)
     				event.setDamage(event.getDamage()+3);
-    			if(PPa.getArcheryInt() >= 725 && PPa.getArcheryInt() < 1000)
+    			if(PPa.getSkill("archery") >= 725 && PPa.getSkill("archery") < 1000)
     				event.setDamage(event.getDamage()+4);
-    			if(PPa.getArcheryInt() >= 1000)
+    			if(PPa.getSkill("archery") >= 1000)
     				event.setDamage(event.getDamage()+5);
     			
     			/*
@@ -290,15 +290,15 @@ public class Combat {
     			if(Math.random() * 100 >= 75){
     				
     				int ignition = 20;	
-    				if(PPa.getArcheryInt() >= 200)
+    				if(PPa.getSkill("archery") >= 200)
     					ignition+=20;
-    				if(PPa.getArcheryInt() >= 400)
+    				if(PPa.getSkill("archery") >= 400)
     					ignition+=20;
-    				if(PPa.getArcheryInt() >= 600)
+    				if(PPa.getSkill("archery") >= 600)
     					ignition+=20;
-    				if(PPa.getArcheryInt() >= 800)
+    				if(PPa.getSkill("archery") >= 800)
     					ignition+=20;
-    				if(PPa.getArcheryInt() >= 1000)
+    				if(PPa.getSkill("archery") >= 1000)
     					ignition+=20;
     				
         			if(x instanceof Player){
@@ -318,22 +318,20 @@ public class Combat {
     		 */
     		if(x instanceof Monster){
     			//XP
-    			if(!Config.getInstance().isMobSpawnTracked(x)){
-    				if(x instanceof Creeper)
-					PPa.addArcheryXP((event.getDamage() * 4) * LoadProperties.xpGainMultiplier);
-					if(x instanceof Spider)
-						PPa.addArcheryXP((event.getDamage() * 3) * LoadProperties.xpGainMultiplier);
-					if(x instanceof Skeleton)
-						PPa.addArcheryXP((event.getDamage() * 2) * LoadProperties.xpGainMultiplier);
-					if(x instanceof Zombie)
-						PPa.addArcheryXP((event.getDamage() * 2) * LoadProperties.xpGainMultiplier);
-					if(x instanceof PigZombie)
-						PPa.addArcheryXP((event.getDamage() * 3) * LoadProperties.xpGainMultiplier);
-					if(x instanceof Slime)
-						PPa.addArcheryXP((event.getDamage() * 3) * LoadProperties.xpGainMultiplier);
-					if(x instanceof Ghast)
-						PPa.addArcheryXP((event.getDamage() * 3) * LoadProperties.xpGainMultiplier);
-    			}
+    			if(x instanceof Creeper)
+    				PPa.addArcheryXP((event.getDamage() * 4) * LoadProperties.xpGainMultiplier);
+				if(x instanceof Spider)
+					PPa.addArcheryXP((event.getDamage() * 3) * LoadProperties.xpGainMultiplier);
+				if(x instanceof Skeleton)
+					PPa.addArcheryXP((event.getDamage() * 2) * LoadProperties.xpGainMultiplier);
+				if(x instanceof Zombie)
+					PPa.addArcheryXP((event.getDamage() * 2) * LoadProperties.xpGainMultiplier);
+				if(x instanceof PigZombie)
+					PPa.addArcheryXP((event.getDamage() * 3) * LoadProperties.xpGainMultiplier);
+				if(x instanceof Slime)
+					PPa.addArcheryXP((event.getDamage() * 3) * LoadProperties.xpGainMultiplier);
+				if(x instanceof Ghast)
+					PPa.addArcheryXP((event.getDamage() * 3) * LoadProperties.xpGainMultiplier);
     		}
     		/*
     		 * Attacker is Player
@@ -366,13 +364,13 @@ public class Combat {
 					} else {
 						loc.setPitch(-90);
 					}
-    				if(PPa.getArcheryInt() >= 1000){
+    				if(PPa.getSkill("archery") >= 1000){
     	    			if(Math.random() * 1000 <= 500){
     	    				defender.teleport(loc);
     	    				defender.sendMessage(Messages.getString("Combat.TouchedFuzzy")); //$NON-NLS-1$
     	    				attacker.sendMessage(Messages.getString("Combat.TargetDazed")); //$NON-NLS-1$ //$NON-NLS-2$
     	    			}
-    	    		} else if(Math.random() * 2000 <= PPa.getArcheryInt()){
+    	    		} else if(Math.random() * 2000 <= PPa.getSkill("archery")){
     	    			defender.teleport(loc);
 	    				defender.sendMessage(Messages.getString("Combat.TouchedFuzzy")); //$NON-NLS-1$
 	    				attacker.sendMessage(Messages.getString("Combat.TargetDazed")); //$NON-NLS-1$ //$NON-NLS-2$

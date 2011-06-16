@@ -5,6 +5,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.gmail.nossr50.Messages;
 import com.gmail.nossr50.Users;
 import com.gmail.nossr50.m;
 import com.gmail.nossr50.mcPermissions;
@@ -43,7 +44,7 @@ public class Repair {
         			/*
         			 * DIAMOND ARMOR
         			 */
-        			if(isDiamondArmor(is) && hasItem(player, rDiamond) && PP.getRepairInt() >= LoadProperties.repairdiamondlevel){
+        			if(isDiamondArmor(is) && hasItem(player, rDiamond) && PP.getSkill("repair") >= LoadProperties.repairdiamondlevel){
         				removeItem(player, rDiamond);
 	        			player.getItemInHand().setDurability(getRepairAmount(is, player));
 	        			durabilityAfter = player.getItemInHand().getDurability();
@@ -129,7 +130,7 @@ public class Repair {
 	        			if(m.isHoe(is))
 	        				dif = (short) (dif / 2);
             			PP.addRepairXP(dif * LoadProperties.xpGainMultiplier);
-            		} else if (isDiamondTools(is) && hasItem(player, rDiamond) && PP.getRepairInt() >= LoadProperties.repairdiamondlevel){ //Check if its diamond and the player has diamonds
+            		} else if (isDiamondTools(is) && hasItem(player, rDiamond) && PP.getSkill("repair") >= LoadProperties.repairdiamondlevel){ //Check if its diamond and the player has diamonds
             			/*
             			 * DIAMOND TOOLS
             			 */
@@ -163,7 +164,7 @@ public class Repair {
         		}
         		
         	} else {
-        		player.sendMessage("That is at full durability.");
+        		player.sendMessage(Messages.getString("Skills.FullDurability"));
         	}
         	player.updateInventory();
         	/*
@@ -281,7 +282,7 @@ public class Repair {
     }
     public static short repairCalculate(Player player, short durability, short ramt){
     	PlayerProfile PP = Users.getProfile(player);
-    	float bonus = (PP.getRepairInt() / 500);
+    	float bonus = (PP.getSkill("repair") / 500);
     	bonus = (ramt * bonus);
     	ramt = ramt+=bonus;
     	if(checkPlayerProcRepair(player)){
@@ -447,33 +448,33 @@ public class Repair {
     }
     public static void needMoreVespeneGas(ItemStack is, Player player){
     	PlayerProfile PP = Users.getProfile(player);
-    	if ((isDiamondTools(is) || isDiamondArmor(is)) && PP.getRepairInt() < LoadProperties.repairdiamondlevel){
-			player.sendMessage(ChatColor.DARK_RED +"You're not adept enough to repair Diamond");
+    	if ((isDiamondTools(is) || isDiamondArmor(is)) && PP.getSkill("repair") < LoadProperties.repairdiamondlevel){
+			player.sendMessage(Messages.getString("AdeptDiamond"));
 		} else if (isDiamondTools(is) && !hasItem(player, rDiamond) || isIronTools(is) && !hasItem(player, rIron) || isGoldTools(is) && !hasItem(player, rGold)){
 			if(isDiamondTools(is) && !hasItem(player, rDiamond))
-				player.sendMessage(ChatColor.DARK_RED+"You need more "+ChatColor.BLUE+ nDiamond);
+				player.sendMessage(Messages.getString("Skills.NeedMore")+" "+ChatColor.BLUE+ nDiamond);
 			if(isIronTools(is) && !hasItem(player, rIron))
-				player.sendMessage(ChatColor.DARK_RED+"You need more "+ChatColor.GRAY+ nIron);
+				player.sendMessage(Messages.getString("Skills.NeedMore")+" "+ChatColor.GRAY+ nIron);
 			if(isGoldTools(is) && !hasItem(player, rGold))
-				player.sendMessage(ChatColor.DARK_RED+"You need more "+ChatColor.GOLD+nGold);
+				player.sendMessage(Messages.getString("Skills.NeedMore")+" "+ChatColor.GOLD+nGold);
 			if(isWoodTools(is) && !hasItem(player,rWood))
-				player.sendMessage(ChatColor.DARK_RED+"You need more "+ChatColor.DARK_GREEN+ nWood);
+				player.sendMessage(Messages.getString("Skills.NeedMore")+" "+ChatColor.DARK_GREEN+ nWood);
 			if(isStoneTools(is) && !hasItem(player, rStone))
-				player.sendMessage(ChatColor.DARK_RED+"You need more "+ChatColor.GRAY+nStone);
+				player.sendMessage(Messages.getString("Skills.NeedMore")+" "+ChatColor.GRAY+nStone);
 		} else if (isDiamondArmor(is) && !hasItem(player, rDiamond)){
-			player.sendMessage(ChatColor.DARK_RED+"You need more "+ChatColor.BLUE+ nDiamond);
+			player.sendMessage(Messages.getString("Skills.NeedMore")+" "+ChatColor.BLUE+ nDiamond);
 		} else if (isIronArmor(is) && !hasItem(player, rIron)){
-			player.sendMessage(ChatColor.DARK_RED+"You need more "+ChatColor.GRAY+ nIron);
+			player.sendMessage(Messages.getString("Skills.NeedMore")+" "+ChatColor.GRAY+ nIron);
 		} else if (isGoldArmor(is) && !hasItem(player, rGold)){
-			player.sendMessage(ChatColor.DARK_RED+"You need more "+ChatColor.GOLD+ nGold);
+			player.sendMessage(Messages.getString("Skills.NeedMore")+" "+ChatColor.GOLD+ nGold);
 		} else if (is.getAmount() > 1)
-			player.sendMessage(ChatColor.DARK_RED+"You can't repair stacked items");
+			player.sendMessage(Messages.getString("Skills.StackedItems"));
     	}
     public static boolean checkPlayerProcRepair(Player player){
     	PlayerProfile PP = Users.getProfile(player);
 		if(player != null){
-			if(Math.random() * 1000 <= PP.getRepairInt()){
-				player.sendMessage(ChatColor.GRAY + "That felt easy.");
+			if(Math.random() * 1000 <= PP.getSkill("repair")){
+				player.sendMessage(Messages.getString("Skills.FeltEasy"));
 				return true;
 			}
 		}

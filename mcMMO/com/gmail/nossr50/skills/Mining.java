@@ -1,6 +1,5 @@
 package com.gmail.nossr50.skills;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
@@ -31,7 +30,7 @@ public class Mining {
     			PP.setPickaxePreparationMode(false);
     		}
 	    	int ticks = 2;
-	    	int x = PP.getMiningInt();
+	    	int x = PP.getSkill("mining");
     		while(x >= 50){
     			x-=50;
     			ticks++;
@@ -101,7 +100,7 @@ public class Mining {
     {
     	PlayerProfile PP = Users.getProfile(player);
     	if(player != null){
-    		if(Math.random() * 1000 <= PP.getMiningInt()){
+    		if(Math.random() * 1000 <= PP.getSkill("mining")){
     		blockProcSimulate(block);
 			return;
     		}
@@ -114,52 +113,52 @@ public class Mining {
     		return;
     	int xp = 0;
     	if(block.getTypeId() == 1 || block.getTypeId() == 24){
-    		xp += 3;
+    		xp += LoadProperties.mstone;
     		blockProcCheck(block, player);
     	}
     	//OBSIDIAN
     	if(block.getTypeId() == 49){
-    		xp += 15;
+    		xp += LoadProperties.mobsidian;
     		blockProcCheck(block, player);
     	}
     	//NETHERRACK
     	if(block.getTypeId() == 87){
-    		xp += 3;
+    		xp += LoadProperties.mnetherrack;
     		blockProcCheck(block, player);
     	}
     	//GLOWSTONE
     	if(block.getTypeId() == 89){
-    		xp += 3;
+    		xp += LoadProperties.mglowstone;
     		blockProcCheck(block, player);
     	}
     	//COAL
     	if(block.getTypeId() == 16){
-    		xp += 10;
+    		xp += LoadProperties.mcoal;
     		blockProcCheck(block, player);
     	}
     	//GOLD
     	if(block.getTypeId() == 14){
-    		xp += 35;
+    		xp += LoadProperties.mgold;
     		blockProcCheck(block, player);
     	}
     	//DIAMOND
     	if(block.getTypeId() == 56){
-    		xp += 75;
+    		xp += LoadProperties.mdiamond;
     		blockProcCheck(block, player);
     	}
     	//IRON
     	if(block.getTypeId() == 15){
-    		xp += 25;
+    		xp += LoadProperties.miron;
     		blockProcCheck(block, player);
     	}
     	//REDSTONE
     	if(block.getTypeId() == 73 || block.getTypeId() == 74){
-    		xp += 15;
+    		xp += LoadProperties.mredstone;
     		blockProcCheck(block, player);
     	}
     	//LAPUS
     	if(block.getTypeId() == 21){
-    		xp += 40;
+    		xp += LoadProperties.mlapus;
     		blockProcCheck(block, player);
     	}
     	PP.addMiningXP(xp * LoadProperties.xpGainMultiplier);

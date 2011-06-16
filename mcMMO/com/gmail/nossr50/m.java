@@ -70,25 +70,25 @@ public class m {
 		PlayerProfile PP = Users.getProfile(player);
 		int x = 0;
 		if(mcPermissions.getInstance().mining(player))
-			x+=PP.getMiningInt();
+			x+=PP.getSkill("mining");
 		if(mcPermissions.getInstance().woodcutting(player))
-			x+=PP.getWoodCuttingInt();
+			x+=PP.getSkill("woodcutting");
 		if(mcPermissions.getInstance().unarmed(player))
-			x+=PP.getUnarmedInt();
+			x+=PP.getSkill("unarmed");
 		if(mcPermissions.getInstance().herbalism(player))
-			x+=PP.getHerbalismInt();
+			x+=PP.getSkill("herbalism");
 		if(mcPermissions.getInstance().excavation(player))
-			x+=PP.getExcavationInt();
+			x+=PP.getSkill("excavation");
 		if(mcPermissions.getInstance().archery(player))
-			x+=PP.getArcheryInt();
+			x+=PP.getSkill("archery");
 		if(mcPermissions.getInstance().swords(player))
-			x+=PP.getSwordsInt();
+			x+=PP.getSkill("swords");
 		if(mcPermissions.getInstance().axes(player))
-			x+=PP.getAxesInt();
+			x+=PP.getSkill("axes");
 		if(mcPermissions.getInstance().acrobatics(player))
-			x+=PP.getAcrobaticsInt();
+			x+=PP.getSkill("acrobatics");
 		if(mcPermissions.getInstance().repair(player))
-			x+=PP.getRepairInt();
+			x+=PP.getSkill("repair");
 		return x;
 	}
 	public static boolean blockBreakSimulate(Block block, Player player, Plugin plugin){
@@ -503,9 +503,9 @@ public class m {
     }
     public static void mmoHelpCheck(String[] split, Player player, PlayerChatEvent event){
     	PlayerProfile PP = Users.getProfile(player);
-    	if(split[0].equalsIgnoreCase("/taming")){ //$NON-NLS-1$
+    	if(split[0].equalsIgnoreCase("/taming") || split[0].toLowerCase().equalsIgnoreCase("/"+Messages.getString("m.SkillTaming").toLowerCase())){ //$NON-NLS-1$
 			event.setCancelled(true);
-			float skillvalue = (float)PP.getTamingInt();
+			float skillvalue = (float)PP.getSkill("taming");
 			
     		String percentage = String.valueOf((skillvalue / 1000) * 100);
 			player.sendMessage(Messages.getString("m.SkillHeader", new Object[] {Messages.getString("m.SkillTaming")})); //$NON-NLS-1$ 
@@ -518,29 +518,29 @@ public class m {
 			player.sendMessage(Messages.getString("m.EffectsTemplate", new Object[] {Messages.getString("m.EffectsTaming5_0"), Messages.getString("m.EffectsTaming5_1")})); //$NON-NLS-1$  
 			player.sendMessage(Messages.getString("m.EffectsTemplate", new Object[] {Messages.getString("m.EffectsTaming6_0"), Messages.getString("m.EffectsTaming6_1")})); //$NON-NLS-1$  
 			player.sendMessage(Messages.getString("m.SkillHeader", new Object[] {Messages.getString("m.YourStats")})); //$NON-NLS-1$ 
-			if(PP.getTamingInt() < 100)
+			if(PP.getSkill("taming") < 100)
 				player.sendMessage(Messages.getString("m.AbilityLockTemplate", new Object[] {Messages.getString("m.AbilLockTaming1")})); //$NON-NLS-1$ 
 			else
 				player.sendMessage(Messages.getString("m.AbilityBonusTemplate", new Object[] {Messages.getString("m.AbilBonusTaming1_0"), Messages.getString("m.AbilBonusTaming1_1")})); //$NON-NLS-1$  
-			if(PP.getTamingInt() < 250)
+			if(PP.getSkill("taming") < 250)
 				player.sendMessage(Messages.getString("m.AbilityLockTemplate", new Object[] {Messages.getString("m.AbilLockTaming2")})); //$NON-NLS-1$ 
 			else
 				player.sendMessage(Messages.getString("m.AbilityBonusTemplate", new Object[] {Messages.getString("m.AbilBonusTaming2_0"), Messages.getString("m.AbilBonusTaming2_1")})); //$NON-NLS-1$  
-			if(PP.getTamingInt() < 500)
+			if(PP.getSkill("taming") < 500)
 				player.sendMessage(Messages.getString("m.AbilityLockTemplate", new Object[] {Messages.getString("m.AbilLockTaming3")})); //$NON-NLS-1$ 
 			else
 				player.sendMessage(Messages.getString("m.AbilityBonusTemplate", new Object[] {Messages.getString("m.AbilBonusTaming3_0"), Messages.getString("m.AbilBonusTaming3_1")})); //$NON-NLS-1$  
-			if(PP.getTamingInt() < 750)
+			if(PP.getSkill("taming") < 750)
 				player.sendMessage(Messages.getString("m.AbilityLockTemplate", new Object[] {Messages.getString("m.AbilLockTaming4")})); //$NON-NLS-1$ 
 			else
 				player.sendMessage(Messages.getString("m.AbilityBonusTemplate", new Object[] {Messages.getString("m.AbilBonusTaming4_0"), Messages.getString("m.AbilBonusTaming4_1")})); //$NON-NLS-1$  
 			player.sendMessage(Messages.getString("m.TamingGoreChance", new Object[] {percentage})); //$NON-NLS-1$
     	}
-    	if(split[0].equalsIgnoreCase("/woodcutting")){ //$NON-NLS-1$
+    	if(split[0].equalsIgnoreCase("/woodcutting") || split[0].toLowerCase().equalsIgnoreCase("/"+Messages.getString("m.SkillWoodCutting").toLowerCase())){ //$NON-NLS-1$
 			event.setCancelled(true);
-			float skillvalue = (float)PP.getWoodCuttingInt();
+			float skillvalue = (float)PP.getSkill("woodcutting");
 			int ticks = 2;
-			int x = PP.getWoodCuttingInt();
+			int x = PP.getSkill("woodcutting");
     		while(x >= 50){
     			x-=50;
     			ticks++;
@@ -553,43 +553,43 @@ public class m {
 			player.sendMessage(Messages.getString("m.EffectsTemplate", new Object[] {Messages.getString("m.EffectsWoodCutting2_0"), Messages.getString("m.EffectsWoodCutting2_1")})); //$NON-NLS-1$  
 			player.sendMessage(Messages.getString("m.EffectsTemplate", new Object[] {Messages.getString("m.EffectsWoodCutting3_0"), Messages.getString("m.EffectsWoodCutting3_1")})); //$NON-NLS-1$  
 			player.sendMessage(Messages.getString("m.SkillHeader", new Object[] {Messages.getString("m.YourStats")})); //$NON-NLS-1$ 
-			if(PP.getWoodCuttingInt() < 100)
+			if(PP.getSkill("woodcutting") < 100)
 				player.sendMessage(Messages.getString("m.AbilityLockTemplate", new Object[] {Messages.getString("m.AbilLockWoodCutting1")})); //$NON-NLS-1$ 
 			else
 				player.sendMessage(Messages.getString("m.AbilityBonusTemplate", new Object[] {Messages.getString("m.AbilBonusWoodCutting1_0"), Messages.getString("m.AbilBonusWoodCutting1_1")})); //$NON-NLS-1$  
 			player.sendMessage(Messages.getString("m.WoodCuttingDoubleDropChance", new Object[] {percentage})); //$NON-NLS-1$
 			player.sendMessage(Messages.getString("m.WoodCuttingTreeFellerLength", new Object[] {ticks})); //$NON-NLS-1$
     	}
-    	if(split[0].equalsIgnoreCase("/archery")){ //$NON-NLS-1$
+    	if(split[0].equalsIgnoreCase("/archery") || split[0].toLowerCase().equalsIgnoreCase("/"+Messages.getString("m.SkillArchery").toLowerCase())){ //$NON-NLS-1$
 			event.setCancelled(true);
 			Integer rank = 0;
-			if(PP.getArcheryInt() >= 50)
+			if(PP.getSkill("archery") >= 50)
     			rank++;
-    		if(PP.getArcheryInt() >= 250)
+    		if(PP.getSkill("archery") >= 250)
     			rank++;
-    		if(PP.getArcheryInt() >= 575)
+    		if(PP.getSkill("archery") >= 575)
     			rank++;
-    		if(PP.getArcheryInt() >= 725)
+    		if(PP.getSkill("archery") >= 725)
     			rank++;
-    		if(PP.getArcheryInt() >= 1000)
+    		if(PP.getSkill("archery") >= 1000)
     			rank++;
-			float skillvalue = (float)PP.getArcheryInt();
+			float skillvalue = (float)PP.getSkill("archery");
     		String percentage = String.valueOf((skillvalue / 1000) * 100);
     		
     		int ignition = 20;
-			if(PP.getArcheryInt() >= 200)
+			if(PP.getSkill("archery") >= 200)
 				ignition+=20;
-			if(PP.getArcheryInt() >= 400)
+			if(PP.getSkill("archery") >= 400)
 				ignition+=20;
-			if(PP.getArcheryInt() >= 600)
+			if(PP.getSkill("archery") >= 600)
 				ignition+=20;
-			if(PP.getArcheryInt() >= 800)
+			if(PP.getSkill("archery") >= 800)
 				ignition+=20;
-			if(PP.getArcheryInt() >= 1000)
+			if(PP.getSkill("archery") >= 1000)
 				ignition+=20;
 			
     		String percentagedaze;
-			if(PP.getArcheryInt() < 1000){
+			if(PP.getSkill("archery") < 1000){
 				percentagedaze = String.valueOf((skillvalue / 2000) * 100);
 			} else {
 				percentagedaze = "50"; //$NON-NLS-1$
@@ -607,17 +607,17 @@ public class m {
 			player.sendMessage(Messages.getString("m.ArcheryIgnitionLength", new Object[] {(ignition / 20)})); //$NON-NLS-1$
 			player.sendMessage(Messages.getString("m.ArcheryDamagePlus", new Object[] {rank})); //$NON-NLS-1$
     	}
-    	if(split[0].equalsIgnoreCase("/axes")){ //$NON-NLS-1$
+    	if(split[0].equalsIgnoreCase("/axes") || split[0].toLowerCase().equalsIgnoreCase("/"+Messages.getString("m.SkillAxes"))){ //$NON-NLS-1$
 			event.setCancelled(true);
 			String percentage;
-			float skillvalue = (float)PP.getAxesInt();
-			if(PP.getAxesInt() < 750){
+			float skillvalue = (float)PP.getSkill("axes");
+			if(PP.getSkill("axes") < 750){
 				percentage = String.valueOf((skillvalue / 1000) * 100);
 			} else {
 				percentage = "75"; //$NON-NLS-1$
 			}
 			int ticks = 2;
-			int x = PP.getAxesInt();
+			int x = PP.getSkill("axes");
     		while(x >= 50){
     			x-=50;
     			ticks++;
@@ -631,19 +631,19 @@ public class m {
 			player.sendMessage(Messages.getString("m.EffectsTemplate", new Object[] {Messages.getString("m.EffectsAxes3_0"), Messages.getString("m.EffectsAxes3_1")})); //$NON-NLS-1$  
 			player.sendMessage(Messages.getString("m.SkillHeader", new Object[] {Messages.getString("m.YourStats")})); //$NON-NLS-1$ 
 			player.sendMessage(Messages.getString("m.AxesCritChance", new Object[] {percentage})); //$NON-NLS-1$
-			if(PP.getAxesInt() < 500){
+			if(PP.getSkill("axes") < 500){
 				player.sendMessage(Messages.getString("m.AbilityLockTemplate", new Object[] {Messages.getString("m.AbilLockAxes1")})); //$NON-NLS-1$ 
 			} else {
 				player.sendMessage(Messages.getString("m.AbilityBonusTemplate", new Object[] {Messages.getString("m.AbilBonusAxes1_0"), Messages.getString("m.AbilBonusAxes1_1")})); //$NON-NLS-1$  
 			}
 			player.sendMessage(Messages.getString("m.AxesSkullLength", new Object[] {percentage})); //$NON-NLS-1$
     	}
-    	if(split[0].equalsIgnoreCase("/swords")){ //$NON-NLS-1$
+    	if(split[0].equalsIgnoreCase("/swords") || split[0].toLowerCase().equalsIgnoreCase("/"+Messages.getString("m.SkillSwords").toLowerCase())){ //$NON-NLS-1$
 			event.setCancelled(true);
 			int bleedrank = 2;
 			String percentage, parrypercentage = null, counterattackpercentage;
-			float skillvalue = (float)PP.getSwordsInt();
-			if(PP.getSwordsInt() < 750){
+			float skillvalue = (float)PP.getSkill("swords");
+			if(PP.getSkill("swords") < 750){
 				percentage = String.valueOf((skillvalue / 1000) * 100);
 			} else {
 				percentage = "75"; //$NON-NLS-1$
@@ -651,20 +651,20 @@ public class m {
 			if(skillvalue >= 750)
 				bleedrank+=1;
 			
-			if(PP.getSwordsInt() <= 900){
+			if(PP.getSkill("swords") <= 900){
 				parrypercentage = String.valueOf((skillvalue / 3000) * 100);
 			} else {
 				parrypercentage = "30"; //$NON-NLS-1$
 			}
 			
-			if(PP.getSwordsInt() <= 600){
+			if(PP.getSkill("swords") <= 600){
 				counterattackpercentage = String.valueOf((skillvalue / 2000) * 100);
 			} else {
 				counterattackpercentage = "30"; //$NON-NLS-1$
 			}
 			
 			int ticks = 2;
-			int x = PP.getSwordsInt();
+			int x = PP.getSkill("swords");
     		while(x >= 50){
     			x-=50;
     			ticks++;
@@ -687,13 +687,13 @@ public class m {
 			player.sendMessage(Messages.getString("m.SwordsSSLength", new Object[] {ticks})); //$NON-NLS-1$
 			
     	}
-    	if(split[0].equalsIgnoreCase("/acrobatics")){ //$NON-NLS-1$
+    	if(split[0].equalsIgnoreCase("/acrobatics") || split[0].toLowerCase().equalsIgnoreCase("/"+Messages.getString("m.SkillAcrobatics").toLowerCase())){ //$NON-NLS-1$
 			event.setCancelled(true);
 			String dodgepercentage;
-			float skillvalue = (float)PP.getAcrobaticsInt();
+			float skillvalue = (float)PP.getSkill("acrobatics");
     		String percentage = String.valueOf((skillvalue / 1000) * 100);
     		String gracepercentage = String.valueOf(((skillvalue / 1000) * 100) * 2);
-    		if(PP.getAcrobaticsInt() <= 800){
+    		if(PP.getSkill("acrobatics") <= 800){
     			dodgepercentage = String.valueOf((skillvalue / 4000 * 100));
     		} else {
     			dodgepercentage = "20"; 
@@ -709,11 +709,11 @@ public class m {
 			player.sendMessage(Messages.getString("m.AcrobaticsGracefulRollChance", new Object[] {gracepercentage})); //$NON-NLS-1$
 			player.sendMessage(Messages.getString("m.AcrobaticsDodgeChance", new Object[] {dodgepercentage})); //$NON-NLS-1$
     	}
-    	if(split[0].equalsIgnoreCase("/mining")){ //$NON-NLS-1$
-    		float skillvalue = (float)PP.getMiningInt();
+    	if(split[0].equalsIgnoreCase("/mining") || split[0].toLowerCase().equalsIgnoreCase("/"+Messages.getString("m.SkillMining"))){ //$NON-NLS-1$
+    		float skillvalue = (float)PP.getSkill("mining");
     		String percentage = String.valueOf((skillvalue / 1000) * 100);
     		int ticks = 2;
-    		int x = PP.getMiningInt();
+    		int x = PP.getSkill("mining");
     		while(x >= 50){
     			x-=50;
     			ticks++;
@@ -728,8 +728,8 @@ public class m {
 			player.sendMessage(Messages.getString("m.MiningDoubleDropChance", new Object[] {percentage})); //$NON-NLS-1$
 			player.sendMessage(Messages.getString("m.MiningSuperBreakerLength", new Object[] {ticks})); //$NON-NLS-1$
     	}
-    	if(split[0].equalsIgnoreCase("/repair")){ //$NON-NLS-1$
-    		float skillvalue = (float)PP.getRepairInt();
+    	if(split[0].equalsIgnoreCase("/repair") || split[0].toLowerCase().equalsIgnoreCase("/"+Messages.getString("m.SkillRepair").toLowerCase())){ //$NON-NLS-1$
+    		float skillvalue = (float)PP.getSkill("repair");
     		String percentage = String.valueOf((skillvalue / 1000) * 100);
     		String repairmastery = String.valueOf((skillvalue / 500) * 100);
 			event.setCancelled(true);
@@ -747,15 +747,15 @@ public class m {
     	if(split[0].equalsIgnoreCase("/unarmed")){ //$NON-NLS-1$
 			event.setCancelled(true);
 			String percentage, arrowpercentage;
-			float skillvalue = (float)PP.getUnarmedInt();
+			float skillvalue = (float)PP.getSkill("unarmed");
 			
-			if(PP.getUnarmedInt() < 1000){
+			if(PP.getSkill("unarmed") < 1000){
 				percentage = String.valueOf((skillvalue / 4000) * 100);
 			} else {
 				percentage = "25"; //$NON-NLS-1$
 			}
 			
-			if(PP.getUnarmedInt() < 1000){
+			if(PP.getSkill("unarmed") < 1000){
 				arrowpercentage = String.valueOf(((skillvalue / 1000) * 100) / 2);
 			} else {
 				arrowpercentage = "50"; //$NON-NLS-1$
@@ -763,7 +763,7 @@ public class m {
 			
 			
 			int ticks = 2;
-			int x = PP.getUnarmedInt();
+			int x = PP.getSkill("unarmed");
     		while(x >= 50){
     			x-=50;
     			ticks++;
@@ -780,9 +780,9 @@ public class m {
 			player.sendMessage(Messages.getString("m.SkillHeader", new Object[] {Messages.getString("m.YourStats")})); //$NON-NLS-1$ 
 			player.sendMessage(Messages.getString("m.UnarmedArrowDeflectChance", new Object[] {arrowpercentage})); //$NON-NLS-1$
 			player.sendMessage(Messages.getString("m.UnarmedDisarmChance", new Object[] {percentage})); //$NON-NLS-1$
-			if(PP.getUnarmedInt() < 250){
+			if(PP.getSkill("unarmed") < 250){
 				player.sendMessage(Messages.getString("m.AbilityLockTemplate", new Object[] {Messages.getString("m.AbilLockUnarmed1")})); //$NON-NLS-1$ 
-			} else if(PP.getUnarmedInt() >= 250 && PP.getUnarmedInt() < 500){
+			} else if(PP.getSkill("unarmed") >= 250 && PP.getSkill("unarmed") < 500){
 				player.sendMessage(Messages.getString("m.AbilityBonusTemplate", new Object[] {Messages.getString("m.AbilBonusUnarmed1_0"), Messages.getString("m.AbilBonusUnarmed1_1")})); //$NON-NLS-1$  
 				player.sendMessage(Messages.getString("m.AbilityLockTemplate", new Object[] {Messages.getString("m.AbilLockUnarmed2")})); //$NON-NLS-1$ 
 			} else {
@@ -790,41 +790,41 @@ public class m {
 			}
 			player.sendMessage(Messages.getString("m.UnarmedBerserkLength", new Object[] {ticks})); //$NON-NLS-1$
     	}
-    	if(split[0].equalsIgnoreCase("/herbalism")){ //$NON-NLS-1$
+    	if(split[0].equalsIgnoreCase("/herbalism") || split[0].toLowerCase().equalsIgnoreCase("/"+Messages.getString("m.SkillHerbalism").toLowerCase())){ //$NON-NLS-1$
 			event.setCancelled(true);
 			int rank = 0;
-			if(PP.getHerbalismInt() >= 50)
+			if(PP.getSkill("herbalism") >= 50)
     			rank++;
-    		if (PP.getHerbalismInt() >= 150)
+    		if (PP.getSkill("herbalism") >= 150)
     			rank++;
-    		if (PP.getHerbalismInt() >= 250)
+    		if (PP.getSkill("herbalism") >= 250)
     			rank++;
-    		if (PP.getHerbalismInt() >= 350)
+    		if (PP.getSkill("herbalism") >= 350)
     			rank++;
-    		if (PP.getHerbalismInt() >= 450)
+    		if (PP.getSkill("herbalism") >= 450)
     			rank++;
-    		if (PP.getHerbalismInt() >= 550)
+    		if (PP.getSkill("herbalism") >= 550)
     			rank++;
-    		if (PP.getHerbalismInt() >= 650)
+    		if (PP.getSkill("herbalism") >= 650)
     			rank++;
-    		if (PP.getHerbalismInt() >= 750)
+    		if (PP.getSkill("herbalism") >= 750)
     			rank++;
     		int bonus = 0;
-    		if(PP.getHerbalismInt() >= 200)
+    		if(PP.getSkill("herbalism") >= 200)
     			bonus++;
-    		if(PP.getHerbalismInt() >= 400)
+    		if(PP.getSkill("herbalism") >= 400)
     			bonus++;
-    		if(PP.getHerbalismInt() >= 600)
+    		if(PP.getSkill("herbalism") >= 600)
     			bonus++;
     		
     		int ticks = 2;
-			int x = PP.getHerbalismInt();
+			int x = PP.getSkill("herbalism");
     		while(x >= 50){
     			x-=50;
     			ticks++;
     		}
     		
-			float skillvalue = (float)PP.getHerbalismInt();
+			float skillvalue = (float)PP.getSkill("herbalism");
     		String percentage = String.valueOf((skillvalue / 1000) * 100);
     		String gpercentage = String.valueOf((skillvalue / 1500) * 100);
 	        player.sendMessage(Messages.getString("m.SkillHeader", new Object[] {Messages.getString("m.SkillHerbalism")})); //$NON-NLS-1$ 
@@ -842,11 +842,11 @@ public class m {
 			player.sendMessage(Messages.getString("m.HerbalismDoubleDropChance", new Object[] {percentage})); //$NON-NLS-1$
 			player.sendMessage(Messages.getString("m.HerbalismFoodPlus", new Object[] {rank})); //$NON-NLS-1$
     	}
-    	if(split[0].equalsIgnoreCase("/excavation")) //$NON-NLS-1$
+    	if(split[0].equalsIgnoreCase("/excavation") || split[0].toLowerCase().equalsIgnoreCase("/"+Messages.getString("m.SkillExcavation").toLowerCase())) //$NON-NLS-1$
     	{
 			event.setCancelled(true);
 			int ticks = 2;
-			int x = PP.getExcavationInt();
+			int x = PP.getSkill("excavation");
     		while(x >= 50){
     			x-=50;
     			ticks++;

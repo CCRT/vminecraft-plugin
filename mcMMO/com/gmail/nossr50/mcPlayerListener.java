@@ -89,7 +89,9 @@ public class mcPlayerListener extends PlayerListener {
     }
     public void onPlayerQuit(PlayerQuitEvent event) 
     {
-    	Users.getProfile(event.getPlayer()).setOnline(false);
+    	if(Users.getProfile(event.getPlayer()) != null){
+    		Users.removeUser(event.getPlayer());
+    	}
     	if(Config.getInstance().isAdminToggled(event.getPlayer().getName()))
     		Config.getInstance().removeAdminToggled(event.getPlayer().getName());
     	if(Config.getInstance().isGodModeToggled(event.getPlayer().getName()))
@@ -157,12 +159,12 @@ public class mcPlayerListener extends PlayerListener {
         		boolean pass = false;
         		if(Herbalism.hasSeeds(player) && mcPermissions.getInstance().herbalism(player)){
         			Herbalism.removeSeeds(player);
-	        		if(LoadProperties.enableCobbleToMossy && m.blockBreakSimulate(block, player, plugin) && block.getType() == Material.COBBLESTONE && Math.random() * 1500 <= PP.getHerbalismInt()){
+	        		if(LoadProperties.enableCobbleToMossy && m.blockBreakSimulate(block, player, plugin) && block.getType() == Material.COBBLESTONE && Math.random() * 1500 <= PP.getSkill("herbalism")){
 	        			player.sendMessage(Messages.getString("mcPlayerListener.GreenThumb"));
 	        			block.setType(Material.MOSSY_COBBLESTONE);
 	        			pass = true;
 	        		}
-	        		if(block.getType() == Material.DIRT && m.blockBreakSimulate(block, player, plugin) && Math.random() * 1500 <= PP.getHerbalismInt()){
+	        		if(block.getType() == Material.DIRT && m.blockBreakSimulate(block, player, plugin) && Math.random() * 1500 <= PP.getSkill("herbalism")){
 	        			player.sendMessage(Messages.getString("mcPlayerListener.GreenThumb"));
 	        			block.setType(Material.GRASS);
 	        			pass = true;
@@ -602,48 +604,48 @@ public class mcPlayerListener extends PlayerListener {
     		player.sendMessage("OP: " + target.isOp()); //$NON-NLS-1$
     		player.sendMessage(ChatColor.GREEN+"MMO Stats for "+ChatColor.YELLOW+target.getName()); //$NON-NLS-1$
     		if(mcPermissions.getInstance().taming(target))
-        		player.sendMessage(Messages.getString("mcPlayerListener.TamingSkill") + ChatColor.GREEN + PPt.getTaming()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-        				+ " XP("+PPt.getTamingXP() //$NON-NLS-1$
+        		player.sendMessage(Messages.getString("mcPlayerListener.TamingSkill") + ChatColor.GREEN + PPt.getSkillToString("taming")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+        				+ " XP("+PPt.getSkillToString("tamingXP") //$NON-NLS-1$
         				+"/"+PPt.getXpToLevel("taming")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		if(mcPermissions.getInstance().mining(target))
-    		player.sendMessage(Messages.getString("mcPlayerListener.MiningSkill") + PPt.getMining()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-    				+ " XP("+PPt.getMiningXP() //$NON-NLS-1$
+    		player.sendMessage(Messages.getString("mcPlayerListener.MiningSkill") + PPt.getSkillToString("mining")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+    				+ " XP("+PPt.getSkillToString("miningXP") //$NON-NLS-1$
     				+"/"+PPt.getXpToLevel("mining")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		if(mcPermissions.getInstance().repair(target))
-    		player.sendMessage(Messages.getString("mcPlayerListener.RepairSkill") + ChatColor.GREEN + PPt.getRepair()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-    				+ " XP("+PPt.getRepairXP() //$NON-NLS-1$
+    		player.sendMessage(Messages.getString("mcPlayerListener.RepairSkill") + ChatColor.GREEN + PPt.getSkillToString("repair")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+    				+ " XP("+PPt.getSkillToString("repairXP") //$NON-NLS-1$
     				+"/"+PPt.getXpToLevel("repair")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		if(mcPermissions.getInstance().woodcutting(target))
-    		player.sendMessage(Messages.getString("mcPlayerListener.WoodcuttingSkill") + ChatColor.GREEN + PPt.getWoodCutting()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-    				+ " XP("+PPt.getWoodCuttingXP() //$NON-NLS-1$
+    		player.sendMessage(Messages.getString("mcPlayerListener.WoodcuttingSkill") + ChatColor.GREEN + PPt.getSkillToString("woodcutting")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+    				+ " XP("+PPt.getSkillToString("woodcuttingXP") //$NON-NLS-1$
     				+"/"+PPt.getXpToLevel("woodcutting")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		if(mcPermissions.getInstance().unarmed(target))
-    		player.sendMessage(Messages.getString("mcPlayerListener.UnarmedSkill") + ChatColor.GREEN + PPt.getUnarmed()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-    				+ " XP("+PPt.getUnarmedXP() //$NON-NLS-1$
+    		player.sendMessage(Messages.getString("mcPlayerListener.UnarmedSkill") + ChatColor.GREEN + PPt.getSkillToString("unarmed")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+    				+ " XP("+PPt.getSkillToString("unarmedXP") //$NON-NLS-1$
     				+"/"+PPt.getXpToLevel("unarmed")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		if(mcPermissions.getInstance().herbalism(target))
-    		player.sendMessage(Messages.getString("mcPlayerListener.HerbalismSkill") + ChatColor.GREEN +  PPt.getHerbalism()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-    				+ " XP("+PPt.getHerbalismXP() //$NON-NLS-1$
+    		player.sendMessage(Messages.getString("mcPlayerListener.HerbalismSkill") + ChatColor.GREEN +  PPt.getSkillToString("herbalism")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+    				+ " XP("+PPt.getSkillToString("herbalismXP") //$NON-NLS-1$
     				+"/"+PPt.getXpToLevel("herbalism")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		if(mcPermissions.getInstance().excavation(target))
-    		player.sendMessage(Messages.getString("mcPlayerListener.ExcavationSkill") + ChatColor.GREEN +  PPt.getExcavation()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-    				+ " XP("+PPt.getExcavationXP() //$NON-NLS-1$
+    		player.sendMessage(Messages.getString("mcPlayerListener.ExcavationSkill") + ChatColor.GREEN +  PPt.getSkillToString("excavation")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+    				+ " XP("+PPt.getSkillToString("excavationXP") //$NON-NLS-1$
     				+"/"+PPt.getXpToLevel("excavation")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		if(mcPermissions.getInstance().archery(target))
-    		player.sendMessage(Messages.getString("mcPlayerListener.ArcherySkill") + ChatColor.GREEN + PPt.getArchery()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-    				+ " XP("+PPt.getArcheryXP() //$NON-NLS-1$
+    		player.sendMessage(Messages.getString("mcPlayerListener.ArcherySkill") + ChatColor.GREEN + PPt.getSkillToString("archery")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+    				+ " XP("+PPt.getSkillToString("archeryXP") //$NON-NLS-1$
     				+"/"+PPt.getXpToLevel("archery")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		if(mcPermissions.getInstance().swords(target))
-    		player.sendMessage(Messages.getString("mcPlayerListener.SwordsSkill") + ChatColor.GREEN + PPt.getSwords()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-    				+ " XP("+PPt.getSwordsXP() //$NON-NLS-1$
+    		player.sendMessage(Messages.getString("mcPlayerListener.SwordsSkill") + ChatColor.GREEN + PPt.getSkillToString("swords")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+    				+ " XP("+PPt.getSkillToString("swordsXP") //$NON-NLS-1$
     				+"/"+PPt.getXpToLevel("swords")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		if(mcPermissions.getInstance().axes(target))
-    		player.sendMessage(Messages.getString("mcPlayerListener.AxesSkill") + ChatColor.GREEN + PPt.getAxes()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-    				+ " XP("+PPt.getAxesXP() //$NON-NLS-1$
+    		player.sendMessage(Messages.getString("mcPlayerListener.AxesSkill") + ChatColor.GREEN + PPt.getSkillToString("axes")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+    				+ " XP("+PPt.getSkillToString("axesXP") //$NON-NLS-1$
     				+"/"+PPt.getXpToLevel("axes")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		if(mcPermissions.getInstance().acrobatics(target))
-    		player.sendMessage(Messages.getString("mcPlayerListener.AcrobaticsSkill") + ChatColor.GREEN + PPt.getAcrobatics()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-    				+ " XP("+PPt.getAcrobaticsXP() //$NON-NLS-1$
+    		player.sendMessage(Messages.getString("mcPlayerListener.AcrobaticsSkill") + ChatColor.GREEN + PPt.getSkillToString("acrobatics")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+    				+ " XP("+PPt.getSkillToString("acrobaticsXP") //$NON-NLS-1$
     				+"/"+PPt.getXpToLevel("acrobatics")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		player.sendMessage(Messages.getString("mcPlayerListener.PowerLevel") +ChatColor.GREEN+(m.getPowerLevel(target))); //$NON-NLS-1$
     		player.sendMessage(ChatColor.GREEN+"~~COORDINATES~~"); //$NON-NLS-1$
@@ -662,48 +664,48 @@ public class mcPlayerListener extends PlayerListener {
     			player.sendMessage(Messages.getString("mcPlayerListener.NoSkillNote")); //$NON-NLS-1$
     		
     		if(mcPermissions.getInstance().taming(player))
-        		player.sendMessage(Messages.getString("mcPlayerListener.TamingSkill") + ChatColor.GREEN + PP.getTaming()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-        				+ " XP("+PP.getTamingXP() //$NON-NLS-1$
+        		player.sendMessage(Messages.getString("mcPlayerListener.TamingSkill") + ChatColor.GREEN + PP.getSkillToString("taming")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+        				+ " XP("+PP.getSkillToString("tamingXP") //$NON-NLS-1$
         				+"/"+PP.getXpToLevel("taming")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		if(mcPermissions.getInstance().mining(player))
-    		player.sendMessage(Messages.getString("mcPlayerListener.MiningSkill") + ChatColor.GREEN + PP.getMining()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-    				+ " XP("+PP.getMiningXP() //$NON-NLS-1$
+    		player.sendMessage(Messages.getString("mcPlayerListener.MiningSkill") + ChatColor.GREEN + PP.getSkillToString("mining")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+    				+ " XP("+PP.getSkillToString("miningXP") //$NON-NLS-1$
     				+"/"+PP.getXpToLevel("mining")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		if(mcPermissions.getInstance().repair(player))
-    		player.sendMessage(Messages.getString("mcPlayerListener.RepairSkill")+ ChatColor.GREEN + PP.getRepair()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-    				+ " XP("+PP.getRepairXP() //$NON-NLS-1$
+    		player.sendMessage(Messages.getString("mcPlayerListener.RepairSkill")+ ChatColor.GREEN + PP.getSkillToString("repair")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+    				+ " XP("+PP.getSkillToString("repairXP") //$NON-NLS-1$
     				+"/"+PP.getXpToLevel("repair")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		if(mcPermissions.getInstance().woodcutting(player))
-    		player.sendMessage(Messages.getString("mcPlayerListener.WoodcuttingSkill")+ ChatColor.GREEN + PP.getWoodCutting()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-    				+ " XP("+PP.getWoodCuttingXP() //$NON-NLS-1$
+    		player.sendMessage(Messages.getString("mcPlayerListener.WoodcuttingSkill")+ ChatColor.GREEN + PP.getSkillToString("woodcutting")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+    				+ " XP("+PP.getSkillToString("woodcuttingXP") //$NON-NLS-1$
     				+"/"+PP.getXpToLevel("woodcutting")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		if(mcPermissions.getInstance().unarmed(player))
-    		player.sendMessage(Messages.getString("mcPlayerListener.UnarmedSkill") + ChatColor.GREEN + PP.getUnarmed()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-    				+ " XP("+PP.getUnarmedXP() //$NON-NLS-1$
+    		player.sendMessage(Messages.getString("mcPlayerListener.UnarmedSkill") + ChatColor.GREEN + PP.getSkillToString("unarmed")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+    				+ " XP("+PP.getSkillToString("unarmedXP") //$NON-NLS-1$
     				+"/"+PP.getXpToLevel("unarmed")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		if(mcPermissions.getInstance().herbalism(player))
-    		player.sendMessage(Messages.getString("mcPlayerListener.HerbalismSkill")+ ChatColor.GREEN +  PP.getHerbalism()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-    				+ " XP("+PP.getHerbalismXP() //$NON-NLS-1$
+    		player.sendMessage(Messages.getString("mcPlayerListener.HerbalismSkill")+ ChatColor.GREEN +  PP.getSkillToString("herbalism")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+    				+ " XP("+PP.getSkillToString("herbalismXP") //$NON-NLS-1$
     				+"/"+PP.getXpToLevel("herbalism")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		if(mcPermissions.getInstance().excavation(player))
-    		player.sendMessage(Messages.getString("mcPlayerListener.ExcavationSkill")+ ChatColor.GREEN +  PP.getExcavation()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-    				+ " XP("+PP.getExcavationXP() //$NON-NLS-1$
+    		player.sendMessage(Messages.getString("mcPlayerListener.ExcavationSkill")+ ChatColor.GREEN +  PP.getSkillToString("excavation")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+    				+ " XP("+PP.getSkillToString("excavationXP") //$NON-NLS-1$
     				+"/"+PP.getXpToLevel("excavation")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		if(mcPermissions.getInstance().archery(player))
-    		player.sendMessage(Messages.getString("mcPlayerListener.ArcherySkill") + ChatColor.GREEN + PP.getArchery()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-    				+ " XP("+PP.getArcheryXP() //$NON-NLS-1$
+    		player.sendMessage(Messages.getString("mcPlayerListener.ArcherySkill") + ChatColor.GREEN + PP.getSkillToString("archery")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+    				+ " XP("+PP.getSkillToString("archeryXP") //$NON-NLS-1$
     				+"/"+PP.getXpToLevel("archery")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		if(mcPermissions.getInstance().swords(player))
-    		player.sendMessage(Messages.getString("mcPlayerListener.SwordsSkill") + ChatColor.GREEN + PP.getSwords()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-    				+ " XP("+PP.getSwordsXP() //$NON-NLS-1$
+    		player.sendMessage(Messages.getString("mcPlayerListener.SwordsSkill") + ChatColor.GREEN + PP.getSkillToString("swords")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+    				+ " XP("+PP.getSkillToString("swordsXP") //$NON-NLS-1$
     				+"/"+PP.getXpToLevel("swords")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		if(mcPermissions.getInstance().axes(player))
-    		player.sendMessage(Messages.getString("mcPlayerListener.AxesSkill") + ChatColor.GREEN + PP.getAxes()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-    				+ " XP("+PP.getAxesXP() //$NON-NLS-1$
+    		player.sendMessage(Messages.getString("mcPlayerListener.AxesSkill") + ChatColor.GREEN + PP.getSkillToString("axes")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+    				+ " XP("+PP.getSkillToString("axesXP") //$NON-NLS-1$
     				+"/"+PP.getXpToLevel("axes")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		if(mcPermissions.getInstance().acrobatics(player))
-    		player.sendMessage(Messages.getString("mcPlayerListener.AcrobaticsSkill") + ChatColor.GREEN + PP.getAcrobatics()+ChatColor.DARK_AQUA  //$NON-NLS-1$
-    				+ " XP("+PP.getAcrobaticsXP() //$NON-NLS-1$
+    		player.sendMessage(Messages.getString("mcPlayerListener.AcrobaticsSkill") + ChatColor.GREEN + PP.getSkillToString("acrobatics")+ChatColor.DARK_AQUA  //$NON-NLS-1$
+    				+ " XP("+PP.getSkillToString("acrobaticsXP") //$NON-NLS-1$
     				+"/"+PP.getXpToLevel("acrobatics")+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		player.sendMessage(Messages.getString("mcPlayerListener.PowerLevel")+ChatColor.GREEN+(m.getPowerLevel(player))); //$NON-NLS-1$
     	}
@@ -848,18 +850,23 @@ public class mcPlayerListener extends PlayerListener {
     		}
     		PP.setMySpawnATS(System.currentTimeMillis());
     		if(PP.getMySpawn(player) != null){
-	    		player.setHealth(20);
+    			
 	    		Location mySpawn = PP.getMySpawn(player);
-	    		//player.sendMessage("MMO DEBUG CODE 1");
+	    		
 	    		if(PP.getMySpawnWorld(plugin) != null && !PP.getMySpawnWorld(plugin).equals("")){ //$NON-NLS-1$
 	    			mySpawn.setWorld(plugin.getServer().getWorld(PP.getMySpawnWorld(plugin)));
-	    			//player.sendMessage("MMO DEBUG CODE 2");
 	    			} else {
-	    				//player.sendMessage("MMO DEBUG CODE 5");
 	    				mySpawn.setWorld(plugin.getServer().getWorlds().get(0));
 	    		}
+	    		if(player != null && mySpawn != null){
+	    			
 	    		player.teleport(mySpawn); //It's done twice because teleporting from one world to another is weird
 	    		player.teleport(mySpawn);
+	    		
+	    		} else {
+	    			player.teleport(plugin.getServer().getWorlds().get(0).getSpawnLocation());
+	    			player.teleport(plugin.getServer().getWorlds().get(0).getSpawnLocation());
+	    		}
     		} else {
     			player.sendMessage(Messages.getString("mcPlayerListener.MyspawnNotExist")); //$NON-NLS-1$
     		}

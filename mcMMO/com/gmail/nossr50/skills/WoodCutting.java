@@ -26,7 +26,7 @@ public class WoodCutting {
     	byte type = block.getData();
     	Material mat = Material.getMaterial(block.getTypeId());
     	if(player != null){
-    		if(Math.random() * 1000 <= PP.getWoodCuttingInt()){
+    		if(Math.random() * 1000 <= PP.getSkill("woodcutting")){
     			ItemStack item = new ItemStack(mat, 1, (short) 0, type);
     			block.getWorld().dropItemNaturally(block.getLocation(), item);
     		}
@@ -46,7 +46,7 @@ public class WoodCutting {
     			PP.setAxePreparationMode(false);
     		}
     		int ticks = 2;
-    		int x = PP.getWoodCuttingInt();
+    		int x = PP.getSkill("woodcutting");
     		while(x >= 50){
     			x-=50;
     			ticks++;
@@ -71,9 +71,9 @@ public class WoodCutting {
     public static void treeFeller(Block block, Player player){
     	PlayerProfile PP = Users.getProfile(player);
     	int radius = 1;
-    	if(PP.getWoodCuttingXPInt() >= 500)
+    	if(PP.getSkill("woodcutting") >= 500)
     		radius++;
-    	if(PP.getWoodCuttingXPInt() >= 950)
+    	if(PP.getSkill("woodcutting") >= 950)
     		radius++;
         ArrayList<Block> blocklist = new ArrayList<Block>();
         ArrayList<Block> toAdd = new ArrayList<Block>();

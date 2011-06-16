@@ -29,7 +29,7 @@ public class Messages {
 					//attempt to get the locale denoted
 					RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME, new Locale(myLocale));
 				} catch (MissingResourceException e) {
-					System.out.println("Failed to load locale specified by mcmmo.properties '"+myLocale+"', defaulting to en_us");
+					//System.out.println("Failed to load locale specified by mcmmo.properties '"+myLocale+"', defaulting to en_us");
 					RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME, new Locale("en_us"));
 				}
 			}
