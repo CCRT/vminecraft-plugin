@@ -82,7 +82,7 @@ public class LoadProperties {
 	        write("MySQL.Server.Port", 3306);
         	write("MySQL.Database.Name", "DataBaseName");
         	write("MySQL.Database.User.Name", "UserName");
-        	write("MySQL.Database.TablePrefix", "_mcmmo");
+        	write("MySQL.Database.TablePrefix", "mcmmo_");
         	write("MySQL.Database.User.Password", "UserPassword");
         	
         	write("General.Locale", "en_us");
@@ -121,6 +121,7 @@ public class LoadProperties {
 	    	write("XP.Herbalism.Cactus", 3);
 	    	write("XP.Herbalism.Pumpkin", 55);
 	    	write("XP.Herbalism.Flowers", 10);
+	    	write("XP.Herbalism.Wheat", 5);
 	    	write("XP.Herbalism.Mushrooms", 15);
 	    	write("XP.Woodcutting.Pine", 9);
 	    	write("XP.Woodcutting.Birch", 7);
@@ -213,6 +214,7 @@ public class LoadProperties {
 	    	mcake = readInteger("XP.Excavation.Cake");
 	        
 	        msugar = readInteger("XP.Herbalism.Sugar_Cane");
+	        mwheat = readInteger("XP.Herbalism.Wheat");
 	    	mcactus = readInteger("XP.Herbalism.Cactus");
 	    	mpumpkin = readInteger("XP.Herbalism.Pumpkin");
 	    	mflower = readInteger("XP.Herbalism.Flowers");
@@ -244,7 +246,12 @@ public class LoadProperties {
 	    	skullSplitterCooldown = readInteger("Abilities.Cooldowns.Skull_Splitter");
 	    	
 	    	MySQLserverName = readString("MySQL.Server.Address");
-	    	MySQLdbPass = readString("MySQL.Database.User.Password");
+	    	
+	    	if(readString("MySQL.Database.User.Password") != null)
+	    		MySQLdbPass = readString("MySQL.Database.User.Password");
+	    	else
+	    		MySQLdbPass = "";
+	    	
 	    	MySQLdbName = readString("MySQL.Database.Name");
 	    	MySQLuserName = readString("MySQL.Database.User.Name");
 	    	MySQLtablePrefix = readString("MySQL.Database.TablePrefix");

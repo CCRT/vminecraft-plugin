@@ -122,7 +122,7 @@ public class Herbalism {
     	if(type == 59 && block.getData() == (byte) 0x7){
     		mat = Material.getMaterial(296);
 			is = new ItemStack(mat, 1, (byte)0, (byte)0);
-    		PP.addHerbalismXP(5 * LoadProperties.xpGainMultiplier);
+    		PP.addHerbalismXP(LoadProperties.mwheat * LoadProperties.xpGainMultiplier);
     		if(player != null){
 	    		if(Math.random() * 1000 <= PP.getSkill("herbalism")){
 	    			loc.getWorld().dropItemNaturally(loc, is);

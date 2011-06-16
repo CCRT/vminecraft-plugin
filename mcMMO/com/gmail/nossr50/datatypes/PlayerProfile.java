@@ -26,7 +26,7 @@ public class PlayerProfile
 	private String party, myspawn, myspawnworld, invite;
 	private boolean online = true, greenTerraMode, partyChatOnly = false, greenTerraInformed = true, berserkInformed = true, skullSplitterInformed = true, gigaDrillBreakerInformed = true, 
 	superBreakerInformed = true, serratedStrikesInformed = true, treeFellerInformed = true, dead, abilityuse = true, treeFellerMode, superBreakerMode, gigaDrillBreakerMode, 
-	serratedStrikesMode, hoePreparationMode, shovelPreparationMode, swordsPreparationMode, fistsPreparationMode, pickaxePreparationMode, axePreparationMode, skullSplitterMode, berserkMode;
+	serratedStrikesMode, hoePreparationMode = false, shovelPreparationMode = false, swordsPreparationMode = false, fistsPreparationMode = false, pickaxePreparationMode = false, axePreparationMode = false, skullSplitterMode, berserkMode;
 	private long recentlyHurt = 0, archeryShotATS = 0, berserkATS = 0, berserkDATS = 0, gigaDrillBreakerATS = 0, gigaDrillBreakerDATS = 0,
 	respawnATS = 0, mySpawnATS = 0, greenTerraATS = 0, greenTerraDATS = 0, superBreakerATS = 0, superBreakerDATS = 0, serratedStrikesATS = 0, serratedStrikesDATS = 0, treeFellerATS = 0, treeFellerDATS = 0, 
 	skullSplitterATS = 0, skullSplitterDATS = 0, hoePreparationATS = 0, axePreparationATS = 0, pickaxePreparationATS = 0, fistsPreparationATS = 0, shovelPreparationATS = 0, swordsPreparationATS = 0;
@@ -415,7 +415,7 @@ public class PlayerProfile
             out.append(0+":"); //swordsXP
             out.append(0+":"); //axesXP
             out.append(0+":"); //acrobaticsXP
-            out.append("");
+            out.append(myspawnworld+":");
             out.append(0+":"); //taming
             out.append(0+":"); //tamingXP
             out.append(0+":"); //DATS
@@ -1077,8 +1077,8 @@ public class PlayerProfile
     	if(myspawn != null){
     		if(isDouble(getX()) && isDouble(getY()) && isDouble(getZ()))
     				loc = new Location(player.getWorld(),(Double.parseDouble(getX())), Double.parseDouble(getY()), Double.parseDouble(getZ()));
-    	else
-    		return null;
+    		else
+    			return null;
     	} else
     		return null;
     	

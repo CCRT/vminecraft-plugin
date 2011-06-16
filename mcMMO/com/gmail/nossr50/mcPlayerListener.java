@@ -41,8 +41,8 @@ public class mcPlayerListener extends PlayerListener {
 
    
     public void onPlayerRespawn(PlayerRespawnEvent event) {
-    	if(LoadProperties.enableMySpawn){
-	    	Player player = event.getPlayer();
+    	Player player = event.getPlayer();
+    	if(LoadProperties.enableMySpawn && mcPermissions.getInstance().mySpawn(player)){
 	    	PlayerProfile PP = Users.getProfile(player);
 	    	if(PP == null)
 	    	{
@@ -54,7 +54,7 @@ public class mcPlayerListener extends PlayerListener {
 				Location mySpawn = PP.getMySpawn(player);
 				if(mySpawn != null && plugin.getServer().getWorld(PP.getMySpawnWorld(plugin)) != null)
 					mySpawn.setWorld(plugin.getServer().getWorld(PP.getMySpawnWorld(plugin)));
-				if(mcPermissions.getInstance().mySpawn(player) && mySpawn != null){
+				if(mySpawn != null){
 			    	event.setRespawnLocation(mySpawn);
 				}
 	    	}
@@ -849,24 +849,17 @@ public class mcPlayerListener extends PlayerListener {
     			return;
     		}
     		PP.setMySpawnATS(System.currentTimeMillis());
-    		if(PP.getMySpawn(player) != null){
-    			
-	    		Location mySpawn = PP.getMySpawn(player);
-	    		
-	    		if(PP.getMySpawnWorld(plugin) != null && !PP.getMySpawnWorld(plugin).equals("")){ //$NON-NLS-1$
-	    			mySpawn.setWorld(plugin.getServer().getWorld(PP.getMySpawnWorld(plugin)));
-	    			} else {
-	    				mySpawn.setWorld(plugin.getServer().getWorlds().get(0));
-	    		}
-	    		if(player != null && mySpawn != null){
-	    			
-	    		player.teleport(mySpawn); //It's done twice because teleporting from one world to another is weird
-	    		player.teleport(mySpawn);
-	    		
-	    		} else {
-	    			player.teleport(plugin.getServer().getWorlds().get(0).getSpawnLocation());
-	    			player.teleport(plugin.getServer().getWorlds().get(0).getSpawnLocation());
-	    		}
+    		if(PP.getMySpawn(player) != null)
+    		{
+    			Location mySpawn = PP.getMySpawn(player);
+				if(mySpawn != null && plugin.getServer().getWorld(PP.getMySpawnWorld(plugin)) != null)
+					mySpawn.setWorld(plugin.getServer().getWorld(PP.getMySpawnWorld(plugin)));
+				if(mySpawn != null)
+				{
+					//It's done twice because it acts oddly when you are in another world
+			    	player.teleport(mySpawn);
+			    	player.teleport(mySpawn);
+				}
     		} else {
     			player.sendMessage(Messages.getString("mcPlayerListener.MyspawnNotExist")); //$NON-NLS-1$
     		}

@@ -1,5 +1,16 @@
 Changelog:
 #Versions without changelogs probably had very small misc fixes, like tweaks to the source code
+Version 1.0.19
+Removed a failsafe for the Timer that is no longer necessary (should improve performance)
+Fixed /myspawn not working by rewriting it :3
+Fixed exploit where players could break a freshly placed mushroom for XP
+MySQL User Passwords can now be blank (Although you really should have a password...)
+Fixed a few NPE errors
+
+Version 1.0.18
+Fixed MySQL default TablePrefix
+Fixed Wheat not being configurable
+
 Version 1.0.17
 Brand new YAML Configuration file
 Ability to configure XP for all gathering skills in config file

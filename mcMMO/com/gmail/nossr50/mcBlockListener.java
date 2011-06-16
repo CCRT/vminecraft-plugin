@@ -1,5 +1,6 @@
 package com.gmail.nossr50;
 
+import com.gmail.nossr50.config.Config;
 import com.gmail.nossr50.config.LoadProperties;
 import com.gmail.nossr50.datatypes.PlayerProfile;
 import org.bukkit.Material;
@@ -35,9 +36,9 @@ public class mcBlockListener extends BlockListener {
     			block = event.getBlock();
     		}
     	if(player != null && m.shouldBeWatched(block)){
-    		if(block.getTypeId() != 17)
+    		if(block.getTypeId() != 17 && block.getTypeId() != 39 && block.getTypeId() != 40 && block.getTypeId() != 91 && block.getTypeId() != 86)
     			block.setData((byte) 5); //Change the byte
-    		if(block.getTypeId() == 17 || block.getTypeId() == 91 || block.getTypeId() == 86)
+    		if(block.getTypeId() == 17 || block.getTypeId() == 39 || block.getTypeId() == 40 || block.getTypeId() == 91 || block.getTypeId() == 86)
     			Config.getInstance().addBlockWatch(block);
     	}
     	if(block.getTypeId() == 42 && LoadProperties.anvilmessages)
@@ -53,10 +54,6 @@ public class mcBlockListener extends BlockListener {
     		return;
     	if (event instanceof FakeBlockBreakEvent) 
     		return;
-    	/*
-		* Check if the Timer is doing its job
-		*/
-   		Skills.monitorSkills(player);
     	
    		/*
    		 * HERBALISM
@@ -175,8 +172,10 @@ public class mcBlockListener extends BlockListener {
 			Herbalism.herbalismProcCheck(block, player, event);
     	
     	//Change the byte back when broken
-    	if(block.getData() == 5 && m.shouldBeWatched(block))
+    	if(block.getData() == 5 && m.shouldBeWatched(block)){
     		block.setData((byte) 0);
+    		Config.getInstance().removeBlockWatch(block);
+    	}
     }
     public void onBlockDamage(BlockDamageEvent event) {
     	if(event.isCancelled())
@@ -185,10 +184,7 @@ public class mcBlockListener extends BlockListener {
     	PlayerProfile PP = Users.getProfile(player);
     	ItemStack inhand = player.getItemInHand();
     	Block block = event.getBlock();
-    	/*
-		* Check if the Timer is doing its job
-		*/
-   		Skills.monitorSkills(player);
+
     	/*
     	 * ABILITY PREPARATION CHECKS
     	 */
@@ -279,6 +275,10 @@ public class mcBlockListener extends BlockListener {
     		}
     		block.setType(Material.AIR);
     		player.incrementStatistic(Statistic.MINE_BLOCK, event.getBlock().getType());
+    	}
+    	if(block.getType() == Material.AIR && Config.getInstance().isBlockWatched(block))
+    	{
+    		Config.getInstance().removeBlockWatch(block);
     	}
     }
     
